@@ -1,0 +1,19 @@
+@media (max-width:600px){
+  .scene-shell{padding:24px 16px}
+  h1{font-size:clamp(2.3rem,12vw,4.3rem)}
+  .answer-grid{grid-template-columns:1fr;width:min(92vw,360px)}
+  .premium-btn{min-height:54px}
+  .curtain{width:62%}
+  .bulb-btn{width:125px;height:160px}
+  .age-stage{height:270px}
+  .old-age,.new-age{font-size:clamp(7rem,30vw,11rem)}
+  .next-btn{right:16px;bottom:16px}
+  .celebration-controls{top:16px;right:16px}
+  .type-message{max-height:26svh;margin-bottom:58px}
+  .letter-paper{padding:32px 24px;height:58svh}
+  .envelope-wrap{width:min(88vw,390px)}
+  .fx-balloon{width:34px;height:46px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+}
