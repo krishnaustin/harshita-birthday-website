@@ -2268,40 +2268,33 @@ this.muteButton.style.display = "flex";
   );
 
   s.appendChild(page);
+/* ==========================================
+   INTERACTION
+========================================== */
 
-  /* ==========================================
-     INTERACTION
-     ========================================== */
+this.on(page, "pointermove", (event) => {
+  const rect = page.getBoundingClientRect();
 
-  this.on(page, "pointermove", (event) => {
-    const rect = page.getBoundingClientRect();
-
-    const x =
-      (event.clientX - rect.left) /
+  const x =
+    (event.clientX - rect.left) /
       rect.width -
-      0.5;
+    0.5;
 
-    const y =
-      (event.clientY - rect.top) /
+  const y =
+    (event.clientY - rect.top) /
       rect.height -
-      0.5;
+    0.5;
 
-    clock.style.transform =
-  `translate(calc(-50% + ${x * 10}px), calc(-50% + ${y * 10}px))`;
+  number.style.transform =
+    `translate(calc(-50% + ${x * -8}px), calc(-50% + ${y * -8}px))`;
+});
 
-    number.style.transform =
-      `translate(calc(-50% + ${x * -8}px), calc(-50% + ${y * -8}px))`;
+/* Tap the clock = accelerate the reveal */
 
-    glow.style.transform =
-      `translate(${x * 30}px, ${y * 30}px)`;
-  });
-
-  /* Tap the clock = accelerate the reveal */
-
-  this.on(clock, "click", () => {
-    clock.classList.add("chapter-clock-finish");
-    number.classList.add("chapter-number-active");
-  });
+this.on(clock, "click", () => {
+  clock.classList.add("chapter-clock-finish");
+  number.classList.add("chapter-number-active");
+});
 
   /* ==========================================
      REVEAL
@@ -2362,85 +2355,2256 @@ this.muteButton.style.display = "flex";
   });
 }
   async celebration() {
-    const s=this.shell("Now we celebrate", `HAPPY BIRTHDAY ${C.sisterName}`);
-    const fxLayer=document.createElement("div"); fxLayer.className="fx-layer"; s.appendChild(fxLayer);
-    const fx=new CelebrationFX(fxLayer); fx.start({duration:C.celebrationDurationMs});
-    this.cleanup.push(()=>fx.stop(false));
-    const controls=document.createElement("div"); controls.className="celebration-controls"; s.appendChild(controls);
-    const replay=this.button("✦","icon-btn"); replay.setAttribute("aria-label","Replay celebration"); controls.appendChild(replay);
-    const next=this.button("NEXT →","next-btn"); s.appendChild(next);
-    this.on(replay,"click",()=>fx.start({duration:C.celebrationDurationMs}));
-    this.on(next,"click",()=>{ stopMusic(1300); this.go(SCENES.CALM); });
+
+  /* =====================================================
+     ENCHANTED GALA — PREMIUM CELEBRATION
+     ===================================================== */
+
+  const s = this.shell("", "");
+  s.classList.add("enchanted-gala");
+
+  /* =====================================================
+     BACKGROUND
+     ===================================================== */
+
+  const atmosphere = document.createElement("div");
+  atmosphere.className = "gala-atmosphere";
+  s.appendChild(atmosphere);
+
+  const nebula = document.createElement("div");
+  nebula.className = "gala-nebula";
+  s.appendChild(nebula);
+
+  const stars = document.createElement("div");
+  stars.className = "gala-stars";
+  s.appendChild(stars);
+
+  /* =====================================================
+     FIREWORK LAYER
+     ===================================================== */
+
+  const fireworks = document.createElement("div");
+  fireworks.className = "gala-fireworks";
+  s.appendChild(fireworks);
+
+  /* =====================================================
+     BALLOON LAYER
+     ===================================================== */
+
+  const balloons = document.createElement("div");
+  balloons.className = "gala-balloons";
+  s.appendChild(balloons);
+
+  /* =====================================================
+     GLITTER LAYER
+     ===================================================== */
+
+  const magic = document.createElement("div");
+  magic.className = "gala-magic";
+  s.appendChild(magic);
+
+  /* =====================================================
+     WAND
+     ===================================================== */
+
+  const wand = document.createElement("div");
+  wand.className = "fairy-wand";
+
+  wand.innerHTML = `
+    <span class="wand-aura"></span>
+
+    <span class="wand-orbit orbit-one"></span>
+    <span class="wand-orbit orbit-two"></span>
+
+    <span class="wand-star">
+      <i></i>
+    </span>
+  `;
+
+  s.appendChild(wand);
+
+  /* =====================================================
+     MAIN CONTENT
+     ===================================================== */
+
+  const content = document.createElement("div");
+  content.className = "gala-content";
+
+  const eyebrow = document.createElement("div");
+  eyebrow.className = "gala-eyebrow";
+
+  eyebrow.innerHTML = `
+    <span></span>
+    TONIGHT IS YOURS
+    <span></span>
+  `;
+
+  const title = document.createElement("h1");
+  title.className = "gala-title";
+
+  title.innerHTML = `
+    <small>HAPPY</small>
+    <strong>Birthday</strong>
+    <em>${C.sisterName}</em>
+  `;
+
+  const subtitle = document.createElement("p");
+  subtitle.className = "gala-subtitle";
+  subtitle.textContent =
+    "Touch a balloon. Let the celebration begin.";
+
+  content.append(
+    eyebrow,
+    title,
+    subtitle
+  );
+
+  s.appendChild(content);
+
+  /* =====================================================
+     STARS
+     ===================================================== */
+
+  for (let i = 0; i < 110; i++) {
+
+    const star =
+      document.createElement("span");
+
+    star.className =
+      "gala-star";
+
+    star.style.left =
+      `${Math.random() * 100}%`;
+
+    star.style.top =
+      `${Math.random() * 100}%`;
+
+    star.style.setProperty(
+      "--star-size",
+      `${0.5 + Math.random() * 2}px`
+    );
+
+    star.style.setProperty(
+      "--star-delay",
+      `${Math.random() * 6}s`
+    );
+
+    star.style.setProperty(
+      "--star-duration",
+      `${2 + Math.random() * 5}s`
+    );
+
+    stars.appendChild(star);
   }
 
-  async calm() {
-    const s=this.shell("A quieter little moment", "");
-    const frame=document.createElement("div"); frame.className="photo-frame"; s.appendChild(frame);
-    const r=await safeAsset(C.assets.sisterPhoto,{kind:"img"});
-    if(r.ok) { const img=document.createElement("img"); img.src=C.assets.sisterPhoto; img.alt="Sister portrait"; frame.appendChild(img); }
-    else frame.appendChild(resourceFallback("SISTER PHOTO — 9:16 PORTRAIT"));
-    const fire=document.createElement("div"); fire.className="silent-fireworks"; s.appendChild(fire);
-    const text=document.createElement("div"); text.className="type-message"; s.appendChild(text);
-    typeText(text,C.calmMessage,{speed:24});
-    const next=this.button("NEXT →","next-btn"); s.appendChild(next);
-    this.on(next,"click",()=>this.go(SCENES.LETTER));
+  /* =====================================================
+     AUDIO CONTEXT
+     ===================================================== */
+
+  let audioContext = null;
+
+  const getAudio = () => {
+
+    try {
+
+      if (!audioContext) {
+
+        audioContext =
+          new (
+            window.AudioContext ||
+            window.webkitAudioContext
+          )();
+
+      }
+
+      if (
+        audioContext.state ===
+        "suspended"
+      ) {
+        audioContext.resume();
+      }
+
+      return audioContext;
+
+    } catch {
+
+      return null;
+
+    }
+  };
+
+  /* =====================================================
+     BALLOON POP SOUND
+     ===================================================== */
+
+  const popSound = () => {
+
+    const ctx = getAudio();
+
+    if (!ctx) return;
+
+    const now =
+      ctx.currentTime;
+
+    /* noise */
+
+    const buffer =
+      ctx.createBuffer(
+        1,
+        Math.floor(
+          ctx.sampleRate * 0.14
+        ),
+        ctx.sampleRate
+      );
+
+    const data =
+      buffer.getChannelData(0);
+
+    for (
+      let i = 0;
+      i < data.length;
+      i++
+    ) {
+
+      data[i] =
+        (Math.random() * 2 - 1) *
+        Math.pow(
+          1 - i / data.length,
+          3
+        );
+    }
+
+    const noise =
+      ctx.createBufferSource();
+
+    noise.buffer =
+      buffer;
+
+    const noiseGain =
+      ctx.createGain();
+
+    noiseGain.gain.setValueAtTime(
+      0.0001,
+      now
+    );
+
+    noiseGain.gain.exponentialRampToValueAtTime(
+      0.34,
+      now + 0.006
+    );
+
+    noiseGain.gain.exponentialRampToValueAtTime(
+      0.0001,
+      now + 0.12
+    );
+
+    noise.connect(
+      noiseGain
+    );
+
+    noiseGain.connect(
+      ctx.destination
+    );
+
+    noise.start(now);
+    noise.stop(
+      now + 0.14
+    );
+
+    /* low body */
+
+    const body =
+      ctx.createOscillator();
+
+    const bodyGain =
+      ctx.createGain();
+
+    body.type =
+      "sine";
+
+    body.frequency.setValueAtTime(
+      145,
+      now
+    );
+
+    body.frequency.exponentialRampToValueAtTime(
+      42,
+      now + 0.14
+    );
+
+    bodyGain.gain.setValueAtTime(
+      0.0001,
+      now
+    );
+
+    bodyGain.gain.exponentialRampToValueAtTime(
+      0.18,
+      now + 0.008
+    );
+
+    bodyGain.gain.exponentialRampToValueAtTime(
+      0.0001,
+      now + 0.15
+    );
+
+    body.connect(
+      bodyGain
+    );
+
+    bodyGain.connect(
+      ctx.destination
+    );
+
+    body.start(now);
+    body.stop(
+      now + 0.16
+    );
+  };
+
+  /* =====================================================
+     FIREWORK SOUND
+     ===================================================== */
+
+  const fireworkSound = () => {
+
+    const ctx = getAudio();
+
+    if (!ctx) return;
+
+    const now =
+      ctx.currentTime;
+
+    /* launch */
+
+    const launch =
+      ctx.createOscillator();
+
+    const launchGain =
+      ctx.createGain();
+
+    launch.type =
+      "sine";
+
+    launch.frequency.setValueAtTime(
+      180,
+      now
+    );
+
+    launch.frequency.exponentialRampToValueAtTime(
+      1100,
+      now + 0.62
+    );
+
+    launchGain.gain.setValueAtTime(
+      0.0001,
+      now
+    );
+
+    launchGain.gain.exponentialRampToValueAtTime(
+      0.045,
+      now + 0.08
+    );
+
+    launchGain.gain.exponentialRampToValueAtTime(
+      0.0001,
+      now + 0.65
+    );
+
+    launch.connect(
+      launchGain
+    );
+
+    launchGain.connect(
+      ctx.destination
+    );
+
+    launch.start(now);
+    launch.stop(
+      now + 0.68
+    );
+
+    /* explosion */
+
+    setTimeout(() => {
+
+      const c = getAudio();
+
+      if (!c) return;
+
+      const t =
+        c.currentTime;
+
+      const explosion =
+        c.createOscillator();
+
+      const explosionGain =
+        c.createGain();
+
+      explosion.type =
+        "sine";
+
+      explosion.frequency.setValueAtTime(
+        110,
+        t
+      );
+
+      explosion.frequency.exponentialRampToValueAtTime(
+        30,
+        t + 0.35
+      );
+
+      explosionGain.gain.setValueAtTime(
+        0.0001,
+        t
+      );
+
+      explosionGain.gain.exponentialRampToValueAtTime(
+        0.22,
+        t + 0.01
+      );
+
+      explosionGain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        t + 0.38
+      );
+
+      explosion.connect(
+        explosionGain
+      );
+
+      explosionGain.connect(
+        c.destination
+      );
+
+      explosion.start(t);
+
+      explosion.stop(
+        t + 0.4
+      );
+
+    }, 620);
+  };
+
+  /* =====================================================
+     GLITTER BURST
+     ===================================================== */
+
+  /* =====================================================
+   GOLDEN GLITTER — BURST + FALL
+   ===================================================== */
+
+const createGlitter = (
+  x,
+  y,
+  amount = 52
+) => {
+
+  for (
+    let i = 0;
+    i < amount;
+    i++
+  ) {
+
+    const particle =
+      document.createElement("span");
+
+    particle.className =
+      "gala-glitter-particle";
+
+    particle.style.left =
+      `${x}px`;
+
+    particle.style.top =
+      `${y}px`;
+
+    /* -------------------------------
+       OUTWARD SPREAD
+       ------------------------------- */
+
+    particle.style.setProperty(
+      "--dx",
+      `${-130 + Math.random() * 260}px`
+    );
+
+    /* -------------------------------
+       INITIAL UP/DOWN MOVEMENT
+       ------------------------------- */
+
+    particle.style.setProperty(
+      "--dy",
+      `${-120 + Math.random() * 90}px`
+    );
+
+    /* -------------------------------
+       GRAVITY / FALL DISTANCE
+       ------------------------------- */
+
+    particle.style.setProperty(
+      "--fall",
+      `${110 + Math.random() * 240}px`
+    );
+
+    /* -------------------------------
+       RANDOM SIZE
+       ------------------------------- */
+
+    particle.style.setProperty(
+      "--size",
+      `${2 + Math.random() * 4}px`
+    );
+
+    /* -------------------------------
+       RANDOM ROTATION
+       ------------------------------- */
+
+    particle.style.setProperty(
+      "--spin",
+      `${180 + Math.random() * 720}deg`
+    );
+
+    /* -------------------------------
+       RANDOM TIMING
+       ------------------------------- */
+
+    particle.style.setProperty(
+      "--duration",
+      `${1500 + Math.random() * 1300}ms`
+    );
+
+    particle.style.setProperty(
+      "--delay",
+      `${Math.random() * 100}ms`
+    );
+
+    magic.appendChild(
+      particle
+    );
+
+    setTimeout(() => {
+
+      particle.remove();
+
+    }, 3100);
   }
+};
+
+  /* =====================================================
+     BALLOON COLOURS
+     ===================================================== */
+
+  const balloonColours = [
+    "gold",
+    "rose",
+    "ivory",
+    "champagne"
+  ];
+
+  /* =====================================================
+     CREATE BALLOON
+     ===================================================== */
+
+  const createBalloon = () => {
+
+    const wrap =
+      document.createElement("div");
+
+    wrap.className =
+      "gala-balloon-wrap";
+
+    const balloon =
+      document.createElement("button");
+
+    balloon.type =
+      "button";
+
+    const colour =
+      balloonColours[
+        Math.floor(
+          Math.random() *
+          balloonColours.length
+        )
+      ];
+
+    balloon.className =
+      `gala-balloon gala-balloon-${colour}`;
+
+    balloon.setAttribute(
+      "aria-label",
+      "Pop balloon"
+    );
+
+    balloon.innerHTML = `
+      <span class="balloon-light"></span>
+      <span class="balloon-shine"></span>
+      <span class="balloon-knot"></span>
+      <span class="balloon-string"></span>
+    `;
+
+    wrap.appendChild(
+      balloon
+    );
+
+    balloons.appendChild(
+      wrap
+    );
+
+    /* position */
+
+    const side =
+      Math.random() < 0.5
+        ? "left"
+        : "right";
+
+    let x;
+
+    if (side === "left") {
+
+      x =
+        3 +
+        Math.random() * 29;
+
+    } else {
+
+      x =
+        68 +
+        Math.random() * 29;
+
+    }
+
+    const size =
+      48 +
+      Math.random() * 48;
+
+    const duration =
+      13 +
+      Math.random() * 9;
+
+    const drift =
+      -55 +
+      Math.random() * 110;
+
+    const rotation =
+      -8 +
+      Math.random() * 16;
+
+    wrap.style.left =
+      `${x}%`;
+
+    wrap.style.setProperty(
+      "--balloon-size",
+      `${size}px`
+    );
+
+    wrap.style.setProperty(
+      "--rise-duration",
+      `${duration}s`
+    );
+
+    wrap.style.setProperty(
+  "--drift",
+  `${drift}px`
+);
+
+    wrap.style.setProperty(
+      "--rotation",
+      `${rotation}deg`
+    );
+
+    wrap.style.animationDelay =
+      `${-Math.random() * duration}s`;
+
+    /* =================================================
+       BALLOON HOVER
+       ================================================= */
+
+    this.on(
+      balloon,
+      "pointerenter",
+      () => {
+
+        balloon.classList.add(
+          "balloon-hover"
+        );
+
+      }
+    );
+
+    this.on(
+      balloon,
+      "pointerleave",
+      () => {
+
+        balloon.classList.remove(
+          "balloon-hover"
+        );
+
+      }
+    );
+
+    /* =================================================
+       BALLOON POP
+       ================================================= */
+
+    let popped = false;
+
+    this.on(
+      balloon,
+      "pointerdown",
+      event => {
+
+        event.preventDefault();
+
+        if (popped) return;
+
+        popped = true;
+
+        const rect =
+          balloon.getBoundingClientRect();
+
+        const centerX =
+          rect.left +
+          rect.width / 2;
+
+        const centerY =
+          rect.top +
+          rect.height / 2;
+
+        /* sound */
+
+        popSound();
+
+        /* glitter */
+
+        createGlitter(
+          centerX,
+          centerY,
+          46
+        );
+
+        /* flash */
+
+        const flash =
+          document.createElement("div");
+
+        flash.className =
+          "gala-pop-flash";
+
+        flash.style.left =
+          `${centerX}px`;
+
+        flash.style.top =
+          `${centerY}px`;
+
+        s.appendChild(
+          flash
+        );
+
+        setTimeout(() => {
+          flash.remove();
+        }, 550);
+
+        /* pop animation */
+
+        balloon.classList.add(
+          "gala-balloon-pop"
+        );
+
+        /* remove */
+
+        setTimeout(() => {
+
+          wrap.remove();
+
+          /* new balloon appears */
+
+          setTimeout(() => {
+
+            if (
+              document.body.contains(s)
+            ) {
+              createBalloon();
+            }
+
+          }, 500);
+
+        }, 700);
+      }
+    );
+  };
+
+  /* =====================================================
+     INITIAL BALLOONS
+     ===================================================== */
+
+  for (
+    let i = 0;
+    i < 12;
+    i++
+  ) {
+    createBalloon();
+  }
+
+  /* =====================================================
+     FIREWORK CREATION
+     ===================================================== */
+
+  const fireworkColours = [
+    "gold",
+    "rose",
+    "violet",
+    "blue",
+    "emerald",
+    "champagne",
+    "white"
+  ];
+
+  const createFirework = (
+    x,
+    targetY,
+    colour
+  ) => {
+
+    const firework =
+      document.createElement("div");
+
+    firework.className =
+      `gala-firework firework-${colour}`;
+
+    firework.style.left =
+      `${x}%`;
+
+    firework.style.setProperty(
+      "--target-y",
+      `${targetY}vh`
+    );
+
+    /* comet */
+
+    const comet =
+      document.createElement("span");
+
+    comet.className =
+      "firework-comet";
+
+    /* trail */
+
+    const tail =
+      document.createElement("span");
+
+    tail.className =
+      "firework-tail";
+
+    /* explosion */
+
+    const explosion =
+      document.createElement("div");
+
+    explosion.className =
+      "firework-explosion";
+
+    /* rings */
+
+    const ring1 =
+      document.createElement("span");
+
+    ring1.className =
+      "firework-ring ring-one";
+
+    const ring2 =
+      document.createElement("span");
+
+    ring2.className =
+      "firework-ring ring-two";
+
+    const core =
+      document.createElement("span");
+
+    core.className =
+      "firework-core";
+
+    explosion.append(
+      ring1,
+      ring2,
+      core
+    );
+
+    /* outer sparks */
+
+    for (
+      let i = 0;
+      i < 32;
+      i++
+    ) {
+
+      const spark =
+        document.createElement("span");
+
+      spark.className =
+        "firework-spark";
+
+      spark.style.setProperty(
+        "--angle",
+        `${(360 / 32) * i}deg`
+      );
+
+      spark.style.setProperty(
+        "--distance",
+        `${55 + Math.random() * 95}px`
+      );
+
+      spark.style.setProperty(
+        "--delay",
+        `${Math.random() * 80}ms`
+      );
+
+      explosion.appendChild(
+        spark
+      );
+    }
+
+    /* inner sparks */
+
+    for (
+      let i = 0;
+      i < 18;
+      i++
+    ) {
+
+      const spark =
+        document.createElement("span");
+
+      spark.className =
+        "firework-inner-spark";
+
+      spark.style.setProperty(
+        "--angle",
+        `${(360 / 18) * i}deg`
+      );
+
+      spark.style.setProperty(
+        "--distance",
+        `${25 + Math.random() * 55}px`
+      );
+
+      explosion.appendChild(
+        spark
+      );
+    }
+
+    /* crackles */
+
+    for (
+      let i = 0;
+      i < 12;
+      i++
+    ) {
+
+      const crack =
+        document.createElement("span");
+
+      crack.className =
+        "firework-crackle";
+
+      crack.style.setProperty(
+        "--angle",
+        `${Math.random() * 360}deg`
+      );
+
+      crack.style.setProperty(
+        "--distance",
+        `${90 + Math.random() * 75}px`
+      );
+
+      crack.style.setProperty(
+        "--delay",
+        `${550 + Math.random() * 500}ms`
+      );
+
+      explosion.appendChild(
+        crack
+      );
+    }
+
+    firework.append(
+      comet,
+      tail,
+      explosion
+    );
+
+    fireworks.appendChild(
+      firework
+    );
+
+    fireworkSound();
+
+    setTimeout(() => {
+      firework.remove();
+    }, 2800);
+  };
+
+  /* =====================================================
+     FIREWORK CHANNELS
+     ===================================================== */
+
+  const fireworkTimers = [];
+
+  const positions = [
+    10,
+    24,
+    38,
+    62,
+    76,
+    90
+  ];
+
+  const startFireworkChannel = (
+    index
+  ) => {
+
+    const launch = () => {
+
+      const x =
+        positions[index] +
+        (-5 + Math.random() * 10);
+
+      const y =
+        12 +
+        Math.random() * 38;
+
+      const colour =
+        fireworkColours[
+          Math.floor(
+            Math.random() *
+            fireworkColours.length
+          )
+        ];
+
+      createFirework(
+        x,
+        y,
+        colour
+      );
+
+      fireworkTimers[index] =
+        setTimeout(
+          launch,
+          1800 +
+          Math.random() * 3000
+        );
+    };
+
+    fireworkTimers[index] =
+      setTimeout(
+        launch,
+        900 +
+        index * 500
+      );
+  };
+
+  for (
+    let i = 0;
+    i < positions.length;
+    i++
+  ) {
+
+    startFireworkChannel(i);
+
+  }
+
+  /* =====================================================
+     CURSOR MAGIC
+     ===================================================== */
+
+  let mouseX = -100;
+  let mouseY = -100;
+
+  let targetX = -100;
+  let targetY = -100;
+
+  let lastTrail =
+    0;
+
+  this.on(
+    s,
+    "pointermove",
+    event => {
+
+      targetX =
+        event.clientX;
+
+      targetY =
+        event.clientY;
+    }
+  );
+
+  const animateMagic = () => {
+
+    mouseX +=
+      (targetX - mouseX) *
+      0.16;
+
+    mouseY +=
+      (targetY - mouseY) *
+      0.16;
+
+    wand.style.transform =
+      `translate3d(
+        ${mouseX - 34}px,
+        ${mouseY - 34}px,
+        0
+      )`;
+
+    const now =
+      performance.now();
+
+    if (
+      now - lastTrail >
+      28
+    ) {
+
+      lastTrail =
+        now;
+
+      const particle =
+        document.createElement("span");
+
+      particle.className =
+        "wand-trail-particle";
+
+      particle.style.left =
+        `${mouseX}px`;
+
+      particle.style.top =
+        `${mouseY}px`;
+
+      particle.style.setProperty(
+        "--trail-x",
+        `${-18 + Math.random() * 36}px`
+      );
+
+      particle.style.setProperty(
+        "--trail-y",
+        `${8 + Math.random() * 24}px`
+      );
+
+      magic.appendChild(
+        particle
+      );
+
+      setTimeout(() => {
+        particle.remove();
+      }, 1100);
+    }
+
+    wand._raf =
+      requestAnimationFrame(
+        animateMagic
+      );
+  };
+
+  animateMagic();
+
+  /* =====================================================
+   BACKGROUND MOVEMENT
+   ===================================================== */
+
+/*
+   IMPORTANT:
+   Do NOT move the birthday text.
+
+   The text stays perfectly centered.
+   Only the background atmosphere moves.
+*/
+
+this.on(s, "pointermove", (event) => {
+
+  const rect =
+    s.getBoundingClientRect();
+
+  const x =
+    (event.clientX - rect.left) /
+      rect.width -
+    0.5;
+
+  const y =
+    (event.clientY - rect.top) /
+      rect.height -
+    0.5;
+
+  atmosphere.style.setProperty(
+    "--mouse-x",
+    `${x * 10}px`
+  );
+
+  atmosphere.style.setProperty(
+    "--mouse-y",
+    `${y * 10}px`
+  );
+
+  nebula.style.setProperty(
+    "--mouse-x",
+    `${x * -12}px`
+  );
+
+  nebula.style.setProperty(
+    "--mouse-y",
+    `${y * -12}px`
+  );
+});
+
+  /* =====================================================
+     BACKGROUND CLICK GLITTER
+     ===================================================== */
+
+  this.on(
+    s,
+    "pointerdown",
+    event => {
+
+      if (
+        event.target.closest(
+          "button"
+        )
+      ) {
+        return;
+      }
+
+      createGlitter(
+        event.clientX,
+        event.clientY,
+        24
+      );
+    }
+  );
+
+  /* =====================================================
+     PARALLAX
+     ===================================================== */
+
+  this.on(
+    s,
+    "pointermove",
+    event => {
+
+      const rect =
+        s.getBoundingClientRect();
+
+      const x =
+        (event.clientX - rect.left) /
+          rect.width -
+        0.5;
+
+      const y =
+        (event.clientY - rect.top) /
+          rect.height -
+        0.5;
+
+      atmosphere.style.transform =
+        `translate3d(
+          ${x * 10}px,
+          ${y * 10}px,
+          0
+        )`;
+
+      nebula.style.transform =
+        `translate3d(
+          ${x * -14}px,
+          ${y * -14}px,
+          0
+        )`;
+
+      
+    }
+  );
+
+  /* =====================================================
+     NEXT
+     ===================================================== */
+
+  const next =
+    this.button(
+      "NEXT →",
+      "gala-next"
+    );
+
+  s.appendChild(
+    next
+  );
+
+  this.on(
+    next,
+    "click",
+    () => {
+
+      fireworkTimers.forEach(
+        timer => {
+          clearTimeout(timer);
+        }
+      );
+
+      if (wand._raf) {
+
+        cancelAnimationFrame(
+          wand._raf
+        );
+
+      }
+
+      if (audioContext) {
+
+        try {
+          audioContext.close();
+        } catch {}
+
+      }
+
+      this.go(
+        SCENES.CALM
+      );
+    }
+  );
+
+  /* =====================================================
+     CLEANUP
+     ===================================================== */
+
+  this.cleanup.push(() => {
+
+    fireworkTimers.forEach(
+      timer => {
+        clearTimeout(timer);
+      }
+    );
+
+    if (wand._raf) {
+
+      cancelAnimationFrame(
+        wand._raf
+      );
+
+    }
+
+    if (audioContext) {
+
+      try {
+        audioContext.close();
+      } catch {}
+
+    }
+
+  });
+}
+  async calm() {
+  const s = this.shell("", "");
+  s.classList.add("calm-orbit");
+
+  /* =====================================================
+     BACKGROUND
+     ===================================================== */
+
+  const background = document.createElement("div");
+  background.className = "orbit-background";
+  s.appendChild(background);
+
+  const stars = document.createElement("div");
+  stars.className = "orbit-stars";
+  s.appendChild(stars);
+
+  /* Create subtle stars */
+  for (let i = 0; i < 90; i++) {
+    const star = document.createElement("span");
+
+    star.className = "orbit-star";
+
+    star.style.left = `${Math.random() * 100}%`;
+    star.style.top = `${Math.random() * 100}%`;
+
+    star.style.setProperty(
+      "--size",
+      `${0.5 + Math.random() * 1.8}px`
+    );
+
+    star.style.setProperty(
+      "--delay",
+      `${Math.random() * 6}s`
+    );
+
+    star.style.setProperty(
+      "--duration",
+      `${3 + Math.random() * 5}s`
+    );
+
+    stars.appendChild(star);
+  }
+
+  /* =====================================================
+     CENTRAL CELESTIAL OBJECT
+     ===================================================== */
+
+  const universe = document.createElement("div");
+  universe.className = "orbit-universe";
+  s.appendChild(universe);
+
+  const halo = document.createElement("div");
+  halo.className = "orbit-halo";
+  universe.appendChild(halo);
+
+  const ringOuter = document.createElement("div");
+  ringOuter.className = "orbit-ring orbit-ring-outer";
+  universe.appendChild(ringOuter);
+
+  const ringMiddle = document.createElement("div");
+  ringMiddle.className = "orbit-ring orbit-ring-middle";
+  universe.appendChild(ringMiddle);
+
+  const ringInner = document.createElement("div");
+  ringInner.className = "orbit-ring orbit-ring-inner";
+  universe.appendChild(ringInner);
+
+  const core = document.createElement("div");
+  core.className = "orbit-core";
+
+  core.innerHTML = `
+    <span></span>
+    <i></i>
+  `;
+
+  universe.appendChild(core);
+
+  /* =====================================================
+     ORBITING PARTICLES
+     ===================================================== */
+
+  const orbitParticles = document.createElement("div");
+  orbitParticles.className = "orbit-particles";
+  universe.appendChild(orbitParticles);
+
+  for (let i = 0; i < 14; i++) {
+    const particle = document.createElement("span");
+
+    particle.className = "orbit-particle";
+
+    particle.style.setProperty(
+      "--angle",
+      `${(360 / 14) * i}deg`
+    );
+
+    particle.style.setProperty(
+      "--distance",
+      `${105 + Math.random() * 45}px`
+    );
+
+    particle.style.setProperty(
+      "--particle-delay",
+      `${Math.random() * 3}s`
+    );
+
+    orbitParticles.appendChild(particle);
+  }
+
+  /* =====================================================
+     TEXT
+     ===================================================== */
+
+  const message = document.createElement("div");
+  message.className = "orbit-message";
+
+  message.innerHTML = `
+    <div class="orbit-eyebrow">
+      A LITTLE PAUSE
+    </div>
+
+    <div class="orbit-main">
+      some moments are<br>
+      meant to be remembered
+    </div>
+
+    <div class="orbit-divider"></div>
+
+    <div class="orbit-secondary">
+      there's one more thing...
+    </div>
+  `;
+
+  s.appendChild(message);
+
+  /* =====================================================
+     NEXT BUTTON
+     ===================================================== */
+
+  const next = this.button("NEXT →", "orbit-next");
+  s.appendChild(next);
+
+  /* =====================================================
+     INTERACTION
+     ===================================================== */
+
+  let mouseX = 0;
+  let mouseY = 0;
+
+  this.on(s, "pointermove", (event) => {
+    const rect = s.getBoundingClientRect();
+
+    mouseX =
+      (event.clientX - rect.left) / rect.width - 0.5;
+
+    mouseY =
+      (event.clientY - rect.top) / rect.height - 0.5;
+
+    universe.style.setProperty(
+      "--mouse-x",
+      `${mouseX * 8}px`
+    );
+
+    universe.style.setProperty(
+      "--mouse-y",
+      `${mouseY * 8}px`
+    );
+
+    background.style.setProperty(
+      "--bg-x",
+      `${mouseX * -14}px`
+    );
+
+    background.style.setProperty(
+      "--bg-y",
+      `${mouseY * -10}px`
+    );
+  });
+
+  /* Clicking the central light creates a tiny ripple */
+
+  this.on(core, "pointerdown", () => {
+    core.classList.remove("orbit-pulse");
+
+    void core.offsetWidth;
+
+    core.classList.add("orbit-pulse");
+  });
+
+  /* =====================================================
+     NAVIGATION
+     ===================================================== */
+
+  this.on(next, "click", () => {
+    this.go(SCENES.LETTER);
+  });
+}
 
   async letter() {
-    const s=this.shell("One last little question", "Would you like to read it?");
-    const env=document.createElement("div"); env.className="envelope-wrap"; s.appendChild(env);
-    const er=await safeAsset(C.assets.envelope,{kind:"img"});
-    if(er.ok) env.style.backgroundImage=`url("${C.assets.envelope}")`;
-    else env.appendChild(resourceFallback("ENVELOPE CLOSED"));
-    const actions=document.createElement("div"); actions.className="yes-no"; s.appendChild(actions);
-    const yes=this.button("YES","yes-btn"), no=this.button("NO","no-btn"); actions.append(yes,no);
-    let noClicks=0;
-    this.on(no,"click",()=>{
-      noClicks++;
-      const p=Math.min(noClicks/C.noClickLimit,1);
-      yes.style.transform=`scale(${1+p*0.85})`;
-      no.style.transform=`scale(${1-p*0.82})`;
-      if(noClicks>=C.noClickLimit){ no.classList.add("gone"); no.disabled=true; }
+  const s = this.shell("", "");
+  s.classList.add("letter-cinematic");
+
+  /* =========================
+     BACKGROUND
+     ========================= */
+
+  const ambient = document.createElement("div");
+  ambient.className = "letter-ambient";
+  s.appendChild(ambient);
+
+  const vignette = document.createElement("div");
+  vignette.className = "letter-vignette";
+  s.appendChild(vignette);
+
+  /* =========================
+     FLOATING PARTICLES
+     ========================= */
+
+  const particles = document.createElement("div");
+  particles.className = "letter-particle-field";
+  s.appendChild(particles);
+
+  for (let i = 0; i < 70; i++) {
+    const p = document.createElement("span");
+    p.className = "letter-floating-particle";
+
+    p.style.left = `${Math.random() * 100}%`;
+    p.style.top = `${Math.random() * 100}%`;
+
+    p.style.setProperty(
+      "--particle-size",
+      `${0.5 + Math.random() * 2}px`
+    );
+
+    p.style.setProperty(
+      "--particle-duration",
+      `${5 + Math.random() * 8}s`
+    );
+
+    p.style.setProperty(
+      "--particle-delay",
+      `${Math.random() * 7}s`
+    );
+
+    particles.appendChild(p);
+  }
+
+  /* =========================
+     DECORATIVE ORBIT
+     ========================= */
+
+  const orbit = document.createElement("div");
+  orbit.className = "letter-orbit";
+  s.appendChild(orbit);
+
+  for (let i = 0; i < 4; i++) {
+    const spark = document.createElement("span");
+    spark.className = "letter-orbit-spark";
+    spark.style.setProperty("--spark-angle", `${i * 90}deg`);
+    spark.style.setProperty("--spark-delay", `${i * .8}s`);
+    orbit.appendChild(spark);
+  }
+
+  /* =========================
+     MAIN CONTENT
+     ========================= */
+
+  const content = document.createElement("div");
+  content.className = "letter-cinematic-content";
+  s.appendChild(content);
+
+  /* eyebrow */
+
+  const eyebrow = document.createElement("div");
+  eyebrow.className = "letter-cinematic-eyebrow";
+
+  eyebrow.innerHTML = `
+    <span></span>
+    <b>✦</b>
+    A LETTER FOR YOU
+    <b>✦</b>
+    <span></span>
+  `;
+
+  content.appendChild(eyebrow);
+
+  /* title */
+
+  const title = document.createElement("h1");
+  title.className = "letter-cinematic-title";
+
+  title.innerHTML = `
+    One last little
+    <em>question</em>
+  `;
+
+  content.appendChild(title);
+
+  /* subtitle */
+
+  const subtitle = document.createElement("p");
+  subtitle.className = "letter-cinematic-subtitle";
+  subtitle.textContent = "There is something waiting for you.";
+
+  content.appendChild(subtitle);
+
+  /* =========================
+     ENVELOPE
+     ========================= */
+
+  const envelopeStage = document.createElement("div");
+  envelopeStage.className = "cinematic-envelope-stage";
+
+  content.appendChild(envelopeStage);
+
+  const envelopeShadow = document.createElement("div");
+  envelopeShadow.className = "cinematic-envelope-shadow";
+  envelopeStage.appendChild(envelopeShadow);
+
+  const envelopeGlow = document.createElement("div");
+  envelopeGlow.className = "cinematic-envelope-glow";
+  envelopeStage.appendChild(envelopeGlow);
+
+  const env = document.createElement("div");
+  env.className = "envelope-wrap cinematic-envelope";
+  envelopeStage.appendChild(env);
+
+  /* envelope body */
+
+  const envelopeBack = document.createElement("div");
+  envelopeBack.className = "envelope-back";
+  env.appendChild(envelopeBack);
+
+  /* inside paper */
+
+  const insidePaper = document.createElement("div");
+  insidePaper.className = "envelope-inside-paper";
+
+  insidePaper.innerHTML = `
+    <span>For you</span>
+  `;
+
+  env.appendChild(insidePaper);
+
+  /* left flap */
+
+  const flapLeft = document.createElement("div");
+  flapLeft.className = "envelope-flap envelope-flap-left";
+  env.appendChild(flapLeft);
+
+  /* right flap */
+
+  const flapRight = document.createElement("div");
+  flapRight.className = "envelope-flap envelope-flap-right";
+  env.appendChild(flapRight);
+
+  /* bottom flap */
+
+  const flapBottom = document.createElement("div");
+  flapBottom.className = "envelope-flap envelope-flap-bottom";
+  env.appendChild(flapBottom);
+
+  /* top flap */
+
+  const flapTop = document.createElement("div");
+  flapTop.className = "envelope-flap envelope-flap-top";
+  env.appendChild(flapTop);
+
+  /* envelope writing */
+
+  const envelopeText = document.createElement("div");
+  envelopeText.className = "envelope-address";
+
+  envelopeText.innerHTML = `
+    <span>For</span>
+    <strong>Harshita</strong>
+  `;
+
+  env.appendChild(envelopeText);
+
+  /* wax seal */
+
+  const seal = document.createElement("div");
+  seal.className = "envelope-seal";
+
+  seal.innerHTML = `
+    <span>♡</span>
+  `;
+
+  env.appendChild(seal);
+
+  /* =========================
+     QUESTION
+     ========================= */
+
+  const question = document.createElement("div");
+  question.className = "letter-cinematic-question";
+  question.textContent = "Would you like to read it?";
+
+  content.appendChild(question);
+
+  /* =========================
+     ACTIONS
+     ========================= */
+
+  const actions = document.createElement("div");
+  actions.className = "letter-cinematic-actions";
+
+  const yes = this.button("✉  OPEN THE LETTER", "yes-btn");
+  const no = this.button("NOT YET", "no-btn");
+
+  actions.append(yes, no);
+  content.appendChild(actions);
+
+  /* =========================
+     NO BUTTON INTERACTION
+     ========================= */
+
+  let noClicks = 0;
+
+  this.on(no, "click", () => {
+    noClicks++;
+
+    const p = Math.min(
+      noClicks / C.noClickLimit,
+      1
+    );
+
+    yes.style.transform =
+      `scale(${1 + p * 0.3})`;
+
+    no.style.transform =
+      `scale(${1 - p * 0.5})`;
+
+    env.classList.remove("envelope-tease");
+
+    void env.offsetWidth;
+
+    env.classList.add("envelope-tease");
+
+    /* make the seal react */
+
+    seal.classList.remove("seal-pulse");
+
+    void seal.offsetWidth;
+
+    seal.classList.add("seal-pulse");
+
+    if (noClicks >= C.noClickLimit) {
+      no.classList.add("gone");
+      no.disabled = true;
+    }
+  });
+
+  /* =========================
+     OPEN LETTER
+     ========================= */
+
+  this.on(yes, "click", () => {
+
+    yes.disabled = true;
+    no.disabled = true;
+
+    env.classList.add("cinematic-envelope-opening");
+
+    seal.classList.add("seal-opening");
+
+    setTimeout(() => {
+      this.openLetter(
+        env,
+        s,
+        actions
+      );
+    }, 950);
+  });
+
+  /* =========================
+     MOUSE PARALLAX
+     ========================= */
+
+  this.on(s, "pointermove", (event) => {
+
+    const rect = s.getBoundingClientRect();
+
+    const x =
+      (event.clientX - rect.left) /
+      rect.width - 0.5;
+
+    const y =
+      (event.clientY - rect.top) /
+      rect.height - 0.5;
+
+    content.style.setProperty(
+      "--content-x",
+      `${x * 7}px`
+    );
+
+    content.style.setProperty(
+      "--content-y",
+      `${y * 5}px`
+    );
+
+    envelopeStage.style.setProperty(
+      "--env-x",
+      `${x * 12}px`
+    );
+
+    envelopeStage.style.setProperty(
+      "--env-y",
+      `${y * 10}px`
+    );
+
+    ambient.style.setProperty(
+      "--ambient-x",
+      `${x * -20}px`
+    );
+
+    ambient.style.setProperty(
+      "--ambient-y",
+      `${y * -14}px`
+    );
+  });
+}
+
+  async openLetter(env, s, actions) {
+
+  /* =====================================================
+     FADE OUT THE QUESTION
+     ===================================================== */
+
+  actions.classList.add("fade");
+
+  env.classList.add("open");
+
+  await wait(1000);
+
+  /* =====================================================
+     REMOVE THE OLD QUESTION
+     ===================================================== */
+
+  actions.style.display = "none";
+
+  /* =====================================================
+     LETTER PAPER
+     ===================================================== */
+
+  const paper = document.createElement("article");
+  paper.className = "letter-paper-premium";
+
+  const paperGlow = document.createElement("div");
+  paperGlow.className = "letter-paper-glow";
+  s.appendChild(paperGlow);
+
+  const r = await safeAsset(
+    C.assets.letterPaper,
+    { kind: "img" }
+  );
+
+  if (r.ok) {
+    paper.style.backgroundImage =
+      `url("${C.assets.letterPaper}")`;
+  }
+
+  /* =====================================================
+     PAPER HEADER
+     ===================================================== */
+
+  const paperHeader = document.createElement("div");
+  paperHeader.className = "letter-paper-header";
+
+  paperHeader.innerHTML = `
+    <span></span>
+    A FEW WORDS FOR YOU
+    <span></span>
+  `;
+
+  paper.appendChild(paperHeader);
+
+  /* =====================================================
+     LETTER TEXT
+     ===================================================== */
+
+  const text = document.createElement("div");
+  text.className = "letter-text-premium";
+
+  paper.appendChild(text);
+
+  /* =====================================================
+     SIGNATURE
+     ===================================================== */
+
+  const signature = document.createElement("div");
+  signature.className = "letter-signature";
+
+  signature.textContent = "— with love";
+
+  paper.appendChild(signature);
+
+  s.appendChild(paper);
+
+  /* =====================================================
+     TYPEWRITER
+     ===================================================== */
+
+  typeText(
+    text,
+    C.letterText,
+    {
+      speed:18
+    }
+  );
+
+  /* =====================================================
+     NEXT BUTTON
+     ===================================================== */
+
+  const next = this.button(
+    "NEXT →",
+    "letter-paper-next"
+  );
+
+  s.appendChild(next);
+
+  /* =====================================================
+     SUBTLE PAPER MOVEMENT
+     ===================================================== */
+
+  this.on(s, "pointermove", (event) => {
+
+    const rect =
+      s.getBoundingClientRect();
+
+    const x =
+      (event.clientX - rect.left) /
+      rect.width - 0.5;
+
+    const y =
+      (event.clientY - rect.top) /
+      rect.height - 0.5;
+
+    paper.style.setProperty(
+      "--paper-x",
+      `${x * 4}px`
+    );
+
+    paper.style.setProperty(
+      "--paper-y",
+      `${y * 4}px`
+    );
+
+  });
+
+  /* =====================================================
+     NEXT → FINAL
+     ===================================================== */
+
+  this.on(next, "click", () => {
+    this.go(SCENES.FINAL);
+  });
+}
+
+     async final() {
+    const s = this.shell("", "");
+    s.classList.add("harshita-final-premium");
+
+    const el = (tag, className) => {
+      const e = document.createElement(tag);
+      if (className) e.className = className;
+      return e;
+    };
+
+    // --- Background layers ---
+    const sky = el("div", "final-sky");
+    const nebula = el("div", "final-nebula");
+    const moon = el("div", "final-moon");
+    const moonCore = el("div", "final-moon-core");
+    moon.appendChild(moonCore);
+
+    s.append(sky, nebula, moon);
+
+    // --- Stars ---
+    const starsWrap = el("div", "final-stars");
+    for (let i = 0; i < 70; i++) {
+      const star = el("span", "final-star");
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.setProperty("--star-size", `${(1 + Math.random() * 2).toFixed(1)}px`);
+      star.style.setProperty("--star-duration", `${(2 + Math.random() * 3).toFixed(2)}s`);
+      star.style.setProperty("--star-delay", `${(Math.random() * 5).toFixed(2)}s`);
+      starsWrap.appendChild(star);
+    }
+    s.appendChild(starsWrap);
+
+    // --- Gold dust ---
+    const dustWrap = el("div", "final-dust");
+    for (let i = 0; i < 22; i++) {
+      const p = el("span", "final-dust-particle");
+      p.style.left = `${Math.random() * 100}%`;
+      p.style.top = `${55 + Math.random() * 40}%`;
+      p.style.setProperty("--dust-size", `${(2 + Math.random() * 2.5).toFixed(1)}px`);
+      p.style.setProperty("--dust-duration", `${(4 + Math.random() * 4).toFixed(2)}s`);
+      p.style.setProperty("--dust-delay", `${(Math.random() * 6).toFixed(2)}s`);
+      dustWrap.appendChild(p);
+    }
+    s.appendChild(dustWrap);
+
+    // --- Constellation ---
+    const constellation = el("div", "final-constellation");
+    const linesWrap = el("div", "final-constellation-lines");
+    constellation.appendChild(linesWrap);
+
+    const points = [
+      { x: 18, y: 68 }, { x: 33, y: 32 }, { x: 50, y: 52 },
+      { x: 66, y: 22 }, { x: 82, y: 58 }, { x: 52, y: 82 }, { x: 28, y: 14 },
+    ];
+
+    points.forEach((pt, i) => {
+      const point = el("span", "final-constellation-point");
+      point.style.left = `${pt.x}%`;
+      point.style.top = `${pt.y}%`;
+      point.style.setProperty("--point-delay", `${(1.6 + i * 0.15).toFixed(2)}s`);
+      constellation.appendChild(point);
     });
-    this.on(yes,"click",()=>this.openLetter(env,s,actions));
-  }
 
-  async openLetter(env,s,actions) {
-    actions.classList.add("fade");
-    env.classList.add("open");
-    await wait(1000);
-    const paper=document.createElement("article"); paper.className="letter-paper";
-    const r=await safeAsset(C.assets.letterPaper,{kind:"img"});
-    if(r.ok) paper.style.backgroundImage=`url("${C.assets.letterPaper}")`;
-    const text=document.createElement("div"); text.className="letter-text"; paper.appendChild(text);
-    const next=this.button("NEXT →","next-btn");
-    s.append(paper,next);
-    typeText(text,C.letterText,{speed:18});
-    this.on(next,"click",()=>this.go(SCENES.FINAL));
-  }
+    const lineEls = [];
+    for (let i = 0; i < points.length - 1; i++) {
+      const line = el("div", "final-constellation-line");
+      line.style.setProperty("--line-delay", `${(1.8 + i * 0.15).toFixed(2)}s`);
+      linesWrap.appendChild(line);
+      lineEls.push(line);
+    }
 
-  async final() {
-    const s=this.shell("The grand finale", "HAPPY BIRTHDAY");
-    const fxLayer=document.createElement("div"); fxLayer.className="fx-layer"; s.appendChild(fxLayer);
-    const fx=new CelebrationFX(fxLayer); fx.start({duration:Infinity});
-    this.cleanup.push(()=>fx.stop(false));
-    const end=this.button("Saaku malko","final-btn"); s.appendChild(end);
-    this.on(end,"click",async()=>{
-      end.disabled=true;
-      const fade=document.createElement("div"); fade.className="ending-veil"; this.root.appendChild(fade);
-      let start=performance.now();
-      const reduce=()=>{
-        const p=Math.min(1,(performance.now()-start)/4200);
-        fx.root.style.opacity=String(1-p);
-        if(p<1) requestAnimationFrame(reduce);
+    const layoutConstellation = () => {
+      const rect = constellation.getBoundingClientRect();
+      const w = rect.width, h = rect.height;
+      if (!w || !h) return;
+      for (let i = 0; i < lineEls.length; i++) {
+        const a = points[i], b = points[i + 1];
+        const ax = (a.x / 100) * w, ay = (a.y / 100) * h;
+        const bx = (b.x / 100) * w, by = (b.y / 100) * h;
+        const dx = bx - ax, dy = by - ay;
+        const length = Math.sqrt(dx * dx + dy * dy);
+        const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+        const line = lineEls[i];
+        line.style.left = `${ax}px`;
+        line.style.top = `${ay}px`;
+        line.style.width = `${length}px`;
+        line.style.setProperty("--line-angle", `${angle}deg`);
+        line.style.transform = `rotate(${angle}deg)`;
+      }
+    };
+
+    s.appendChild(constellation);
+    requestAnimationFrame(layoutConstellation);
+    this.on(window, "resize", layoutConstellation);
+
+    // --- Content ---
+    const content = el("div", "final-premium-content");
+
+    const eyebrow = el("div", "final-premium-eyebrow");
+    const eyebrowLabel = document.createElement("b");
+    eyebrowLabel.style.fontWeight = "600";
+    eyebrowLabel.textContent = "FOR YOU, HARSHITA";
+    eyebrow.append(el("span"), eyebrowLabel, el("span"));
+    content.appendChild(eyebrow);
+
+    const name = document.createElement("h1");
+    name.className = "final-premium-name";
+    "HARSHITA".split("").forEach((ch, i) => {
+      const letter = el("span", "final-name-letter");
+      letter.style.setProperty("--letter-index", i);
+      letter.textContent = ch;
+      name.appendChild(letter);
+    });
+    content.appendChild(name);
+
+    const divider = el("div", "final-premium-divider");
+    const diamond = document.createElement("b");
+    diamond.textContent = "✦";
+    divider.append(el("span"), diamond, el("span"));
+    content.appendChild(divider);
+
+    const message = document.createElement("p");
+    message.className = "final-premium-message";
+    const messageText =
+      "May this new year of your life bring you beautiful moments, peaceful days, endless smiles, and everything your heart quietly wishes for.";
+    messageText.split(" ").forEach((word, i) => {
+      const w = el("span", "final-message-word");
+      w.style.setProperty("--word-index", i);
+      w.textContent = word + " ";
+      message.appendChild(w);
+    });
+    content.appendChild(message);
+
+    const signature = el("div", "final-signature");
+    const sigScript = document.createElement("span");
+    sigScript.textContent = "With love,";
+    const sigName = document.createElement("strong");
+    sigName.textContent = "ANNA"; // e.g. "Your Brother"
+    signature.append(sigScript, sigName);
+    content.appendChild(signature);
+
+    const end = this.button("Saaku malko", "final-premium-btn");
+    content.appendChild(end);
+
+    s.appendChild(content);
+
+    const fxLayer = el("div", "fx-layer");
+    s.appendChild(fxLayer);
+
+    const fx = new CelebrationFX(fxLayer);
+    fx.start({ duration: Infinity });
+
+    let fxStopped = false;
+    const stopFx = (immediate) => {
+      if (fxStopped) return;
+      fxStopped = true;
+      fx.stop(immediate);
+    };
+    this.cleanup.push(() => stopFx(false));
+
+    let cancelled = false;
+    this.cleanup.push(() => { cancelled = true; });
+
+    // --- Parallax (CSS transitions already defined on nebula/moon/constellation/content) ---
+    let parallaxActive = true;
+    const onPointerMove = (e) => {
+      if (!parallaxActive) return;
+      const rect = s.getBoundingClientRect();
+      const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+
+      nebula.style.transform = `translate(${nx * 22}px, ${ny * 22}px)`;
+      moon.style.transform = `translate(calc(-50% + ${nx * -14}px), calc(-50% + ${ny * -14}px))`;
+      constellation.style.transform = `translate(calc(-50% + ${nx * 26}px), calc(-50% + ${ny * 18}px))`;
+      content.style.transform = `translate(calc(-50% + ${nx * 8}px), calc(-50% + ${ny * 8}px))`;
+    };
+    const onPointerLeave = () => {
+      nebula.style.transform = "";
+      moon.style.transform = "translate(-50%,-50%)";
+      constellation.style.transform = "translate(-50%,-50%)";
+      content.style.transform = "translate(-50%,-50%)";
+    };
+    this.on(s, "pointermove", onPointerMove);
+    this.on(s, "pointerleave", onPointerLeave);
+
+    // --- Magnetic button ---
+    const onBtnMove = (e) => {
+      const r = end.getBoundingClientRect();
+      const mx = e.clientX - (r.left + r.width / 2);
+      const my = e.clientY - (r.top + r.height / 2);
+      end.style.transform = `translate(${mx * 0.18}px, ${my * 0.28}px)`;
+    };
+    const onBtnLeave = () => { end.style.transform = "translate(0,0)"; };
+    this.on(end, "pointermove", onBtnMove);
+    this.on(end, "pointerleave", onBtnLeave);
+
+    // --- Ending sequence ---
+    const easeOutExpo = (t) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
+
+        this.on(end, "click", async () => {
+      if (end.disabled) return;
+      end.disabled = true;
+      parallaxActive = false;
+      end.style.transform = "translate(0,0)";
+      s.classList.add("final-premium-ending");
+
+      const start = performance.now();
+      const fadeDuration = 3800;
+
+      // grab the currently playing music, whatever it's called in your setup
+      const music = this.music || this.audio || window.bgMusic || null;
+      const musicStartVolume = music ? music.volume : 0;
+
+      const reduce = () => {
+        if (cancelled) return;
+        const raw = Math.min(1, (performance.now() - start) / fadeDuration);
+        const eased = easeOutExpo(raw);
+        fxLayer.style.opacity = String(1 - eased);
+
+        // fade the song out over the same curve/duration as the confetti
+        if (music) {
+          music.volume = Math.max(0, musicStartVolume * (1 - eased));
+        }
+
+        if (raw < 1) requestAnimationFrame(reduce);
       };
       requestAnimationFrame(reduce);
-      await wait(4300);
-      fx.stop(false);
-      document.querySelectorAll(".scene-shell").forEach(x=>x.classList.add("final-dark"));
-      await wait(1200);
-      document.querySelectorAll(".scene-shell").forEach(x=>x.classList.add("curtain-finale"));
-      await wait(2800);
+
+      await wait(3900);
+      if (cancelled) return;
+
+      stopFx(false);
+
+      // fully silence and stop the track once the fade finishes
+      if (music) {
+        music.volume = 0;
+        music.pause();
+      }
+
+      s.classList.add("final-premium-dark");
+
+      await wait(1800);
+      if (cancelled) return;
+
+      const fade = document.createElement("div");
+      fade.className = "final-premium-blackout";
+      this.root.appendChild(fade);
+
+      await wait(3200);
+      if (cancelled) return;
+
       this.root.classList.add("complete-black");
     });
   }
