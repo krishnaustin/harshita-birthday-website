@@ -58,7 +58,7 @@ export class SceneManager {
   }
 
 async question() {
-  const s = this.shell("A tiny mystery", "Yaardu birthday?");
+  const s = this.shell("A tiny mystery", "Yaardu bartudayyyy?");
 
   const sub = document.createElement("p");
   sub.className = "subtle";
@@ -118,26 +118,379 @@ async question() {
       video.style.borderRadius = "20px";
       video.style.display = "block";
 
-      const nextBtn = document.createElement("button");
-      nextBtn.textContent = "NEXT";
-      nextBtn.style.marginTop = "25px";
+      // =====================================================
+// SWIPE NAVIGATION — CAT VIDEO ONLY
+// =====================================================
 
-      videoScreen.appendChild(title);
-      videoScreen.appendChild(video);
-      videoScreen.appendChild(nextBtn);
+const swipeArea = document.createElement("div");
 
-      this.root.appendChild(videoScreen);
+swipeArea.style.width = "260px";
+swipeArea.style.height = "70px";
+swipeArea.style.marginTop = "28px";
 
-      // Start the video
-      video.play().catch(error => {
-        console.log("Autoplay blocked. Press the PLAY button.", error);
-      });
+swipeArea.style.display = "flex";
+swipeArea.style.alignItems = "center";
+swipeArea.style.justifyContent = "center";
 
-      // NEXT -> CURTAINS
-      nextBtn.addEventListener("click", async () => {
-        video.pause();
-        await this.go(SCENES.CURTAINS);
-      });
+swipeArea.style.position = "relative";
+
+swipeArea.style.cursor = "grab";
+swipeArea.style.userSelect = "none";
+swipeArea.style.webkitUserSelect = "none";
+
+swipeArea.style.touchAction = "pan-y";
+
+swipeArea.style.overflow = "visible";
+swipeArea.style.filter = "drop-shadow(0 0 18px rgba(255, 190, 120, 0.08))";
+swipeArea.style.transition = "filter 0.5s ease, transform 0.5s ease";
+
+
+// =====================================================
+// SWIPE CONTENT
+// =====================================================
+
+const swipeContent = document.createElement("div");
+
+swipeContent.innerHTML = `
+  <span class="swipe-back">← BACK</span>
+  <span class="swipe-label">SWIPE</span>
+  <span class="swipe-next">NEXT →</span>
+`;
+
+swipeContent.style.display = "flex";
+swipeContent.style.alignItems = "center";
+swipeContent.style.justifyContent = "center";
+swipeContent.style.gap = "14px";
+
+swipeContent.style.whiteSpace = "nowrap";
+
+swipeContent.style.transition =
+  "transform 0.55s cubic-bezier(.22,1,.36,1), opacity 0.4s ease";
+
+
+// =====================================================
+// TEXT ELEMENTS
+// =====================================================
+
+const backText =
+  swipeContent.querySelector(".swipe-back");
+
+const swipeText =
+  swipeContent.querySelector(".swipe-label");
+
+const nextText =
+  swipeContent.querySelector(".swipe-next");
+
+
+backText.style.fontSize = "10px";
+backText.style.fontWeight = "500";
+backText.style.letterSpacing = "2px";
+backText.style.opacity = "0";
+backText.style.color = "#d9b3ff";
+backText.style.textShadow = "0 0 14px rgba(210,150,255,0.7)";
+backText.style.transition =
+"opacity 0.25s ease, transform 0.35s ease";
+backText.style.transform = "translateX(8px)";
+
+swipeText.style.fontSize = "11px";
+swipeText.style.fontWeight = "500";
+swipeText.style.letterSpacing = "5px";
+swipeText.style.color = "#ffe7c9";
+swipeText.style.textShadow =
+  "0 0 8px rgba(255,220,180,0.35), 0 0 20px rgba(210,150,255,0.25)";
+swipeText.style.opacity = "0.72";
+
+swipeText.style.transition =
+  "opacity 0.25s ease, letter-spacing 0.35s ease";
+
+
+nextText.style.fontSize = "10px";
+nextText.style.fontWeight = "500";
+nextText.style.letterSpacing = "2px";
+nextText.style.opacity = "0";
+nextText.style.color = "#ffd49a";
+nextText.style.textShadow = "0 0 14px rgba(255,190,110,0.7)";
+nextText.style.transition =
+"opacity 0.25s ease, transform 0.35s ease";
+nextText.style.transform = "translateX(-8px)";
+
+
+swipeArea.appendChild(swipeContent);
+
+
+// =====================================================
+// SWIPE LINE
+// =====================================================
+
+const swipeLine = document.createElement("div");
+
+swipeLine.style.position = "absolute";
+swipeLine.style.left = "50%";
+swipeLine.style.bottom = "4px";
+
+swipeLine.style.width = "54px";
+swipeLine.style.height = "1px";
+
+swipeLine.style.transform =
+  "translateX(-50%)";
+
+swipeLine.style.background =
+  "rgba(255,255,255,0.20)";
+
+swipeLine.style.transition =
+  "width 0.45s ease, opacity 0.35s ease";
+
+swipeArea.appendChild(swipeLine);
+
+
+// =====================================================
+// SWIPE LOGIC
+// =====================================================
+
+let swipeStartX = 0;
+let swipeCurrentX = 0;
+let swiping = false;
+
+const SWIPE_DISTANCE = 100;
+
+
+// =====================================================
+// START
+// =====================================================
+
+swipeArea.addEventListener(
+  "pointerdown",
+  (event) => {
+
+    swiping = true;
+
+    swipeStartX = event.clientX;
+    swipeCurrentX = event.clientX;
+
+    swipeArea.style.cursor = "grabbing";
+
+    swipeArea.setPointerCapture(event.pointerId);
+  }
+);
+
+
+// =====================================================
+// MOVE
+// =====================================================
+
+swipeArea.addEventListener(
+  "pointermove",
+  (event) => {
+
+    if (!swiping) return;
+
+    swipeCurrentX = event.clientX;
+
+    const distance =
+      swipeCurrentX - swipeStartX;
+
+    const limitedDistance =
+      Math.max(-130, Math.min(130, distance));
+
+    swipeContent.style.transform =
+      `translateX(${limitedDistance}px)`;
+
+    const progress =
+      Math.min(
+        Math.abs(limitedDistance) / SWIPE_DISTANCE,
+        1
+      );
+
+    // -----------------------------
+    // SWIPE LEFT
+    // -----------------------------
+
+    if (distance < -10) {
+
+      backText.style.opacity =
+        String(progress);
+
+      nextText.style.opacity = "0";
+
+      swipeText.style.opacity =
+        String(0.72 + progress * 0.28);
+
+      swipeLine.style.width =
+        `${54 + progress * 35}px`;
+    }
+
+    // -----------------------------
+    // SWIPE RIGHT
+    // -----------------------------
+
+    else if (distance > 10) {
+
+      nextText.style.opacity =
+        String(progress);
+
+      backText.style.opacity = "0";
+
+      swipeText.style.opacity =
+        String(0.72 + progress * 0.28);
+
+      swipeLine.style.width =
+        `${54 + progress * 35}px`;
+    }
+
+    // -----------------------------
+    // CENTER
+    // -----------------------------
+
+    else {
+
+      backText.style.opacity = "0";
+      nextText.style.opacity = "0";
+      swipeText.style.opacity = "0.72";
+
+      swipeLine.style.width = "54px";
+    }
+  }
+);
+
+
+// =====================================================
+// RELEASE
+// =====================================================
+
+swipeArea.addEventListener(
+  "pointerup",
+  async (event) => {
+
+    if (!swiping) return;
+
+    swiping = false;
+
+    const distance =
+      swipeCurrentX - swipeStartX;
+
+    swipeArea.style.cursor = "grab";
+
+    // =================================================
+    // SWIPE LEFT — BACK
+    // =================================================
+
+    if (distance <= -SWIPE_DISTANCE) {
+
+      swipeContent.style.transform =
+        "translateX(-180px)";
+
+      swipeContent.style.opacity = "0";
+
+      swipeLine.style.width = "90px";
+      swipeLine.style.opacity = "0";
+
+      await new Promise(resolve =>
+        setTimeout(resolve, 350)
+      );
+
+      video.pause();
+
+      await this.go(SCENES.QUESTION);
+
+      return;
+    }
+
+
+    // =================================================
+    // SWIPE RIGHT — NEXT
+    // =================================================
+
+    if (distance >= SWIPE_DISTANCE) {
+
+      swipeContent.style.transform =
+        "translateX(180px)";
+
+      swipeContent.style.opacity = "0";
+
+      swipeLine.style.width = "90px";
+      swipeLine.style.opacity = "0";
+
+      await new Promise(resolve =>
+        setTimeout(resolve, 350)
+      );
+
+      video.pause();
+
+      await this.go(SCENES.CURTAINS);
+
+      return;
+    }
+
+
+    // =================================================
+    // INCOMPLETE SWIPE — RETURN TO CENTER
+    // =================================================
+
+    swipeContent.style.transform =
+      "translateX(0)";
+
+    swipeContent.style.opacity = "1";
+
+    backText.style.opacity = "0";
+    nextText.style.opacity = "0";
+
+    swipeText.style.opacity = "0.72";
+
+    swipeLine.style.width = "54px";
+    swipeLine.style.opacity = "1";
+  }
+);
+
+
+// =====================================================
+// CANCEL
+// =====================================================
+
+swipeArea.addEventListener(
+  "pointercancel",
+  () => {
+
+    swiping = false;
+
+    swipeArea.style.cursor = "grab";
+
+    swipeContent.style.transform =
+      "translateX(0)";
+
+    swipeContent.style.opacity = "1";
+
+    backText.style.opacity = "0";
+    nextText.style.opacity = "0";
+
+    swipeText.style.opacity = "0.72";
+
+    swipeLine.style.width = "54px";
+    swipeLine.style.opacity = "1";
+  }
+);
+
+
+// =====================================================
+// ADD TO CAT VIDEO PAGE
+// =====================================================
+
+videoScreen.appendChild(title);
+videoScreen.appendChild(video);
+videoScreen.appendChild(swipeArea);
+
+this.root.appendChild(videoScreen);
+
+
+// =====================================================
+// START VIDEO
+// =====================================================
+
+video.play().catch(error => {
+  console.log(
+    "Autoplay blocked. Press the PLAY button.",
+    error
+  );
+});
     });
   });
 }
@@ -798,11 +1151,37 @@ async curtains() {
   // ==========================================
 
   const s = this.shell(
-    "THE STAGE WENT QUIET",
+    "",
     "WHY IT'S DARK?"
   );
 
   s.classList.add("bulb-copy");
+
+  // ==========================================
+// SLOW CINEMATIC SCENE REVEAL
+// ==========================================
+
+s.style.opacity = "0";
+s.style.transform = "scale(1.035)";
+s.style.filter = "brightness(0.12)";
+
+s.style.transition =
+  "opacity 3.8s cubic-bezier(.16,1,.3,1), " +
+  "transform 5.5s cubic-bezier(.16,1,.3,1), " +
+  "filter 5s cubic-bezier(.16,1,.3,1)";
+
+// Let the darkness breathe before revealing
+setTimeout(() => {
+
+  requestAnimationFrame(() => {
+
+    s.style.opacity = "1";
+    s.style.transform = "scale(1)";
+    s.style.filter = "brightness(1)";
+
+  });
+
+}, 700);
 
 
   // ==========================================
@@ -979,7 +1358,7 @@ async curtains() {
   // CREATE GLITTER PARTICLES
   // ==========================================
 
-  const glitterCount = 55;
+  const glitterCount = 75;
 
   for (let i = 0; i < glitterCount; i++) {
 
@@ -1029,23 +1408,28 @@ async curtains() {
 
   this.add(control);
 
+// NEXT — bottom right
+const nextButton = this.button(
+  "NEXT",
+  "bulb-next-btn"
+);
 
-  // ==========================================
-  // NEXT BUTTON
-  // ==========================================
+this.add(nextButton);
 
-  const nextButton = this.button(
-    "NEXT",
-    "bulb-next-btn"
-  );
-
-  this.add(nextButton);
+nextButton.classList.add(
+  "bulb-next-hidden"
+);
 
 
-  // Hide NEXT initially
-  nextButton.classList.add(
-    "bulb-next-hidden"
-  );
+// BACK — bottom left
+const backButton = this.button(
+  "BACK",
+  "bulb-back-btn"
+);
+
+this.add(backButton);
+
+
 
 
   // ==========================================
@@ -1061,79 +1445,71 @@ async curtains() {
 
   this.on(control, "click", () => {
 
-    lightOn = !lightOn;
+  // Button click sound
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+
+  oscillator.type = "sine";
+  oscillator.frequency.setValueAtTime(700, audioContext.currentTime);
+  oscillator.frequency.exponentialRampToValueAtTime(
+    420,
+    audioContext.currentTime + 0.08
+  );
+
+  gain.gain.setValueAtTime(0.12, audioContext.currentTime);
+  gain.gain.exponentialRampToValueAtTime(
+    0.001,
+    audioContext.currentTime + 0.12
+  );
+
+  oscillator.connect(gain);
+  gain.connect(audioContext.destination);
+
+  oscillator.start();
+  oscillator.stop(audioContext.currentTime + 0.12);
 
 
-    if (lightOn) {
+  lightOn = !lightOn;
 
-      // Turn everything ON
-      this.root.classList.add(
-        "lights-on"
-      );
+  if (lightOn) {
 
-      mainBulb.classList.add(
-        "bulb-on"
-      );
+  this.root.classList.add("lights-on");
+  mainBulb.classList.add("bulb-on");
 
+  // Turn all hanging ceiling lights ON
+  ceiling.querySelectorAll(".ceiling-bulb").forEach(
+    bulb => bulb.classList.add("ceiling-bulb-on")
+  );
 
-      // Change button
-      control.textContent =
-        "TURN OFF LIGHT";
+  control.textContent = "TURN OFF LIGHT";
+  control.setAttribute("aria-label", "Turn the light off");
+  mainBulb.setAttribute("aria-label", "Turn the light off");
 
-
-      // Update accessibility
-      control.setAttribute(
-        "aria-label",
-        "Turn the light off"
-      );
-
-      mainBulb.setAttribute(
-        "aria-label",
-        "Turn the light off"
-      );
+  nextButton.classList.remove("bulb-next-hidden");
+  backButton.classList.add("bulb-back-hidden");
 
 
-      // Show NEXT
-      nextButton.classList.remove(
-        "bulb-next-hidden"
-      );
+  } else {
 
-    } else {
+    this.root.classList.remove("lights-on");
+    mainBulb.classList.remove("bulb-on");
 
-      // Turn everything OFF
-      this.root.classList.remove(
-        "lights-on"
-      );
+    // Turn all hanging ceiling lights OFF
+    ceiling.querySelectorAll(".ceiling-bulb").forEach(
+      bulb => bulb.classList.remove("ceiling-bulb-on")
+    );
 
-      mainBulb.classList.remove(
-        "bulb-on"
-      );
+    control.textContent = "TURN ON LIGHT";
+    control.setAttribute("aria-label","Turn the light on");
+    mainBulb.setAttribute("aria-label","Turn the light on");
 
+    nextButton.classList.add("bulb-next-hidden");
+backButton.classList.remove("bulb-back-hidden");
 
-      // Restore button
-      control.textContent =
-        "TURN ON LIGHT";
+  }
 
-
-      control.setAttribute(
-        "aria-label",
-        "Turn the light on"
-      );
-
-      mainBulb.setAttribute(
-        "aria-label",
-        "Turn the light on"
-      );
-
-
-      // Hide NEXT again
-      nextButton.classList.add(
-        "bulb-next-hidden"
-      );
-    }
-
-  });
-
+});
 
   // ==========================================
   // CLICK THE BULB ITSELF
@@ -1147,16 +1523,44 @@ async curtains() {
 
 
   // ==========================================
-  // NEXT
-  // ==========================================
+// NEXT
+// ==========================================
 
-  this.on(nextButton, "click", async () => {
+// ==========================================
+// NEXT
+// ==========================================
 
-    await this.go(
-      SCENES.MUSIC
-    );
+this.on(nextButton, "click", async () => {
 
-  });
+  await this.go(
+    SCENES.MUSIC
+  );
+
+});
+
+
+// ==========================================
+// BACK
+// ==========================================
+
+this.on(backButton, "click", async () => {
+
+  await this.go(
+    SCENES.CURTAINS
+  );
+
+});
+
+
+// ==========================================
+// BACK
+// ==========================================
+
+this.on(backButton, "click", async () => {
+  await this.go(
+    SCENES.CURTAINS
+  );
+});
 }
 
   async musicScene() {

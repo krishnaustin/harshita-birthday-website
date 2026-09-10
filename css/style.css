@@ -642,7 +642,7 @@ h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:clam
       ellipse at 50% 44%,
       #17131a 0%,
       #08070a 44%,
-      #000000 88%
+      #050405 100%
     ) !important;
 
   transition:
@@ -661,7 +661,7 @@ h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:clam
       rgba(255,205,115,.18) 0%,
       rgba(255,170,70,.09) 24%,
       #110c09 54%,
-      #000000 90%
+      #050403 100%
     ) !important;
 }
 
@@ -927,7 +927,7 @@ h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:clam
 }
 
 .light-three{
-  left:50%;
+  left:calc(50% - 35px);
   height:135px;
   animation-delay:-2.1s;
 }
@@ -945,17 +945,13 @@ h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:clam
 }
 
 
-/* =========================================================
-   LIGHT WIRES
-   ========================================================= */
-
 .light-wire{
   position:absolute;
 
   top:0;
   left:50%;
 
-  width:1px;
+  width:2px;
 
   height:
     calc(100% - 34px);
@@ -966,9 +962,13 @@ h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:clam
   background:
     linear-gradient(
       to bottom,
-      rgba(35,30,30,.95),
-      rgba(8,7,8,.9)
+      rgba(105,92,82,.72),
+      rgba(45,38,36,.88)
     );
+
+  box-shadow:
+    0 0 3px
+    rgba(255,220,180,.08);
 }
 
 
@@ -1019,29 +1019,6 @@ h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:clam
 }
 
 
-/* =========================================================
-   CEILING LIGHTS ON
-   ========================================================= */
-
-.scene-bulb.lights-on .ceiling-bulb{
-  background:
-    radial-gradient(
-      circle at 45% 32%,
-      #fff7d5 0%,
-      #ffd978 35%,
-      #d89432 68%,
-      #5d3510 100%
-    );
-
-  box-shadow:
-    0
-    0
-    22px
-    rgba(255,205,105,.48);
-
-  filter:
-    brightness(1.25);
-}
 
 
 /* =========================================================
@@ -1736,21 +1713,34 @@ h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:clam
 }
 
 
-/* =========================================================
-   CEILING LIGHT SWAY
-   ========================================================= */
-
 @keyframes light-sway{
 
-  0%,
-  100%{
-    transform:
-      rotate(-.8deg);
+  0%{
+    transform:rotate(-1deg);
   }
 
-  50%{
-    transform:
-      rotate(.8deg);
+  18%{
+    transform:rotate(0.4deg);
+  }
+
+  36%{
+    transform:rotate(1.2deg);
+  }
+
+  52%{
+    transform:rotate(0.2deg);
+  }
+
+  70%{
+    transform:rotate(-1.1deg);
+  }
+
+  86%{
+    transform:rotate(-0.3deg);
+  }
+
+  100%{
+    transform:rotate(-1deg);
   }
 
 }
@@ -14541,4 +14531,402 @@ body{
     transform:none !important;
   }
 
+}
+
+/* =========================================================
+   GLOBAL PAGE SCROLLING
+   Allow mouse-wheel and mobile swipe scrolling
+   ========================================================= */
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  touch-action: pan-y;
+}
+
+/* Allow the main application to grow beyond the viewport */
+#app,
+#scene-root {
+  width: 100%;
+  min-height: 100svh;
+  height: auto;
+  overflow: visible;
+}
+
+/* Allow normal vertical scrolling on scenes */
+.scene {
+  width: 100%;
+  min-height: 100svh;
+  height: auto;
+  overflow: visible;
+}
+
+/* Keep decorative/animation layers from creating horizontal scrolling */
+.scene-shell {
+  max-width: 100%;
+}
+
+/* =========================================================
+   HANGING CEILING BULBS — ON STATE
+   ========================================================= */
+
+.scene-bulb .ceiling-bulb.ceiling-bulb-on{
+  background:
+    radial-gradient(
+      circle at 45% 32%,
+      #fff7d5 0%,
+      #ffd978 35%,
+      #d89432 68%,
+      #5d3510 100%
+    ) !important;
+
+  box-shadow:
+    0
+    0
+    30px
+    rgba(255,205,105,.75) !important;
+
+  filter:
+    brightness(1.5) !important;
+}
+
+/* =========================================================
+   FIX — LIGHT BUTTON ALWAYS CENTERED
+   ========================================================= */
+
+.scene-bulb .light-toggle-btn{
+  left:50% !important;
+  right:auto !important;
+  transform:translateX(-50%) !important;
+}
+
+.scene-bulb .light-toggle-btn:hover{
+  left:50% !important;
+  right:auto !important;
+  transform:translateX(-50%) translateY(-3px) !important;
+}
+
+/* =========================================================
+   BULB DARK MESSAGE — SMOOTH FADE BOTH WAYS
+   ========================================================= */
+
+.scene-bulb .bulb-copy .kicker,
+.scene-bulb .bulb-copy h1,
+.scene-bulb .bulb-copy .subtle{
+  transition:
+    opacity 1s ease,
+    transform 1s cubic-bezier(.22,.61,.36,1),
+    filter 1s ease;
+}
+
+/* =========================================================
+   BULB MESSAGE — FAST SMOOTH OFF TRANSITION
+   ========================================================= */
+
+.scene-bulb:not(.lights-on) .light-on-message{
+  transition:
+    opacity 1s cubic-bezier(.22,.61,.36,1),
+    transform 1s cubic-bezier(.22,.61,.36,1);
+}
+
+.scene-bulb:not(.lights-on) .light-message-small{
+  transition:
+    opacity .7s ease,
+    transform .7s cubic-bezier(.22,.61,.36,1);
+}
+
+.scene-bulb:not(.lights-on) .light-message-main{
+  transition:
+    opacity 1s ease,
+    transform 1s cubic-bezier(.22,.61,.36,1),
+    filter 1s ease;
+}
+
+.scene-bulb:not(.lights-on) .light-message-sub{
+  transition:
+    opacity .8s ease,
+    transform .8s cubic-bezier(.22,.61,.36,1);
+}
+
+.scene-bulb:not(.lights-on) .bulb-copy .kicker,
+.scene-bulb:not(.lights-on) .bulb-copy h1,
+.scene-bulb:not(.lights-on) .bulb-copy .subtle{
+  transition-delay:.8s;
+}
+
+/* =========================================================
+   BULB BACK BUTTON
+   ========================================================= */
+
+.bulb-back-btn{
+  position:absolute;
+
+  left:30px;
+  bottom:28px;
+
+  z-index:30;
+
+  min-width:118px;
+  min-height:52px;
+
+  padding:
+    14px
+    24px;
+
+  border:
+    1px solid
+    rgba(255,220,150,.32);
+
+  border-radius:16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(88,55,18,.72),
+      rgba(30,18,8,.9)
+    );
+
+  color:#fff3d2;
+
+  font-family:
+    Inter,
+    system-ui,
+    sans-serif;
+
+  font-size:10px;
+
+  font-weight:600;
+
+  letter-spacing:.25em;
+
+  box-shadow:
+    0
+    15px
+    45px
+    rgba(0,0,0,.5),
+
+    inset
+    0
+    1px
+    0
+    rgba(255,255,255,.12);
+
+  backdrop-filter:blur(14px);
+
+  cursor:pointer;
+
+  opacity:1;
+
+  transform:translateY(0);
+
+  transition:
+    opacity .9s ease,
+    transform .9s cubic-bezier(.22,.61,.36,1),
+    background .35s ease,
+    box-shadow .35s ease;
+}
+
+
+/* Hidden until light is OFF */
+
+.bulb-back-hidden{
+  opacity:0;
+
+  pointer-events:none;
+
+  transform:
+    translateY(18px);
+}
+
+
+/* Hover */
+
+.bulb-back-btn:hover{
+  transform:
+    translateY(-3px);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(115,72,22,.86),
+      rgba(42,24,8,.96)
+    );
+
+  box-shadow:
+    0
+    20px
+    60px
+    rgba(0,0,0,.58),
+
+    0
+    0
+    25px
+    rgba(255,200,100,.10);
+}
+
+
+/* Mobile */
+
+@media (max-width:700px){
+
+  .bulb-back-btn{
+    left:18px;
+    bottom:18px;
+
+    min-width:105px;
+    min-height:48px;
+  }
+
+}
+
+/* =========================================================
+   PREMIUM BULB BACK BUTTON
+   EXACT MATCH TO NEXT
+   ========================================================= */
+
+.bulb-back-btn{
+  position:absolute;
+  left:30px;
+  bottom:28px;
+  z-index:30;
+
+  min-width:118px;
+  min-height:52px;
+
+  padding:14px 24px;
+
+  border:1px solid rgba(255,220,150,.32);
+  border-radius:16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(88,55,18,.72),
+      rgba(30,18,8,.9)
+    );
+
+  color:#fff3d2;
+
+  font-family:
+    Inter,
+    system-ui,
+    sans-serif;
+
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.25em;
+
+  box-shadow:
+    0 15px 45px rgba(0,0,0,.5),
+    inset 0 1px 0 rgba(255,255,255,.12);
+
+  backdrop-filter:blur(14px);
+
+  cursor:pointer;
+
+  opacity:1;
+
+  transform:
+    translateY(0);
+
+  transition:
+    opacity .9s ease,
+    transform .9s cubic-bezier(.22,.61,.36,1),
+    background .35s ease,
+    box-shadow .35s ease;
+}
+
+
+/* BACK hidden */
+.bulb-back-hidden{
+  opacity:0;
+  pointer-events:none;
+
+  transform:
+    translateY(18px);
+}
+
+
+/* BACK hover — same as NEXT */
+.bulb-back-btn:hover{
+  transform:
+    translateY(-3px);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(115,72,22,.86),
+      rgba(42,24,8,.96)
+    );
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.58),
+    0 0 25px rgba(255,200,100,.10);
+}
+
+
+/* Mobile */
+@media (max-width:700px){
+
+  .bulb-back-btn{
+    left:18px;
+    bottom:18px;
+
+    min-width:105px;
+    min-height:48px;
+  }
+
+}
+
+/* =========================================================
+   BULB SCENE — FILL THE COMPLETE VIEWPORT
+   ========================================================= */
+
+.scene.scene-bulb{
+  width:100%;
+  height:100vh;
+  min-height:100vh;
+}
+
+/* =========================================================
+   BULB — REMOVE BLACK AREA BELOW SCENE
+   ========================================================= */
+
+body:has(.scene-bulb){
+  background:
+    radial-gradient(
+      ellipse at 50% 44%,
+      #17131a 0%,
+      #08070a 44%,
+      #050405 100%
+    );
+}
+
+body:has(.scene-bulb.lights-on){
+  background:
+    radial-gradient(
+      ellipse at 50% 50%,
+      rgba(255,205,115,.18) 0%,
+      rgba(255,170,70,.09) 24%,
+      #110c09 54%,
+      #050403 100%
+    );
+}
+
+/* =========================================================
+   BULB SCENE — NO PAGE SCROLL
+   ========================================================= */
+
+html:has(.scene-bulb),
+body:has(.scene-bulb){
+  overflow:hidden !important;
+}
+
+.scene.scene-bulb{
+  height:100vh !important;
+  min-height:100vh !important;
+  overflow:hidden !important;
 }
