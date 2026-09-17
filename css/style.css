@@ -14916,17 +14916,3 @@ body:has(.scene-bulb.lights-on){
     );
 }
 
-/* =========================================================
-   BULB SCENE — NO PAGE SCROLL
-   ========================================================= */
-
-html:has(.scene-bulb),
-body:has(.scene-bulb){
-  overflow:hidden !important;
-}
-
-.scene.scene-bulb{
-  height:100vh !important;
-  min-height:100vh !important;
-  overflow:hidden !important;
-}
