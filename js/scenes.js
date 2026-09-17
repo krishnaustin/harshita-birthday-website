@@ -10,11 +10,13 @@ export const SCENES = {
 
 export class SceneManager {
   constructor(root) {
-    this.root = root;
-    this.current = null;
-    this.cleanup = [];
-    this.music = null;
-  }
+  this.root = root;
+  this.current = null;
+  this.cleanup = [];
+
+  this.music = null;
+  this.musicStarted = false;
+}
 
   async go(scene) {
     this.cleanup.forEach(fn => { try { fn(); } catch {} });
@@ -1570,20 +1572,20 @@ this.on(backButton, "click", async () => {
   ========================================= */
 
   if (!this.music) {
-  this.music = new Audio(
-    encodeURI("assets/audio/HBD song.mp3")
-  );
+    this.music = new Audio(
+      encodeURI("assets/audio/HBD song.mp3")
+    );
 
-  this.music.preload = "auto";
-  this.music.loop = true;
-  this.music.volume = 1;
-}
+    this.music.preload = "auto";
+    this.music.loop = true;
+    this.music.volume = 1;
+  }
 
-const audio = this.music;
+  const audio = this.music;
 
-audio.preload = "auto";
-audio.loop = true;
-audio.volume = 1;
+  audio.preload = "auto";
+  audio.loop = true;
+  audio.volume = 1;
 
   /* =========================================
      ROOT
@@ -1663,6 +1665,7 @@ audio.volume = 1;
       font-family: Inter, system-ui, sans-serif;
 
       font-size: 10px;
+
       font-weight: 600;
 
       letter-spacing: .38em;
@@ -1767,6 +1770,7 @@ audio.volume = 1;
       display: flex;
 
       align-items: center;
+
       justify-content: center;
 
       z-index: 20;
@@ -1859,6 +1863,7 @@ audio.volume = 1;
       flex-direction: column;
 
       align-items: center;
+
       justify-content: center;
 
       gap: 3px;
@@ -1894,7 +1899,6 @@ audio.volume = 1;
     }
 
     .birthday-play-button:active {
-
       transform: scale(.96);
     }
 
@@ -1957,6 +1961,7 @@ audio.volume = 1;
       display: flex;
 
       align-items: center;
+
       justify-content: center;
 
       gap: 5px;
@@ -2028,6 +2033,7 @@ audio.volume = 1;
 
       transition:
         opacity 1.2s ease,
+
         transform 1.2s
         cubic-bezier(.22,.61,.36,1);
     }
@@ -2086,11 +2092,13 @@ audio.volume = 1;
       position: absolute;
 
       right: 30px;
+
       bottom: 28px;
 
       z-index: 50;
 
       min-width: 118px;
+
       min-height: 52px;
 
       padding: 14px 24px;
@@ -2155,261 +2163,23 @@ audio.volume = 1;
     }
 
     /* =====================================
-   PREMIUM BACK BUTTON
-===================================== */
-
-.birthday-music-back {
-
-  position: fixed;
-
-  left: 30px;
-  bottom: 28px;
-
-  z-index: 99999;
-
-  min-width: 118px;
-  height: 52px;
-
-  padding: 0 22px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 10px;
-
-  border: 1px solid
-    rgba(235,200,218,.32);
-
-  border-radius: 16px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(75,42,58,.75),
-      rgba(24,11,18,.94)
-    );
-
-  color: #f7eaf0;
-
-  font-family:
-    Inter,
-    system-ui,
-    sans-serif;
-
-  font-size: 10px;
-
-  font-weight: 600;
-
-  letter-spacing: .25em;
-
-  cursor: pointer;
-
-  user-select: none;
-
-  overflow: hidden;
-
-  box-shadow:
-    0 10px 35px
-    rgba(0,0,0,.38),
-
-    inset 0 1px 0
-    rgba(255,255,255,.10);
-
-  transition:
-    transform .35s ease,
-    box-shadow .35s ease,
-    border-color .35s ease,
-    background .35s ease,
-    opacity .6s ease;
-}
-
-
-/* =====================================
-   BACK ARROW
-===================================== */
-
-.birthday-back-arrow {
-
-  font-size: 20px;
-
-  font-weight: 300;
-
-  line-height: 1;
-
-  transition:
-    transform .35s
-    cubic-bezier(.22,.61,.36,1);
-}
-
-
-/* =====================================
-   BACK TEXT
-===================================== */
-
-.birthday-back-text {
-
-  line-height: 1;
-
-  transform:
-    translateY(1px);
-}
-
-
-/* =====================================
-   PREMIUM LIGHT SWEEP
-===================================== */
-
-.birthday-music-back::before {
-
-  content: "";
-
-  position: absolute;
-
-  top: 0;
-
-  left: -120%;
-
-  width: 75%;
-
-  height: 100%;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(255,255,255,.13),
-      transparent
-    );
-
-  transform:
-    skewX(-20deg);
-
-  transition:
-    left .7s ease;
-
-  pointer-events: none;
-}
-
-
-/* =====================================
-   HOVER
-===================================== */
-
-.birthday-music-back:hover {
-
-  transform:
-    translateY(-3px);
-
-  border-color:
-    rgba(235,200,218,.55);
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(95,55,73,.85),
-      rgba(30,14,22,.96)
-    );
-
-  box-shadow:
-
-    0 20px 55px
-    rgba(0,0,0,.55),
-
-    0 0 30px
-    rgba(220,140,175,.14),
-
-    inset 0 1px 0
-    rgba(255,255,255,.15);
-}
-
-
-.birthday-music-back:hover::before {
-
-  left: 140%;
-}
-
-
-.birthday-music-back:hover
-.birthday-back-arrow {
-
-  transform:
-    translateX(-5px);
-}
-
-
-/* =====================================
-   CLICK
-===================================== */
-
-.birthday-music-back:active {
-
-  transform:
-    translateY(-1px)
-    scale(.97);
-}
-
-
-/* =====================================
-   HIDDEN AFTER PLAY
-===================================== */
-
-.birthday-music-back.hidden {
-
-  opacity: 0;
-
-  pointer-events: none;
-
-  transform:
-    translateY(18px);
-}
-
-
-/* =====================================
-   MOBILE
-===================================== */
-
-@media (max-width:700px) {
-
-  .birthday-music-back {
-
-    left: 18px;
-
-    bottom: 18px;
-
-    min-width: 108px;
-
-    height: 48px;
-
-    padding: 0 18px;
-
-    border-radius: 16px;
-
-    font-size: 10px;
-
-    letter-spacing: .24em;
-  }
-
-  .birthday-back-arrow {
-
-    font-size: 18px;
-  }
-}
-
-    /* =====================================
        ANIMATIONS
     ===================================== */
 
     @keyframes musicFadeIn {
 
       from {
+
         opacity: 0;
+
         transform:
           translateY(15px);
       }
 
       to {
+
         opacity: 1;
+
         transform:
           translateY(0);
       }
@@ -2418,16 +2188,22 @@ audio.volume = 1;
     @keyframes musicTitle {
 
       from {
+
         opacity: 0;
+
         transform:
           translateY(30px);
+
         filter: blur(8px);
       }
 
       to {
+
         opacity: 1;
+
         transform:
           translateY(0);
+
         filter: blur(0);
       }
     }
@@ -2435,12 +2211,16 @@ audio.volume = 1;
     @keyframes musicRing {
 
       0%,100% {
+
         transform: scale(1);
+
         opacity: .65;
       }
 
       50% {
+
         transform: scale(1.035);
+
         opacity: 1;
       }
     }
@@ -2448,10 +2228,12 @@ audio.volume = 1;
     @keyframes musicWave {
 
       0%,100% {
+
         height: 7px;
       }
 
       50% {
+
         height: 27px;
       }
     }
@@ -2459,29 +2241,37 @@ audio.volume = 1;
     @media (max-width:700px) {
 
       .birthday-music-stage {
+
         padding-top: 15vh;
       }
 
       .birthday-music-title {
+
         font-size:
           clamp(3.5rem,15vw,5.5rem);
       }
 
       .birthday-music-subtitle {
+
         width: 82vw;
+
         line-height: 1.7;
       }
 
       .birthday-play-area {
+
         margin-top: 48px;
       }
 
       .birthday-now-playing {
+
         top: 78%;
       }
 
       .birthday-music-next {
+
         right: 18px;
+
         bottom: 18px;
       }
     }
@@ -2538,15 +2328,15 @@ audio.volume = 1;
 
   const playButton = document.createElement("button");
 
-playButton.type = "button";
+  playButton.type = "button";
 
-playButton.className =
-  "birthday-play-button";
+  playButton.className =
+    "birthday-play-button";
 
-playButton.style.position = "relative";
-playButton.style.zIndex = "99999";
-playButton.style.pointerEvents = "auto";
-playButton.style.cursor = "pointer";
+  playButton.style.position = "relative";
+  playButton.style.zIndex = "99999";
+  playButton.style.pointerEvents = "auto";
+  playButton.style.cursor = "pointer";
 
   const icon = document.createElement("span");
 
@@ -2648,178 +2438,160 @@ playButton.style.cursor = "pointer";
 
   this.root.appendChild(nextButton);
 
-  
-
   /* =========================================
-   PREMIUM BACK BUTTON
-========================================= */
+     PERSISTENT PREMIUM MUSIC CONTROL
+  ========================================= */
 
-const backButton =
-  document.createElement("button");
+  if (!this.muteButton) {
 
-backButton.type = "button";
+    const muteButton =
+      document.createElement("button");
 
-backButton.className =
-  "birthday-music-back";
+    muteButton.type = "button";
 
-backButton.innerHTML = `
-  <span class="birthday-back-arrow">←</span>
-  <span class="birthday-back-text">BACK</span>
-`;
-
-backButton.setAttribute(
-  "aria-label",
-  "Go back"
-);
-
-this.root.appendChild(backButton);
-
-    /* =========================================
-   PERSISTENT PREMIUM MUSIC CONTROL
-========================================= */
-
-if (!this.muteButton) {
-
-  const muteButton = document.createElement("button");
-
-  muteButton.type = "button";
-  muteButton.className = "birthday-mute-button";
-
-  muteButton.setAttribute(
-    "aria-label",
-    "Mute music"
-  );
-
-  muteButton.setAttribute(
-    "title",
-    "Mute music"
-  );
-
-  muteButton.innerHTML = `
-    <svg
-      class="mute-icon mute-icon-on"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <path
-        d="M4 10v4h4l5 4V6l-5 4H4Z"
-      ></path>
-
-      <path
-        d="M16 9.5c.8.7 1.2 1.5 1.2 2.5s-.4 1.8-1.2 2.5"
-      ></path>
-
-      <path
-        d="M18.7 7c1.5 1.4 2.3 3 2.3 5s-.8 3.6-2.3 5"
-      ></path>
-    </svg>
-
-    <svg
-      class="mute-icon mute-icon-off"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <path
-        d="M4 10v4h4l5 4V6l-5 4H4Z"
-      ></path>
-
-      <path
-        d="M17 9l5 6"
-      ></path>
-
-      <path
-        d="M22 9l-5 6"
-      ></path>
-    </svg>
-  `;
-
-  document.body.appendChild(muteButton);
-
-  muteButton.addEventListener("click", () => {
-
-    audio.muted = !audio.muted;
-
-    muteButton.classList.toggle(
-      "is-muted",
-      audio.muted
-    );
+    muteButton.className =
+      "birthday-mute-button";
 
     muteButton.setAttribute(
       "aria-label",
-      audio.muted
-        ? "Unmute music"
-        : "Mute music"
+      "Mute music"
     );
 
     muteButton.setAttribute(
       "title",
-      audio.muted
-        ? "Unmute music"
-        : "Mute music"
+      "Mute music"
     );
 
-    if (!audio.muted) {
-      audio.play().catch(() => {});
-    }
+    muteButton.innerHTML = `
+      <svg
+        class="mute-icon mute-icon-on"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path
+          d="M4 10v4h4l5 4V6l-5 4H4Z"
+        ></path>
 
-  });
+        <path
+          d="M16 9.5c.8.7 1.2 1.5 1.2 2.5s-.4 1.8-1.2 2.5"
+        ></path>
 
-  this.muteButton = muteButton;
-}
+        <path
+          d="M18.7 7c1.5 1.4 2.3 3 2.3 5s-.8 3.6-2.3 5"
+        ></path>
+      </svg>
 
+      <svg
+        class="mute-icon mute-icon-off"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path
+          d="M4 10v4h4l5 4V6l-5 4H4Z"
+        ></path>
 
-/* Make sure the persistent controller is visible */
+        <path
+          d="M17 9l5 6"
+        ></path>
 
-this.muteButton.style.display = "flex";
+        <path
+          d="M22 9l-5 6"
+        ></path>
+      </svg>
+    `;
+
+    document.body.appendChild(muteButton);
+
+    muteButton.addEventListener(
+      "click",
+      () => {
+
+        audio.muted = !audio.muted;
+
+        muteButton.classList.toggle(
+          "is-muted",
+          audio.muted
+        );
+
+        muteButton.setAttribute(
+          "aria-label",
+          audio.muted
+            ? "Unmute music"
+            : "Mute music"
+        );
+
+        muteButton.setAttribute(
+          "title",
+          audio.muted
+            ? "Unmute music"
+            : "Mute music"
+        );
+
+        if (!audio.muted) {
+          audio.play().catch(() => {});
+        }
+
+      }
+    );
+
+    this.muteButton = muteButton;
+  }
+
+  /* Make sure the persistent controller is visible */
+
+  this.muteButton.style.display = "flex";
 
   /* =========================================
      PLAY MUSIC
   ========================================= */
 
- this.on(playButton, "click", async () => {
+  this.on(
+    playButton,
+    "click",
+    async () => {
 
-  console.log("PLAY BUTTON CLICKED");
+      console.log("PLAY BUTTON CLICKED");
 
-  try {
+      try {
 
-    await audio.play();
+        await audio.play();
 
-console.log("BIRTHDAY MUSIC STARTED");
+        console.log(
+          "BIRTHDAY MUSIC STARTED"
+        );
 
-/* Hide BACK after music starts */
-backButton.classList.add("hidden");
+        stage.classList.add(
+          "birthday-music-playing"
+        );
 
-stage.classList.add("birthday-music-playing");
-playButton.classList.add("playing");
+        playButton.classList.add(
+          "playing"
+        );
 
-    icon.textContent = "Ⅱ";
-    label.textContent = "PLAYING";
+        icon.textContent = "Ⅱ";
 
-    await wait(1500);
+        label.textContent =
+          "PLAYING";
 
-    nextButton.classList.remove("hidden");
+        await wait(1500);
 
-  } catch (error) {
+        nextButton.classList.remove(
+          "hidden"
+        );
 
-    console.error("Music playback error:", error);
+      } catch (error) {
 
-    label.textContent = "TRY AGAIN";
+        console.error(
+          "Music playback error:",
+          error
+        );
 
-  }
+        label.textContent =
+          "TRY AGAIN";
+      }
 
-});
-
-/* =========================================
-   BACK
-========================================= */
-
-this.on(backButton, "click", async () => {
-
-  await this.go(
-    SCENES.CURTAINS
+    }
   );
-
-});
 
   /* =========================================
      NEXT
@@ -2831,18 +2603,20 @@ this.on(backButton, "click", async () => {
     async () => {
 
       this.on(
-  nextButton,
-  "click",
-  async () => {
+        nextButton,
+        "click",
+        async () => {
 
-    await this.go(
-      SCENES.AGE
-    );
+          await this.go(
+            SCENES.AGE
+          );
 
-  }
-);
+        }
+      );
+
     }
   );
+
 }
   async age() {
   const s = this.shell("", "");
@@ -2850,70 +2624,26 @@ this.on(backButton, "click", async () => {
   const page = document.createElement("div");
   page.className = "chapter-age";
 
-  /* ---------- background ---------- */
+  /* =========================================================
+     CANVAS LAYERS
+     ========================================================= */
 
-  const glow = document.createElement("div");
-  glow.className = "chapter-glow";
+  const spaceCanvas = document.createElement("canvas");
+  spaceCanvas.className = "chapter-space";
 
-  /* ---------- top label ---------- */
+  const fxCanvas = document.createElement("canvas");
+  fxCanvas.className = "chapter-fx-canvas";
+
+  const numberCanvas = document.createElement("canvas");
+  numberCanvas.className = "chapter-number-canvas";
+
+  /* =========================================================
+     UI
+     ========================================================= */
 
   const label = document.createElement("div");
   label.className = "chapter-label";
-  label.textContent = "THE NEXT CHAPTER";
-
-  /* ---------- clock ---------- */
-
-  const clock = document.createElement("div");
-  clock.className = "chapter-clock";
-
-  const outer = document.createElement("div");
-  outer.className = "chapter-clock-outer";
-
-  const inner = document.createElement("div");
-  inner.className = "chapter-clock-inner";
-
-  const marks = document.createElement("div");
-  marks.className = "chapter-marks";
-
-  for (let i = 0; i < 60; i++) {
-  const mark = document.createElement("span");
-
-  mark.className =
-    i % 5 === 0
-      ? "chapter-mark major"
-      : "chapter-mark";
-
-  const angle = i * 6;
-
-  mark.style.setProperty(
-    "--mark-angle",
-    `${angle}deg`
-  );
-
-  marks.appendChild(mark);
-}
-
-  const hand = document.createElement("div");
-  hand.className = "chapter-hand";
-
-  const center = document.createElement("div");
-  center.className = "chapter-center";
-
-  clock.append(
-    outer,
-    inner,
-    marks,
-    hand,
-    center
-  );
-
-  /* ---------- number ---------- */
-
-  const number = document.createElement("div");
-  number.className = "chapter-number";
-  number.textContent = C.newAge;
-
-  /* ---------- typography ---------- */
+  label.textContent = "A NEW ORBIT BEGINS";
 
   const words = document.createElement("div");
   words.className = "chapter-words";
@@ -2924,28 +2654,19 @@ this.on(backButton, "click", async () => {
 
   const sub = document.createElement("div");
   sub.className = "chapter-sub";
-  sub.textContent = "YEARS OF BECOMING";
-
-  /* ---------- footer ---------- */
+  sub.textContent = "ANOTHER YEAR AROUND THE SUN";
 
   const footer = document.createElement("div");
   footer.className = "chapter-footer";
   footer.textContent = "CHAPTER XXVI";
 
-  /* ---------- next ---------- */
-
-  const next = this.button(
-    "NEXT →",
-    "chapter-next"
-  );
-
-  /* ---------- assemble ---------- */
+  const next = this.button("NEXT →", "chapter-next");
 
   page.append(
-    glow,
+    spaceCanvas,
+    fxCanvas,
+    numberCanvas,
     label,
-    clock,
-    number,
     words,
     line,
     sub,
@@ -2954,90 +2675,2672 @@ this.on(backButton, "click", async () => {
   );
 
   s.appendChild(page);
-/* ==========================================
-   INTERACTION
-========================================== */
 
-this.on(page, "pointermove", (event) => {
-  const rect = page.getBoundingClientRect();
+  /* =========================================================
+     CONTEXT
+     ========================================================= */
 
-  const x =
-    (event.clientX - rect.left) /
-      rect.width -
-    0.5;
+  const spaceCtx = spaceCanvas.getContext("2d");
+  const fxCtx = fxCanvas.getContext("2d");
+  const numCtx = numberCanvas.getContext("2d");
 
-  const y =
-    (event.clientY - rect.top) /
-      rect.height -
-    0.5;
+  let W = 0;
+  let H = 0;
 
-  number.style.transform =
-    `translate(calc(-50% + ${x * -8}px), calc(-50% + ${y * -8}px))`;
-});
+  let dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-/* Tap the clock = accelerate the reveal */
+  /* =========================================================
+     MATH
+     ========================================================= */
 
-this.on(clock, "click", () => {
-  clock.classList.add("chapter-clock-finish");
-  number.classList.add("chapter-number-active");
-});
+  const clamp = (v, a = 0, b = 1) =>
+    Math.max(a, Math.min(b, v));
 
-  /* ==========================================
-     REVEAL
-     ========================================== */
+  const lerp = (a, b, t) =>
+    a + (b - a) * t;
 
-  await wait(300);
+  const easeOutCubic = (t) =>
+    1 - Math.pow(1 - t, 3);
 
-  page.classList.add("chapter-visible");
+  const easeInOutCubic = (t) => {
+    return t < 0.5
+      ? 4 * t * t * t
+      : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  };
 
-  await wait(1000);
+  const easeOutExpo = (t) =>
+    t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
 
-  clock.classList.add("chapter-clock-visible");
+  const smoothstep = (a, b, x) => {
+    const t = clamp((x - a) / (b - a));
+    return t * t * (3 - 2 * t);
+  };
 
-  await wait(1200);
+  const rand = (a, b) =>
+    a + Math.random() * (b - a);
 
-  marks.classList.add("chapter-marks-visible");
+  /* =========================================================
+     POINTER / CAMERA
+     ========================================================= */
 
-  await wait(1000);
+  let pointerX = 0;
+  let pointerY = 0;
 
-  hand.classList.add("chapter-hand-move");
+  let targetPointerX = 0;
+  let targetPointerY = 0;
 
-  await wait(3000);
+  this.on(page, "pointermove", (e) => {
+    const rect = page.getBoundingClientRect();
 
-  clock.classList.add("chapter-clock-finish");
+    targetPointerX =
+      ((e.clientX - rect.left) / rect.width - 0.5);
 
-  await wait(700);
+    targetPointerY =
+      ((e.clientY - rect.top) / rect.height - 0.5);
+  });
 
-  number.classList.add("chapter-number-active");
+  this.on(page, "pointerleave", () => {
+    targetPointerX = 0;
+    targetPointerY = 0;
+  });
 
-  await wait(1300);
+  /*
+     Touch drag gives the same feeling on mobile.
+  */
 
-  words.classList.add("chapter-detail-visible");
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  this.on(page, "touchstart", (e) => {
+    if (!e.touches.length) return;
+
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  this.on(page, "touchmove", (e) => {
+    if (!e.touches.length) return;
+
+    const dx =
+      (e.touches[0].clientX - touchStartX) / Math.max(W, 1);
+
+    const dy =
+      (e.touches[0].clientY - touchStartY) / Math.max(H, 1);
+
+    targetPointerX = clamp(dx * 2.4, -0.5, 0.5);
+    targetPointerY = clamp(dy * 2.4, -0.5, 0.5);
+  }, { passive: true });
+
+  /* =========================================================
+     CAMERA
+     ========================================================= */
+
+  const camera = {
+    x: 0,
+    y: 0,
+    zoom: 1,
+    roll: 0,
+    velocity: 0,
+    targetVelocity: 0
+  };
+
+  /* =========================================================
+     COLORS
+     ========================================================= */
+
+  const STAR_COLORS = [
+    [235, 241, 255],
+    [255, 249, 235],
+    [211, 224, 255],
+    [255, 231, 205]
+  ];
+
+  /* =========================================================
+     STAR FIELD
+     ========================================================= */
+
+  let starsBack = [];
+  let starsMid = [];
+  let starsFront = [];
+
+  function createStars(count, depth, minSize, maxSize) {
+    const arr = [];
+
+    for (let i = 0; i < count; i++) {
+      arr.push({
+        x: Math.random(),
+        y: Math.random(),
+
+        z: rand(0.05, 1),
+
+        size: rand(minSize, maxSize),
+
+        alpha: rand(0.18, 0.85),
+
+        twinkle: rand(0, Math.PI * 2),
+
+        twinkleSpeed: rand(0.0005, 0.002),
+
+        depth,
+
+        color:
+          STAR_COLORS[
+            Math.floor(Math.random() * STAR_COLORS.length)
+          ]
+      });
+    }
+
+    return arr;
+  }
+
+  /* =========================================================
+     GALAXY / NEBULA
+     ========================================================= */
+
+  const nebulaClouds = [
+    {
+      x: 0.18,
+      y: 0.28,
+      r: 0.48,
+      color: [54, 72, 132],
+      alpha: 0.11,
+      phase: 0.4
+    },
+
+    {
+      x: 0.82,
+      y: 0.25,
+      r: 0.42,
+      color: [102, 63, 132],
+      alpha: 0.08,
+      phase: 1.8
+    },
+
+    {
+      x: 0.58,
+      y: 0.78,
+      r: 0.52,
+      color: [48, 82, 125],
+      alpha: 0.075,
+      phase: 3.2
+    }
+  ];
+
+  function drawNebula(time, alpha) {
+    for (const n of nebulaClouds) {
+      const driftX =
+        Math.sin(time * 0.000035 + n.phase) * 0.025;
+
+      const driftY =
+        Math.cos(time * 0.000028 + n.phase) * 0.018;
+
+      const x =
+        (n.x + driftX + pointerX * 0.008) * W;
+
+      const y =
+        (n.y + driftY + pointerY * 0.008) * H;
+
+      const r =
+        n.r * Math.max(W, H);
+
+      const g =
+        spaceCtx.createRadialGradient(
+          x,
+          y,
+          0,
+          x,
+          y,
+          r
+        );
+
+      g.addColorStop(
+        0,
+        `rgba(${n.color.join(",")},${n.alpha * alpha})`
+      );
+
+      g.addColorStop(
+        0.35,
+        `rgba(${n.color.join(",")},${n.alpha * 0.42 * alpha})`
+      );
+
+      g.addColorStop(
+        1,
+        "rgba(0,0,0,0)"
+      );
+
+      spaceCtx.fillStyle = g;
+      spaceCtx.fillRect(0, 0, W, H);
+    }
+  }
+
+  /* =========================================================
+     DISTANT GALAXY
+     ========================================================= */
+
+  const galaxy = {
+    x: 0.18,
+    y: 0.22,
+    radius: 0.25,
+    rotation: rand(0, Math.PI * 2)
+  };
+
+  function drawGalaxy(time, alpha) {
+    const cx =
+      galaxy.x * W +
+      pointerX * 12;
+
+    const cy =
+      galaxy.y * H +
+      pointerY * 8;
+
+    const r =
+      galaxy.radius * Math.min(W, H);
+
+    spaceCtx.save();
+
+    spaceCtx.translate(cx, cy);
+
+    galaxy.rotation += 0.000035;
+
+    spaceCtx.rotate(galaxy.rotation);
+
+    /* diffuse galaxy body */
+
+    const glow =
+      spaceCtx.createRadialGradient(
+        0,
+        0,
+        0,
+        0,
+        0,
+        r
+      );
+
+    glow.addColorStop(
+      0,
+      `rgba(240,238,255,${0.20 * alpha})`
+    );
+
+    glow.addColorStop(
+      0.22,
+      `rgba(180,170,225,${0.08 * alpha})`
+    );
+
+    glow.addColorStop(
+      0.6,
+      `rgba(100,110,175,${0.035 * alpha})`
+    );
+
+    glow.addColorStop(
+      1,
+      "rgba(0,0,0,0)"
+    );
+
+    spaceCtx.fillStyle = glow;
+
+    spaceCtx.beginPath();
+    spaceCtx.arc(0, 0, r, 0, Math.PI * 2);
+    spaceCtx.fill();
+
+    /* spiral dust */
+
+    for (let arm = 0; arm < 2; arm++) {
+      const offset =
+        arm * Math.PI;
+
+      spaceCtx.beginPath();
+
+      for (let i = 0; i < 85; i++) {
+        const t = i / 84;
+
+        const angle =
+          t * Math.PI * 2.5 +
+          offset;
+
+        const radius =
+          t * r * 0.92;
+
+        const x =
+          Math.cos(angle) * radius;
+
+        const y =
+          Math.sin(angle) * radius * 0.42;
+
+        if (i === 0)
+          spaceCtx.moveTo(x, y);
+        else
+          spaceCtx.lineTo(x, y);
+      }
+
+      spaceCtx.strokeStyle =
+        `rgba(155,165,215,${0.035 * alpha})`;
+
+      spaceCtx.lineWidth =
+        Math.max(1, r * 0.06);
+
+      spaceCtx.filter = "blur(8px)";
+      spaceCtx.stroke();
+    }
+
+    spaceCtx.filter = "none";
+
+    spaceCtx.restore();
+  }
+
+  /* =========================================================
+     PLANET TEXTURE
+     ========================================================= */
+
+  function createPlanetTexture(
+    size,
+    type
+  ) {
+    const c =
+      document.createElement("canvas");
+
+    c.width = size;
+    c.height = size;
+
+    const ctx = c.getContext("2d");
+
+    if (type === "gas") {
+
+      for (let i = 0; i < 120; i++) {
+        const y =
+          Math.random() * size;
+
+        const bandHeight =
+          rand(size * 0.008, size * 0.06);
+
+        const colors = [
+          [165, 148, 132],
+          [105, 93, 90],
+          [196, 177, 150],
+          [72, 72, 84],
+          [135, 125, 125]
+        ];
+
+        const col =
+          colors[
+            Math.floor(Math.random() * colors.length)
+          ];
+
+        const g =
+          ctx.createLinearGradient(
+            0,
+            y,
+            size,
+            y + bandHeight
+          );
+
+        g.addColorStop(
+          0,
+          `rgba(${col.join(",")},0)`
+        );
+
+        g.addColorStop(
+          0.45,
+          `rgba(${col.join(",")},${rand(0.12, 0.34)})`
+        );
+
+        g.addColorStop(
+          0.7,
+          `rgba(${col.join(",")},${rand(0.08, 0.22)})`
+        );
+
+        g.addColorStop(
+          1,
+          `rgba(${col.join(",")},0)`
+        );
+
+        ctx.fillStyle = g;
+
+        ctx.fillRect(
+          0,
+          y,
+          size,
+          bandHeight
+        );
+      }
+
+      /* storm */
+
+      const sx = size * 0.58;
+      const sy = size * 0.55;
+
+      const storm =
+        ctx.createRadialGradient(
+          sx,
+          sy,
+          0,
+          sx,
+          sy,
+          size * 0.12
+        );
+
+      storm.addColorStop(
+        0,
+        "rgba(240,205,178,0.32)"
+      );
+
+      storm.addColorStop(
+        0.5,
+        "rgba(170,125,115,0.15)"
+      );
+
+      storm.addColorStop(
+        1,
+        "rgba(0,0,0,0)"
+      );
+
+      ctx.fillStyle = storm;
+
+      ctx.fillRect(
+        0,
+        0,
+        size,
+        size
+      );
+
+    } else {
+
+      /* rocky surface */
+
+      for (let i = 0; i < 280; i++) {
+
+        const x =
+          Math.random() * size;
+
+        const y =
+          Math.random() * size;
+
+        const r =
+          rand(size * 0.006, size * 0.035);
+
+        const shade =
+          Math.floor(rand(70, 145));
+
+        const g =
+          ctx.createRadialGradient(
+            x - r * 0.25,
+            y - r * 0.25,
+            0,
+            x,
+            y,
+            r
+          );
+
+        g.addColorStop(
+          0,
+          `rgba(${shade + 35},${shade + 35},${shade + 38},0.18)`
+        );
+
+        g.addColorStop(
+          0.7,
+          `rgba(${shade},${shade},${shade + 4},0.12)`
+        );
+
+        g.addColorStop(
+          1,
+          "rgba(0,0,0,0)"
+        );
+
+        ctx.fillStyle = g;
+
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    return c;
+  }
+
+  const gasTexture =
+    createPlanetTexture(700, "gas");
+
+  const rockTexture =
+    createPlanetTexture(600, "rock");
+
+  /* =========================================================
+     PLANET RENDERER
+     ========================================================= */
+
+  function drawPlanet(
+    cx,
+    cy,
+    radius,
+    options = {}
+  ) {
+
+    const {
+      texture,
+      lightX = -0.65,
+      lightY = -0.72,
+      atmosphere = [100, 140, 255],
+      atmosphereAlpha = 0.22,
+      ring = false,
+      rotation = 0,
+      alpha = 1
+    } = options;
+
+    spaceCtx.save();
+
+    spaceCtx.globalAlpha = alpha;
+
+    /* atmospheric outer glow */
+
+    spaceCtx.globalCompositeOperation =
+      "screen";
+
+    const outer =
+      spaceCtx.createRadialGradient(
+        cx,
+        cy,
+        radius * 0.82,
+        cx,
+        cy,
+        radius * 1.42
+      );
+
+    outer.addColorStop(
+      0,
+      "rgba(0,0,0,0)"
+    );
+
+    outer.addColorStop(
+      0.62,
+      `rgba(${atmosphere.join(",")},${atmosphereAlpha})`
+    );
+
+    outer.addColorStop(
+      1,
+      "rgba(0,0,0,0)"
+    );
+
+    spaceCtx.fillStyle = outer;
+
+    spaceCtx.beginPath();
+
+    spaceCtx.arc(
+      cx,
+      cy,
+      radius * 1.42,
+      0,
+      Math.PI * 2
+    );
+
+    spaceCtx.fill();
+
+    spaceCtx.globalCompositeOperation =
+      "source-over";
+
+    /* sphere */
+
+    const lx =
+      cx + lightX * radius;
+
+    const ly =
+      cy + lightY * radius;
+
+    const sphere =
+      spaceCtx.createRadialGradient(
+        lx,
+        ly,
+        radius * 0.04,
+        cx,
+        cy,
+        radius * 1.08
+      );
+
+    sphere.addColorStop(
+      0,
+      "rgba(205,207,220,1)"
+    );
+
+    sphere.addColorStop(
+      0.30,
+      "rgba(128,132,151,1)"
+    );
+
+    sphere.addColorStop(
+      0.62,
+      "rgba(60,63,79,1)"
+    );
+
+    sphere.addColorStop(
+      0.86,
+      "rgba(19,21,31,1)"
+    );
+
+    sphere.addColorStop(
+      1,
+      "rgba(3,4,8,1)"
+    );
+
+    spaceCtx.fillStyle = sphere;
+
+    spaceCtx.beginPath();
+
+    spaceCtx.arc(
+      cx,
+      cy,
+      radius,
+      0,
+      Math.PI * 2
+    );
+
+    spaceCtx.fill();
+
+    /* surface */
+
+    if (texture) {
+
+      spaceCtx.save();
+
+      spaceCtx.beginPath();
+
+      spaceCtx.arc(
+        cx,
+        cy,
+        radius,
+        0,
+        Math.PI * 2
+      );
+
+      spaceCtx.clip();
+
+      spaceCtx.translate(cx, cy);
+
+      spaceCtx.rotate(rotation);
+
+      spaceCtx.globalAlpha =
+        alpha * 0.62;
+
+      spaceCtx.globalCompositeOperation =
+        "soft-light";
+
+      spaceCtx.drawImage(
+        texture,
+        -radius * 1.06,
+        -radius * 1.06,
+        radius * 2.12,
+        radius * 2.12
+      );
+
+      spaceCtx.restore();
+    }
+
+    /* night side */
+
+    spaceCtx.save();
+
+    spaceCtx.beginPath();
+
+    spaceCtx.arc(
+      cx,
+      cy,
+      radius,
+      0,
+      Math.PI * 2
+    );
+
+    spaceCtx.clip();
+
+    const night =
+      spaceCtx.createRadialGradient(
+        cx + lightX * radius,
+        cy + lightY * radius,
+        radius * 0.1,
+        cx,
+        cy,
+        radius * 1.2
+      );
+
+    night.addColorStop(
+      0,
+      "rgba(0,0,0,0)"
+    );
+
+    night.addColorStop(
+      0.56,
+      "rgba(0,0,0,0.04)"
+    );
+
+    night.addColorStop(
+      0.76,
+      "rgba(0,0,0,0.48)"
+    );
+
+    night.addColorStop(
+      1,
+      "rgba(0,0,0,0.92)"
+    );
+
+    spaceCtx.fillStyle = night;
+
+    spaceCtx.fillRect(
+      cx - radius,
+      cy - radius,
+      radius * 2,
+      radius * 2
+    );
+
+    spaceCtx.restore();
+
+    /* ring behind / around planet */
+
+    if (ring) {
+
+      spaceCtx.save();
+
+      spaceCtx.translate(cx, cy);
+
+      spaceCtx.rotate(-0.18);
+
+      spaceCtx.scale(1, 0.28);
+
+      const ringGradient =
+        spaceCtx.createRadialGradient(
+          0,
+          0,
+          radius * 1.15,
+          0,
+          0,
+          radius * 2.35
+        );
+
+      ringGradient.addColorStop(
+        0,
+        "rgba(0,0,0,0)"
+      );
+
+      ringGradient.addColorStop(
+        0.34,
+        "rgba(205,195,180,0.08)"
+      );
+
+      ringGradient.addColorStop(
+        0.47,
+        "rgba(230,220,200,0.22)"
+      );
+
+      ringGradient.addColorStop(
+        0.54,
+        "rgba(120,115,112,0.08)"
+      );
+
+      ringGradient.addColorStop(
+        0.70,
+        "rgba(220,210,195,0.13)"
+      );
+
+      ringGradient.addColorStop(
+        1,
+        "rgba(0,0,0,0)"
+      );
+
+      spaceCtx.fillStyle =
+        ringGradient;
+
+      spaceCtx.beginPath();
+
+      spaceCtx.arc(
+        0,
+        0,
+        radius * 2.3,
+        0,
+        Math.PI * 2
+      );
+
+      spaceCtx.fill();
+
+      spaceCtx.restore();
+    }
+
+    /* fine rim */
+
+    spaceCtx.save();
+
+    spaceCtx.globalCompositeOperation =
+      "screen";
+
+    spaceCtx.strokeStyle =
+      `rgba(${atmosphere.join(",")},0.20)`;
+
+    spaceCtx.lineWidth =
+      Math.max(1, radius * 0.012);
+
+    spaceCtx.beginPath();
+
+    spaceCtx.arc(
+      cx,
+      cy,
+      radius * 0.995,
+      Math.PI * 1.02,
+      Math.PI * 1.92
+    );
+
+    spaceCtx.stroke();
+
+    spaceCtx.restore();
+
+    spaceCtx.restore();
+  }
+
+  /* =========================================================
+     ASTEROIDS
+     ========================================================= */
+
+  let asteroids = [];
+
+  function createAsteroid() {
+
+    const vertices = [];
+
+    const count =
+      Math.floor(rand(7, 12));
+
+    for (let i = 0; i < count; i++) {
+
+      const angle =
+        (i / count) * Math.PI * 2;
+
+      vertices.push({
+        angle,
+        radius: rand(0.72, 1.18)
+      });
+    }
+
+    return {
+      x: rand(-0.2, 1.2),
+      y: rand(-0.2, 1.2),
+
+      z: rand(0.15, 1),
+
+      size: rand(3, 12),
+
+      speed: rand(0.000035, 0.00012),
+
+      rotation: rand(0, Math.PI * 2),
+
+      spin: rand(-0.003, 0.003),
+
+      vertices
+    };
+  }
+
+  function drawAsteroid(a, alpha, time) {
+
+    const depth =
+      0.35 + a.z * 1.7;
+
+    const px =
+      a.x * W +
+      pointerX * depth * 55;
+
+    const py =
+      a.y * H +
+      pointerY * depth * 40;
+
+    const scale =
+      (1 - a.z) * 1.7 + 0.45;
+
+    const r =
+      a.size * scale;
+
+    if (r < 0.45) return;
+
+    spaceCtx.save();
+
+    spaceCtx.translate(px, py);
+
+    spaceCtx.rotate(
+      a.rotation +
+      time * a.spin * 0.001
+    );
+
+    spaceCtx.globalAlpha =
+      alpha * (0.35 + (1 - a.z) * 0.55);
+
+    /* glow for close objects */
+
+    if (r > 7) {
+      spaceCtx.shadowColor =
+        "rgba(180,190,215,0.18)";
+
+      spaceCtx.shadowBlur = 8;
+    }
+
+    spaceCtx.beginPath();
+
+    a.vertices.forEach((v, i) => {
+
+      const x =
+        Math.cos(v.angle) *
+        r *
+        v.radius;
+
+      const y =
+        Math.sin(v.angle) *
+        r *
+        v.radius;
+
+      if (i === 0)
+        spaceCtx.moveTo(x, y);
+      else
+        spaceCtx.lineTo(x, y);
+    });
+
+    spaceCtx.closePath();
+
+    const g =
+      spaceCtx.createRadialGradient(
+        -r * 0.35,
+        -r * 0.4,
+        0,
+        0,
+        0,
+        r * 1.25
+      );
+
+    g.addColorStop(
+      0,
+      "rgba(155,158,170,0.95)"
+    );
+
+    g.addColorStop(
+      0.48,
+      "rgba(70,73,82,0.98)"
+    );
+
+    g.addColorStop(
+      1,
+      "rgba(10,11,15,1)"
+    );
+
+    spaceCtx.fillStyle = g;
+    spaceCtx.fill();
+
+    /* small surface pits */
+
+    for (let i = 0; i < 3; i++) {
+
+      const px2 =
+        rand(-r * 0.5, r * 0.5);
+
+      const py2 =
+        rand(-r * 0.5, r * 0.5);
+
+      const pr =
+        rand(r * 0.08, r * 0.2);
+
+      spaceCtx.fillStyle =
+        "rgba(0,0,0,0.20)";
+
+      spaceCtx.beginPath();
+
+      spaceCtx.arc(
+        px2,
+        py2,
+        pr,
+        0,
+        Math.PI * 2
+      );
+
+      spaceCtx.fill();
+    }
+
+    spaceCtx.restore();
+  }
+
+  /* =========================================================
+     METEORS
+     ========================================================= */
+
+  let meteors = [];
+
+  function spawnMeteor(
+    dramatic = false
+  ) {
+
+    const direction =
+      Math.random() > 0.5 ? 1 : -1;
+
+    const y =
+      dramatic
+        ? H * rand(0.25, 0.58)
+        : H * rand(0.08, 0.7);
+
+    meteors.push({
+      x:
+        direction === 1
+          ? -120
+          : W + 120,
+
+      y,
+
+      vx:
+        direction *
+        rand(7, dramatic ? 13 : 9),
+
+      vy:
+        rand(1.2, 3.6),
+
+      life: 1,
+
+      length:
+        dramatic
+          ? rand(26, 42)
+          : rand(15, 27),
+
+      width:
+        dramatic
+          ? 2
+          : 1,
+
+      alpha:
+        dramatic
+          ? 1
+          : rand(0.55, 0.9)
+    });
+  }
+
+  function drawMeteors() {
+
+    for (
+      let i = meteors.length - 1;
+      i >= 0;
+      i--
+    ) {
+
+      const m = meteors[i];
+
+      m.x += m.vx;
+      m.y += m.vy;
+
+      m.life -= 0.012;
+
+      const tx =
+        m.x - m.vx * m.length * 0.15;
+
+      const ty =
+        m.y - m.vy * m.length * 0.15;
+
+      const gradient =
+        fxCtx.createLinearGradient(
+          m.x,
+          m.y,
+          tx,
+          ty
+        );
+
+      gradient.addColorStop(
+        0,
+        `rgba(255,255,255,${m.life * m.alpha})`
+      );
+
+      gradient.addColorStop(
+        0.18,
+        `rgba(210,225,255,${m.life * m.alpha * 0.55})`
+      );
+
+      gradient.addColorStop(
+        1,
+        "rgba(255,255,255,0)"
+      );
+
+      fxCtx.save();
+
+      fxCtx.strokeStyle =
+        gradient;
+
+      fxCtx.lineWidth =
+        m.width;
+
+      fxCtx.lineCap = "round";
+
+      fxCtx.shadowColor =
+        `rgba(210,225,255,${m.life * 0.7})`;
+
+      fxCtx.shadowBlur =
+        m.width * 5;
+
+      fxCtx.beginPath();
+
+      fxCtx.moveTo(
+        m.x,
+        m.y
+      );
+
+      fxCtx.lineTo(
+        tx,
+        ty
+      );
+
+      fxCtx.stroke();
+
+      fxCtx.restore();
+
+      if (
+        m.life <= 0 ||
+        m.x < -250 ||
+        m.x > W + 250 ||
+        m.y > H + 250
+      ) {
+        meteors.splice(i, 1);
+      }
+    }
+  }
+
+  /* =========================================================
+     SATELLITE
+     ========================================================= */
+
+  const satellite = {
+    progress: -0.2,
+    active: false
+  };
+
+  function drawSatellite(time, alpha) {
+
+    if (!satellite.active)
+      return;
+
+    const p =
+      satellite.progress;
+
+    const x =
+      lerp(
+        W * 1.15,
+        W * -0.15,
+        p
+      ) +
+      pointerX * 30;
+
+    const y =
+      H * 0.27 +
+      Math.sin(p * Math.PI * 2) *
+      H * 0.13 +
+      pointerY * 20;
+
+    const scale =
+      lerp(0.35, 1.0, Math.sin(p * Math.PI));
+
+    const size =
+      Math.min(W, H) * 0.025 * scale;
+
+    const angle =
+      -0.28 +
+      Math.sin(time * 0.001) * 0.08;
+
+    fxCtx.save();
+
+    fxCtx.translate(x, y);
+    fxCtx.rotate(angle);
+
+    fxCtx.globalAlpha =
+      alpha *
+      clamp(Math.sin(p * Math.PI) * 2);
+
+    /* antenna */
+
+    fxCtx.strokeStyle =
+      "rgba(220,225,240,0.78)";
+
+    fxCtx.lineWidth =
+      Math.max(0.7, size * 0.035);
+
+    fxCtx.beginPath();
+
+    fxCtx.moveTo(
+      -size * 0.75,
+      0
+    );
+
+    fxCtx.lineTo(
+      -size * 1.8,
+      -size * 0.25
+    );
+
+    fxCtx.moveTo(
+      size * 0.75,
+      0
+    );
+
+    fxCtx.lineTo(
+      size * 1.8,
+      -size * 0.25
+    );
+
+    fxCtx.stroke();
+
+    /* solar panels */
+
+    fxCtx.fillStyle =
+      "rgba(92,112,155,0.78)";
+
+    fxCtx.fillRect(
+      -size * 2.1,
+      -size * 0.48,
+      size * 0.9,
+      size * 0.72
+    );
+
+    fxCtx.fillRect(
+      size * 1.2,
+      -size * 0.48,
+      size * 0.9,
+      size * 0.72
+    );
+
+    /* body */
+
+    fxCtx.fillStyle =
+      "rgba(205,202,188,0.95)";
+
+    fxCtx.fillRect(
+      -size * 0.75,
+      -size * 0.52,
+      size * 1.5,
+      size
+    );
+
+    /* small highlight */
+
+    fxCtx.fillStyle =
+      "rgba(255,255,255,0.7)";
+
+    fxCtx.fillRect(
+      -size * 0.35,
+      -size * 0.42,
+      size * 0.7,
+      size * 0.12
+    );
+
+    fxCtx.restore();
+  }
+
+  /* =========================================================
+     NUMBER PARTICLES
+     ========================================================= */
+
+  let numberParticles = [];
+
+  function buildNumberParticles() {
+
+    const off =
+      document.createElement("canvas");
+
+    off.width =
+      Math.max(1, Math.floor(W));
+
+    off.height =
+      Math.max(1, Math.floor(H));
+
+    const ctx =
+      off.getContext("2d");
+
+    const fontSize =
+      Math.min(W, H) * 0.42;
+
+    ctx.fillStyle = "#fff";
+
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.font =
+      `500 ${fontSize}px "Cormorant Garamond", Georgia, serif`;
+
+    ctx.fillText(
+      String(C.newAge),
+      W * 0.5,
+      H * 0.46
+    );
+
+    const data =
+      ctx.getImageData(
+        0,
+        0,
+        off.width,
+        off.height
+      ).data;
+
+    const step =
+      Math.max(
+        3,
+        Math.floor(
+          Math.min(W, H) / 180
+        )
+      );
+
+    const points = [];
+
+    for (
+      let y = 0;
+      y < H;
+      y += step
+    ) {
+
+      for (
+        let x = 0;
+        x < W;
+        x += step
+      ) {
+
+        const alpha =
+          data[
+            (y * off.width + x) * 4 + 3
+          ];
+
+        if (alpha > 80) {
+          points.push({
+            x,
+            y
+          });
+        }
+      }
+    }
+
+    /*
+       Limit particle count for smoothness.
+    */
+
+    const max =
+      W < 700
+        ? 850
+        : 1450;
+
+    let sampled =
+      points;
+
+    if (points.length > max) {
+
+      sampled =
+        points
+          .sort(() => Math.random() - 0.5)
+          .slice(0, max);
+    }
+
+    numberParticles =
+      sampled.map((p) => {
+
+        const angle =
+          Math.random() *
+          Math.PI * 2;
+
+        const radius =
+          Math.max(W, H) *
+          rand(0.35, 1.1);
+
+        return {
+
+          tx: p.x,
+          ty: p.y,
+
+          sx:
+            W * 0.5 +
+            Math.cos(angle) * radius,
+
+          sy:
+            H * 0.48 +
+            Math.sin(angle) * radius,
+
+          vx: rand(-0.3, 0.3),
+          vy: rand(-0.3, 0.3),
+
+          delay:
+            Math.random() * 0.45,
+
+          size:
+            rand(0.65, 1.55),
+
+          alpha:
+            rand(0.55, 1),
+
+          twinkle:
+            rand(0, Math.PI * 2)
+        };
+      });
+  }
+
+  /* =========================================================
+     NUMBER DRAW
+     ========================================================= */
+
+  let numberProgress = 0;
+  let numberGlow = 0;
+
+  function drawNumber(time) {
+
+    numCtx.clearRect(
+      0,
+      0,
+      W,
+      H
+    );
+
+    if (!numberParticles.length)
+      return;
+
+    for (const p of numberParticles) {
+
+      const local =
+        clamp(
+          (numberProgress - p.delay) /
+          (1 - p.delay)
+        );
+
+      const e =
+        easeOutExpo(local);
+
+      let x =
+        lerp(p.sx, p.tx, e);
+
+      let y =
+        lerp(p.sy, p.ty, e);
+
+      /*
+         Tiny settling turbulence.
+      */
+
+      if (local > 0.82) {
+
+        const settle =
+          (1 - local) * 2;
+
+        x +=
+          Math.sin(
+            time * 0.0012 +
+            p.twinkle
+          ) *
+          settle *
+          1.6;
+
+        y +=
+          Math.cos(
+            time * 0.001 +
+            p.twinkle
+          ) *
+          settle *
+          1.6;
+      }
+
+      const twinkle =
+        0.84 +
+        0.16 *
+        Math.sin(
+          time * 0.0017 +
+          p.twinkle
+        );
+
+      const alpha =
+        clamp(
+          local * 1.4
+        ) *
+        p.alpha *
+        twinkle;
+
+      const size =
+        lerp(
+          p.size * 0.25,
+          p.size * 1.18,
+          e
+        );
+
+      numCtx.globalAlpha =
+        alpha;
+
+      numCtx.fillStyle =
+        "rgba(246,247,255,1)";
+
+      numCtx.shadowColor =
+        "rgba(192,210,255,0.95)";
+
+      numCtx.shadowBlur =
+        lerp(
+          0,
+          8 + numberGlow * 8,
+          e
+        );
+
+      numCtx.beginPath();
+
+      numCtx.arc(
+        x,
+        y,
+        size,
+        0,
+        Math.PI * 2
+      );
+
+      numCtx.fill();
+    }
+
+    numCtx.globalAlpha = 1;
+    numCtx.shadowBlur = 0;
+  }
+
+  /* =========================================================
+     FOREGROUND LIGHT STREAKS
+     ========================================================= */
+
+  const streaks =
+    Array.from(
+      { length: 22 },
+      () => ({
+        x: Math.random(),
+        y: Math.random(),
+        length: rand(20, 90),
+        depth: rand(0.4, 1.0),
+        speed: rand(0.2, 0.8)
+      })
+    );
+
+  function drawSpeedStreaks(time, intensity) {
+
+    if (intensity <= 0.001)
+      return;
+
+    fxCtx.save();
+
+    fxCtx.globalCompositeOperation =
+      "screen";
+
+    for (const s of streaks) {
+
+      const x =
+        s.x * W +
+        pointerX * s.depth * 80;
+
+      const y =
+        s.y * H +
+        pointerY * s.depth * 50;
+
+      const length =
+        s.length *
+        intensity *
+        (0.6 + s.depth);
+
+      const angle =
+        -0.42;
+
+      const dx =
+        Math.cos(angle) *
+        length;
+
+      const dy =
+        Math.sin(angle) *
+        length;
+
+      const g =
+        fxCtx.createLinearGradient(
+          x,
+          y,
+          x - dx,
+          y - dy
+        );
+
+      g.addColorStop(
+        0,
+        `rgba(230,238,255,${0.18 * intensity})`
+      );
+
+      g.addColorStop(
+        1,
+        "rgba(230,238,255,0)"
+      );
+
+      fxCtx.strokeStyle = g;
+
+      fxCtx.lineWidth =
+        0.5 +
+        s.depth * intensity;
+
+      fxCtx.beginPath();
+
+      fxCtx.moveTo(x, y);
+
+      fxCtx.lineTo(
+        x - dx,
+        y - dy
+      );
+
+      fxCtx.stroke();
+    }
+
+    fxCtx.restore();
+  }
+
+  /* =========================================================
+     MAIN WORLD STATE
+     ========================================================= */
+
+  let intro = 0;
+  let flight = 0;
+  let reveal = 0;
+  let finalHold = 0;
+
+  let running = true;
+
+  let meteorCooldown =
+    rand(100, 180);
+
+  let satelliteProgress =
+    -0.2;
+
+  /* =========================================================
+     RESIZE
+     ========================================================= */
+
+  function resize() {
+
+    W =
+      page.clientWidth;
+
+    H =
+      page.clientHeight;
+
+    dpr =
+      Math.min(
+        window.devicePixelRatio || 1,
+        2
+      );
+
+    for (
+      const canvas of [
+        spaceCanvas,
+        fxCanvas,
+        numberCanvas
+      ]
+    ) {
+
+      canvas.width =
+        Math.floor(W * dpr);
+
+      canvas.height =
+        Math.floor(H * dpr);
+
+      canvas.style.width =
+        `${W}px`;
+
+      canvas.style.height =
+        `${H}px`;
+    }
+
+    spaceCtx.setTransform(
+      dpr,
+      0,
+      0,
+      dpr,
+      0,
+      0
+    );
+
+    fxCtx.setTransform(
+      dpr,
+      0,
+      0,
+      dpr,
+      0,
+      0
+    );
+
+    numCtx.setTransform(
+      dpr,
+      0,
+      0,
+      dpr,
+      0,
+      0
+    );
+
+    starsBack =
+      createStars(
+        W < 700 ? 170 : 280,
+        0.08,
+        0.25,
+        0.75
+      );
+
+    starsMid =
+      createStars(
+        W < 700 ? 110 : 190,
+        0.32,
+        0.4,
+        1.15
+      );
+
+    starsFront =
+      createStars(
+        W < 700 ? 45 : 80,
+        0.72,
+        0.65,
+        1.7
+      );
+
+    asteroids =
+      Array.from(
+        {
+          length:
+            W < 700 ? 6 : 11
+        },
+        createAsteroid
+      );
+
+    if (numberParticles.length) {
+      buildNumberParticles();
+    }
+  }
+
+  resize();
+
+  const onResize =
+    () => resize();
+
+  window.addEventListener(
+    "resize",
+    onResize
+  );
+
+  /* =========================================================
+     STAR DRAW
+     ========================================================= */
+
+  function drawStars(
+    stars,
+    time,
+    alpha,
+    motion
+  ) {
+
+    for (const star of stars) {
+
+      const parallax =
+        star.depth;
+
+      let x =
+        star.x * W +
+        pointerX *
+          parallax *
+          70;
+
+      let y =
+        star.y * H +
+        pointerY *
+          parallax *
+          55;
+
+      /*
+         During camera acceleration,
+         foreground stars stretch.
+      */
+
+      const speedStretch =
+        motion *
+        parallax *
+        35;
+
+      x -= speedStretch;
+
+      const twinkle =
+        0.72 +
+        0.28 *
+        Math.sin(
+          time *
+            star.twinkleSpeed +
+          star.twinkle
+        );
+
+      const a =
+        star.alpha *
+        alpha *
+        twinkle;
+
+      spaceCtx.globalAlpha =
+        a;
+
+      spaceCtx.fillStyle =
+        `rgb(${star.color.join(",")})`;
+
+      const r =
+        star.size *
+        (
+          0.8 +
+          parallax * 0.7
+        );
+
+      if (r > 1.1) {
+
+        spaceCtx.shadowColor =
+          `rgba(${star.color.join(",")},0.75)`;
+
+        spaceCtx.shadowBlur =
+          4 +
+          parallax * 7;
+      }
+
+      spaceCtx.beginPath();
+
+      spaceCtx.arc(
+        x,
+        y,
+        r,
+        0,
+        Math.PI * 2
+      );
+
+      spaceCtx.fill();
+
+      spaceCtx.shadowBlur = 0;
+    }
+
+    spaceCtx.globalAlpha = 1;
+  }
+
+  /* =========================================================
+     PLANET POSITIONS
+     ========================================================= */
+
+  function drawWorld(time) {
+
+    spaceCtx.clearRect(
+      0,
+      0,
+      W,
+      H
+    );
+
+    /*
+       Background.
+    */
+
+    const bg =
+      spaceCtx.createRadialGradient(
+        W * 0.52,
+        H * 0.43,
+        0,
+        W * 0.52,
+        H * 0.43,
+        Math.max(W, H) * 0.85
+      );
+
+    bg.addColorStop(
+      0,
+      "rgba(11,14,28,1)"
+    );
+
+    bg.addColorStop(
+      0.55,
+      "rgba(4,6,14,1)"
+    );
+
+    bg.addColorStop(
+      1,
+      "rgba(1,2,5,1)"
+    );
+
+    spaceCtx.fillStyle = bg;
+
+    spaceCtx.fillRect(
+      0,
+      0,
+      W,
+      H
+    );
+
+    /*
+       Nebula.
+    */
+
+    drawNebula(
+      time,
+      intro
+    );
+
+    /*
+       Distant galaxy.
+    */
+
+    drawGalaxy(
+      time,
+      intro
+    );
+
+    /*
+       Star layers.
+    */
+
+    drawStars(
+      starsBack,
+      time,
+      intro * 0.72,
+      flight
+    );
+
+    drawStars(
+      starsMid,
+      time,
+      intro * 0.92,
+      flight
+    );
+
+    drawStars(
+      starsFront,
+      time,
+      intro,
+      flight
+    );
+
+    /*
+       Distant rocky planet.
+    */
+
+    const distantScale =
+      Math.min(W, H);
+
+    drawPlanet(
+      W * 0.09 +
+        pointerX * 18,
+
+      H * 0.74 +
+        pointerY * 12,
+
+      distantScale * 0.045,
+
+      {
+        texture: rockTexture,
+
+        lightX: -0.7,
+        lightY: -0.65,
+
+        atmosphere:
+          [135,145,180],
+
+        atmosphereAlpha:
+          0.12,
+
+        alpha:
+          intro * 0.78,
+
+        rotation:
+          time * 0.000015
+      }
+    );
+
+    /*
+       Main gas giant.
+
+       It approaches from the
+       lower-right during the flight.
+    */
+
+    const planetApproach =
+      easeOutCubic(
+        clamp(flight)
+      );
+
+    const planetX =
+      lerp(
+        W * 1.22,
+        W * 0.74,
+        planetApproach
+      ) +
+      pointerX * 34;
+
+    const planetY =
+      lerp(
+        H * 1.30,
+        H * 0.48,
+        planetApproach
+      ) +
+      pointerY * 25;
+
+    const planetRadius =
+      distantScale *
+      lerp(
+        0.065,
+        0.145,
+        planetApproach
+      );
+
+    drawPlanet(
+      planetX,
+      planetY,
+      planetRadius,
+      {
+        texture: gasTexture,
+
+        lightX: -0.72,
+        lightY: -0.72,
+
+        atmosphere:
+          [112,135,210],
+
+        atmosphereAlpha:
+          0.24,
+
+        ring:
+          true,
+
+        alpha:
+          intro,
+
+        rotation:
+          time * 0.000025
+      }
+    );
+
+    /*
+       Tiny moon.
+    */
+
+    const moonOrbit =
+      time * 0.00035;
+
+    const moonDistance =
+      planetRadius * 2.35;
+
+    const moonX =
+      planetX +
+      Math.cos(moonOrbit) *
+      moonDistance;
+
+    const moonY =
+      planetY +
+      Math.sin(moonOrbit) *
+      moonDistance *
+      0.34;
+
+    const moonR =
+      planetRadius *
+      0.13;
+
+    const moonGradient =
+      spaceCtx.createRadialGradient(
+        moonX - moonR * 0.35,
+        moonY - moonR * 0.35,
+        0,
+        moonX,
+        moonY,
+        moonR
+      );
+
+    moonGradient.addColorStop(
+      0,
+      "rgba(210,211,218,0.95)"
+    );
+
+    moonGradient.addColorStop(
+      0.55,
+      "rgba(95,97,107,0.85)"
+    );
+
+    moonGradient.addColorStop(
+      1,
+      "rgba(15,16,21,0.9)"
+    );
+
+    spaceCtx.globalAlpha =
+      intro * 0.85;
+
+    spaceCtx.fillStyle =
+      moonGradient;
+
+    spaceCtx.beginPath();
+
+    spaceCtx.arc(
+      moonX,
+      moonY,
+      moonR,
+      0,
+      Math.PI * 2
+    );
+
+    spaceCtx.fill();
+
+    spaceCtx.globalAlpha = 1;
+
+    /*
+       Asteroid field.
+    */
+
+    for (const asteroid of asteroids) {
+
+      asteroid.rotation +=
+        asteroid.spin;
+
+      /*
+         Slow world drift.
+      */
+
+      asteroid.x +=
+        asteroid.speed *
+        (0.5 + flight * 3);
+
+      asteroid.y +=
+        asteroid.speed *
+        0.28;
+
+      if (asteroid.x > 1.35)
+        asteroid.x = -0.35;
+
+      if (asteroid.y > 1.35)
+        asteroid.y = -0.35;
+
+      drawAsteroid(
+        asteroid,
+        intro,
+        time
+      );
+    }
+
+    /*
+       Meteors.
+    */
+
+    meteorCooldown -=
+      1 + flight * 4;
+
+    if (
+      meteorCooldown <= 0 &&
+      intro > 0.4
+    ) {
+
+      spawnMeteor(
+        flight > 0.55
+      );
+
+      meteorCooldown =
+        rand(
+          flight > 0.6 ? 75 : 120,
+          flight > 0.6 ? 150 : 220
+        );
+    }
+  }
+
+  /* =========================================================
+     FX LAYER
+     ========================================================= */
+
+  function drawFX(time) {
+
+    fxCtx.clearRect(
+      0,
+      0,
+      W,
+      H
+    );
+
+    /*
+       Speed streaks.
+    */
+
+    drawSpeedStreaks(
+      time,
+      flight
+    );
+
+    /*
+       Satellite.
+    */
+
+    if (
+      flight > 0.2 &&
+      flight < 0.86
+    ) {
+
+      satellite.active = true;
+
+      satelliteProgress =
+        clamp(
+          (flight - 0.2) /
+          0.66
+        );
+
+      satellite.progress =
+        satelliteProgress;
+
+      drawSatellite(
+        time,
+        intro
+      );
+    }
+
+    drawMeteors();
+
+    /*
+       Cinematic center glow
+       during number formation.
+    */
+
+    if (reveal > 0) {
+
+      const g =
+        fxCtx.createRadialGradient(
+          W * 0.5,
+          H * 0.46,
+          0,
+          W * 0.5,
+          H * 0.46,
+          Math.min(W, H) * 0.42
+        );
+
+      g.addColorStop(
+        0,
+        `rgba(180,200,255,${0.045 * reveal})`
+      );
+
+      g.addColorStop(
+        0.45,
+        `rgba(100,130,210,${0.018 * reveal})`
+      );
+
+      g.addColorStop(
+        1,
+        "rgba(0,0,0,0)"
+      );
+
+      fxCtx.fillStyle = g;
+
+      fxCtx.fillRect(
+        0,
+        0,
+        W,
+        H
+      );
+    }
+  }
+
+  /* =========================================================
+     MAIN LOOP
+     ========================================================= */
+
+  function loop(time) {
+
+    if (!running)
+      return;
+
+    /*
+       Smooth pointer.
+    */
+
+    pointerX =
+      lerp(
+        pointerX,
+        targetPointerX,
+        0.055
+      );
+
+    pointerY =
+      lerp(
+        pointerY,
+        targetPointerY,
+        0.055
+      );
+
+    /*
+       Camera movement.
+    */
+
+    camera.velocity =
+      lerp(
+        camera.velocity,
+        camera.targetVelocity,
+        0.035
+      );
+
+    camera.x =
+      lerp(
+        camera.x,
+        pointerX * 18,
+        0.035
+      );
+
+    camera.y =
+      lerp(
+        camera.y,
+        pointerY * 14,
+        0.035
+      );
+
+    camera.zoom =
+      lerp(
+        camera.zoom,
+        1 + flight * 0.045,
+        0.025
+      );
+
+    drawWorld(time);
+    drawFX(time);
+    drawNumber(time);
+
+    requestAnimationFrame(
+      loop
+    );
+  }
+
+  requestAnimationFrame(loop);
+
+  /* =========================================================
+     CHOREOGRAPHY
+     ========================================================= */
+
+  await wait(180);
+
+  page.classList.add(
+    "chapter-visible"
+  );
+
+  /*
+     0 → 1.6 sec
+     Universe wakes up.
+  */
+
+  const introStart =
+    performance.now();
+
+  await new Promise((resolve) => {
+
+    function animateIntro(time) {
+
+      const p =
+        clamp(
+          (time - introStart) /
+          1600
+        );
+
+      intro =
+        easeInOutCubic(p);
+
+      if (p < 1) {
+        requestAnimationFrame(
+          animateIntro
+        );
+      } else {
+        resolve();
+      }
+    }
+
+    requestAnimationFrame(
+      animateIntro
+    );
+  });
+
+  /*
+     Small pause.
+  */
 
   await wait(500);
 
-  line.classList.add("chapter-line-visible");
+  /*
+     Begin camera flight.
+  */
 
-  await wait(500);
+  camera.targetVelocity = 0.35;
 
-  sub.classList.add("chapter-detail-visible");
+  const flightStart =
+    performance.now();
 
-  await wait(1200);
+  await new Promise((resolve) => {
 
-  next.classList.add("chapter-next-visible");
+    function animateFlight(time) {
 
-  /* ==========================================
+      const p =
+        clamp(
+          (time - flightStart) /
+          4300
+        );
+
+      flight =
+        easeInOutCubic(p);
+
+      camera.targetVelocity =
+        lerp(
+          0.35,
+          1.15,
+          smoothstep(
+            0.15,
+            0.72,
+            p
+          )
+        );
+
+      if (p < 1) {
+        requestAnimationFrame(
+          animateFlight
+        );
+      } else {
+        resolve();
+      }
+    }
+
+    requestAnimationFrame(
+      animateFlight
+    );
+  });
+
+  /*
+     Major meteor.
+  */
+
+  spawnMeteor(true);
+
+  await wait(850);
+
+  /*
+     Slow the universe.
+  */
+
+  const brakeStart =
+    performance.now();
+
+  await new Promise((resolve) => {
+
+    function brake(time) {
+
+      const p =
+        clamp(
+          (time - brakeStart) /
+          1200
+        );
+
+      flight =
+        lerp(
+          1,
+          0.05,
+          easeOutCubic(p)
+        );
+
+      camera.targetVelocity =
+        lerp(
+          1.15,
+          0.02,
+          easeOutCubic(p)
+        );
+
+      if (p < 1) {
+        requestAnimationFrame(
+          brake
+        );
+      } else {
+        resolve();
+      }
+    }
+
+    requestAnimationFrame(brake);
+  });
+
+  /*
+     The universe becomes quiet.
+  */
+
+  await wait(450);
+
+  /*
+     Build 26.
+  */
+
+  buildNumberParticles();
+
+  /*
+     Number formation.
+  */
+
+  const revealStart =
+    performance.now();
+
+  await new Promise((resolve) => {
+
+    function animateReveal(time) {
+
+      const p =
+        clamp(
+          (time - revealStart) /
+          2600
+        );
+
+      reveal =
+        easeInOutCubic(p);
+
+      numberProgress =
+        p;
+
+      numberGlow =
+        smoothstep(
+          0.45,
+          0.9,
+          p
+        );
+
+      if (p < 1) {
+
+        camera.targetVelocity =
+          lerp(
+            0.02,
+            0,
+            p
+          );
+
+        requestAnimationFrame(
+          animateReveal
+        );
+
+      } else {
+
+        resolve();
+      }
+    }
+
+    requestAnimationFrame(
+      animateReveal
+    );
+  });
+
+  /*
+     Let the number breathe.
+  */
+
+  await wait(650);
+
+  finalHold = 1;
+
+  words.classList.add(
+    "chapter-detail-visible"
+  );
+
+  await wait(650);
+
+  line.classList.add(
+    "chapter-line-visible"
+  );
+
+  await wait(550);
+
+  sub.classList.add(
+    "chapter-detail-visible"
+  );
+
+  await wait(1000);
+
+  next.classList.add(
+    "chapter-next-visible"
+  );
+
+  /* =========================================================
      NEXT
-     ========================================== */
+     ========================================================= */
 
   this.on(next, "click", async () => {
+
     next.disabled = true;
 
-    page.classList.add("chapter-leaving");
+    page.classList.add(
+      "chapter-leaving"
+    );
 
-    await wait(900);
+    /*
+       Accelerate through space
+       during the transition.
+    */
 
-    await this.go(SCENES.CELEBRATION);
+    const leaveStart =
+      performance.now();
+
+    await new Promise((resolve) => {
+
+      function accelerate(time) {
+
+        const p =
+          clamp(
+            (time - leaveStart) /
+            950
+          );
+
+        camera.targetVelocity =
+          lerp(
+            0,
+            4.5,
+            easeInOutCubic(p)
+          );
+
+        flight =
+          lerp(
+            0,
+            1.8,
+            easeInCubicSafe(p)
+          );
+
+        if (p < 1) {
+          requestAnimationFrame(
+            accelerate
+          );
+        } else {
+          resolve();
+        }
+      }
+
+      function easeInCubicSafe(t) {
+        return t * t * t;
+      }
+
+      requestAnimationFrame(
+        accelerate
+      );
+    });
+
+    running = false;
+
+    window.removeEventListener(
+      "resize",
+      onResize
+    );
+
+    await wait(100);
+
+    await this.go(
+      SCENES.CELEBRATION
+    );
   });
 }
   async celebration() {

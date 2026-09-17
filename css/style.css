@@ -3165,6 +3165,1581 @@ h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:clam
   }
 
 }
+
+/* =========================================================
+   AGE — CINEMATIC PREMIUM UPGRADE
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   CINEMATIC ATMOSPHERE
+--------------------------------------------------------- */
+
+.chapter-age {
+  isolation: isolate;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 48%,
+      rgba(113, 64, 83, .16) 0%,
+      rgba(38, 20, 29, .08) 28%,
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse at 50% 100%,
+      rgba(84, 42, 61, .12),
+      transparent 48%
+    ),
+    #050305;
+
+  overflow: hidden;
+}
+
+
+/* ---------------------------------------------------------
+   PREMIUM VIGNETTE
+--------------------------------------------------------- */
+
+.chapter-age::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: 40;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 38%,
+      rgba(0, 0, 0, .18) 68%,
+      rgba(0, 0, 0, .72) 100%
+    );
+
+  opacity: 0;
+
+  transition:
+    opacity 2.5s ease;
+}
+
+.chapter-age.chapter-visible::before {
+  opacity: 1;
+}
+
+
+/* ---------------------------------------------------------
+   CINEMATIC FILM GRAIN
+--------------------------------------------------------- */
+
+.chapter-age::after {
+  content: "";
+
+  position: absolute;
+  inset: -50%;
+
+  z-index: 41;
+
+  pointer-events: none;
+
+  opacity: 0;
+
+  background-image:
+    radial-gradient(
+      rgba(255,255,255,.08) .7px,
+      transparent .7px
+    );
+
+  background-size: 4px 4px;
+
+  mix-blend-mode: soft-light;
+
+  animation:
+    chapterFilmGrain
+    .22s
+    steps(2)
+    infinite;
+
+  transition:
+    opacity 2s ease;
+}
+
+.chapter-age.chapter-visible::after {
+  opacity: .12;
+}
+
+@keyframes chapterFilmGrain {
+
+  0% {
+    transform: translate(0,0);
+  }
+
+  25% {
+    transform: translate(-1%,-1%);
+  }
+
+  50% {
+    transform: translate(1%,0);
+  }
+
+  75% {
+    transform: translate(0,1%);
+  }
+
+  100% {
+    transform: translate(-1%,1%);
+  }
+}
+
+
+/* ---------------------------------------------------------
+   GLOW — GIVE IT LIFE
+--------------------------------------------------------- */
+
+.chapter-glow {
+  filter:
+    blur(1px)
+    saturate(1.1);
+
+  transform:
+    translate(-50%, -50%)
+    scale(.72);
+
+  opacity: 0;
+
+  transition:
+    opacity 2.4s cubic-bezier(.16,1,.3,1),
+    transform 3.2s cubic-bezier(.16,1,.3,1);
+}
+
+.chapter-visible .chapter-glow {
+  opacity: 1;
+
+  transform:
+    translate(-50%, -50%)
+    scale(1);
+}
+
+
+/* ---------------------------------------------------------
+   LABEL
+--------------------------------------------------------- */
+
+.chapter-label {
+  transform:
+    translate(-50%, -18px);
+
+  filter: blur(8px);
+
+  transition:
+    opacity 1.4s ease,
+    transform 1.4s cubic-bezier(.16,1,.3,1),
+    filter 1.4s ease;
+}
+
+.chapter-visible .chapter-label {
+  transform:
+    translate(-50%, 0);
+
+  filter: blur(0);
+}
+
+
+/* ---------------------------------------------------------
+   CLOCK — DEPTH
+--------------------------------------------------------- */
+
+.chapter-clock {
+  transform:
+    translate(-50%, -50%)
+    scale(.94);
+
+  transition:
+    transform 2.4s cubic-bezier(.16,1,.3,1);
+}
+
+.chapter-clock-visible {
+  transform:
+    translate(-50%, -50%)
+    scale(1);
+}
+
+
+/* ---------------------------------------------------------
+   OUTER CLOCK — PREMIUM GLOW
+--------------------------------------------------------- */
+
+.chapter-clock-outer {
+  box-shadow:
+
+    0 0 80px
+    rgba(0,0,0,.48),
+
+    0 0 120px
+    rgba(190,110,145,.05),
+
+    inset 0 0 50px
+    rgba(255,255,255,.018);
+
+  transition:
+    transform 2s cubic-bezier(.16,1,.3,1),
+    opacity 1.8s ease,
+    box-shadow 1.4s ease;
+}
+
+
+/* ---------------------------------------------------------
+   CLOCK INNER — BREATHING LIGHT
+--------------------------------------------------------- */
+
+.chapter-clock-inner {
+  box-shadow:
+
+    inset 0 0 70px
+    rgba(0,0,0,.42),
+
+    0 0 40px
+    rgba(200,135,160,.035);
+}
+
+
+/* ---------------------------------------------------------
+   CLOCK ACTIVE STATE
+--------------------------------------------------------- */
+
+.chapter-clock-finish .chapter-clock-outer {
+
+  box-shadow:
+
+    0 0 80px
+    rgba(0,0,0,.40),
+
+    0 0 150px
+    rgba(218,145,175,.13),
+
+    0 0 280px
+    rgba(180,100,140,.055),
+
+    inset 0 0 60px
+    rgba(255,255,255,.025);
+}
+
+.chapter-clock-finish .chapter-clock-inner {
+
+  box-shadow:
+
+    inset 0 0 70px
+    rgba(0,0,0,.32),
+
+    0 0 70px
+    rgba(220,150,180,.07);
+}
+
+
+/* ---------------------------------------------------------
+   ROTATING TICKS
+--------------------------------------------------------- */
+
+.chapter-marks-visible {
+
+  animation:
+    chapterMarksRotate
+    90s
+    linear
+    infinite;
+
+  filter:
+    drop-shadow(
+      0 0 4px
+      rgba(235,210,220,.08)
+    );
+}
+
+
+/* ---------------------------------------------------------
+   CLOCK HAND — LONGER + MORE ELEGANT
+--------------------------------------------------------- */
+
+.chapter-hand {
+
+  filter:
+    drop-shadow(
+      0 0 8px
+      rgba(235,195,210,.18)
+    );
+}
+
+.chapter-hand-move {
+
+  animation:
+    chapterHandCinematic
+    3.8s
+    cubic-bezier(.12,.78,.18,1)
+    forwards;
+}
+
+@keyframes chapterHandCinematic {
+
+  0% {
+
+    transform:
+      translate(-50%,-100%)
+      rotate(-38deg);
+
+    filter:
+      drop-shadow(
+        0 0 0
+        rgba(235,195,210,0)
+      );
+  }
+
+  55% {
+
+    filter:
+      drop-shadow(
+        0 0 15px
+        rgba(235,195,210,.20)
+      );
+  }
+
+  100% {
+
+    transform:
+      translate(-50%,-100%)
+      rotate(360deg);
+
+    filter:
+      drop-shadow(
+        0 0 8px
+        rgba(235,195,210,.16)
+      );
+  }
+}
+
+
+/* ---------------------------------------------------------
+   CENTER DOT
+--------------------------------------------------------- */
+
+.chapter-center {
+
+  transition:
+    transform .8s cubic-bezier(.16,1,.3,1),
+    box-shadow .8s ease;
+}
+
+.chapter-clock-finish .chapter-center {
+
+  transform:
+    scale(1.35);
+
+  box-shadow:
+    0 0 18px
+    rgba(235,195,210,.20);
+}
+
+
+/* ---------------------------------------------------------
+   AGE NUMBER — DEEP CINEMATIC REVEAL
+--------------------------------------------------------- */
+
+.chapter-number {
+
+  text-shadow:
+
+    0 0 40px
+    rgba(235,200,215,.045),
+
+    0 15px 60px
+    rgba(0,0,0,.45);
+
+  transition:
+    opacity 1.2s ease,
+    transform 1.8s cubic-bezier(.16,1,.3,1),
+    filter 1.8s cubic-bezier(.16,1,.3,1),
+    text-shadow 1.2s ease;
+}
+
+.chapter-number-active {
+
+  animation:
+    chapterNumberCinematic
+    2.2s
+    cubic-bezier(.16,1,.3,1)
+    forwards;
+}
+
+@keyframes chapterNumberCinematic {
+
+  0% {
+
+    opacity: 0;
+
+    transform:
+      translate(-50%,-50%)
+      scale(1.35);
+
+    filter:
+      blur(18px);
+
+    letter-spacing:
+      .08em;
+
+    text-shadow:
+      0 0 0
+      rgba(235,200,215,0);
+  }
+
+  45% {
+
+    opacity: .72;
+
+    filter:
+      blur(5px);
+
+    transform:
+      translate(-50%,-50%)
+      scale(1.08);
+  }
+
+  75% {
+
+    opacity: 1;
+
+    filter:
+      blur(1px);
+
+    transform:
+      translate(-50%,-50%)
+      scale(.99);
+  }
+
+  100% {
+
+    opacity: 1;
+
+    transform:
+      translate(-50%,-50%)
+      scale(1);
+
+    filter:
+      blur(0);
+
+    text-shadow:
+
+      0 0 60px
+      rgba(235,200,215,.06),
+
+      0 15px 60px
+      rgba(0,0,0,.48);
+  }
+}
+
+
+/* ---------------------------------------------------------
+   WORDS
+--------------------------------------------------------- */
+
+.chapter-words {
+
+  transition:
+    opacity 1.3s ease,
+    transform 1.4s cubic-bezier(.16,1,.3,1),
+    filter 1.4s ease;
+}
+
+.chapter-detail-visible.chapter-words {
+
+  transform:
+    translate(-50%, 0);
+
+  filter:
+    blur(0);
+}
+
+
+/* ---------------------------------------------------------
+   LINE — LIGHT BEAM
+--------------------------------------------------------- */
+
+.chapter-line {
+
+  position: absolute;
+
+  overflow: hidden;
+
+  transform:
+    translateX(-50%)
+    scaleX(0);
+
+  transform-origin:
+    center;
+
+  transition:
+    transform 1.5s cubic-bezier(.16,1,.3,1),
+    opacity 1s ease;
+}
+
+.chapter-line::after {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -30%;
+
+  width: 30%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.85),
+      transparent
+    );
+
+  animation:
+    chapterLightSweep
+    2.2s
+    ease-in-out
+    infinite;
+}
+
+.chapter-line-visible {
+
+  transform:
+    translateX(-50%)
+    scaleX(1);
+}
+
+@keyframes chapterLightSweep {
+
+  0% {
+    left: -30%;
+  }
+
+  55% {
+    left: 110%;
+  }
+
+  100% {
+    left: 110%;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   SUBTITLE
+--------------------------------------------------------- */
+
+.chapter-sub {
+
+  transition:
+    opacity 1.4s ease,
+    transform 1.5s cubic-bezier(.16,1,.3,1),
+    filter 1.5s ease;
+}
+
+
+/* ---------------------------------------------------------
+   FOOTER
+--------------------------------------------------------- */
+
+.chapter-footer {
+
+  transition:
+    opacity 1.8s ease,
+    transform 1.8s cubic-bezier(.16,1,.3,1);
+}
+
+
+/* ---------------------------------------------------------
+   PREMIUM NEXT
+--------------------------------------------------------- */
+
+.chapter-next {
+
+  backdrop-filter:
+    blur(18px);
+
+  -webkit-backdrop-filter:
+    blur(18px);
+
+  box-shadow:
+
+    0 20px 55px
+    rgba(0,0,0,.55),
+
+    inset 0 1px 0
+    rgba(255,255,255,.10),
+
+    0 0 0
+    rgba(220,140,175,0);
+
+  transition:
+
+    opacity 1.4s ease,
+
+    transform .6s
+    cubic-bezier(.16,1,.3,1),
+
+    border-color .45s ease,
+
+    box-shadow .6s ease,
+
+    background .45s ease;
+}
+
+.chapter-next-visible {
+
+  animation:
+    chapterNextArrival
+    1.5s
+    cubic-bezier(.16,1,.3,1)
+    both;
+}
+
+@keyframes chapterNextArrival {
+
+  0% {
+
+    opacity: 0;
+
+    transform:
+      translateY(25px)
+      scale(.94);
+
+    filter:
+      blur(8px);
+  }
+
+  65% {
+
+    opacity: 1;
+
+    transform:
+      translateY(-2px)
+      scale(1.015);
+
+    filter:
+      blur(0);
+  }
+
+  100% {
+
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+.chapter-next:hover {
+
+  transform:
+    translateY(-4px);
+
+  border-color:
+    rgba(245,215,228,.62);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(88,50,69,.86),
+      rgba(24,11,18,.97)
+    );
+
+  box-shadow:
+
+    0 25px 70px
+    rgba(0,0,0,.62),
+
+    0 0 38px
+    rgba(220,140,175,.14),
+
+    inset 0 1px 0
+    rgba(255,255,255,.15);
+}
+
+
+/* ---------------------------------------------------------
+   EXIT — MORE CINEMATIC
+--------------------------------------------------------- */
+
+.chapter-leaving {
+
+  animation:
+    chapterLeavePremium
+    1.05s
+    cubic-bezier(.76,0,.24,1)
+    forwards;
+}
+
+@keyframes chapterLeavePremium {
+
+  0% {
+
+    opacity: 1;
+
+    transform:
+      scale(1);
+
+    filter:
+      blur(0);
+  }
+
+  55% {
+
+    opacity: .95;
+
+    transform:
+      scale(1.015);
+
+    filter:
+      blur(1px);
+  }
+
+  100% {
+
+    opacity: 0;
+
+    transform:
+      scale(1.045);
+
+    filter:
+      blur(14px);
+  }
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE
+--------------------------------------------------------- */
+
+@media (max-width:700px) {
+
+  .chapter-age::after {
+    opacity: .07;
+  }
+
+  .chapter-number {
+    text-shadow:
+      0 0 35px
+      rgba(235,200,215,.05);
+  }
+
+  .chapter-next {
+    backdrop-filter:
+      blur(14px);
+
+    -webkit-backdrop-filter:
+      blur(14px);
+  }
+}
+
+
+/* ---------------------------------------------------------
+   REDUCED MOTION
+--------------------------------------------------------- */
+
+@media (prefers-reduced-motion:reduce) {
+
+  .chapter-age::after,
+  .chapter-number-active,
+  .chapter-hand-move,
+  .chapter-next-visible {
+
+    animation: none !important;
+  }
+}
+
+/* =========================================================
+   AGE — DEEP SPACE CINEMATIC EXPERIENCE
+   ========================================================= */
+
+.chapter-age {
+  position: relative;
+
+  width: 100%;
+  height: 100svh;
+  min-height: 620px;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 45%,
+      #0b1020 0%,
+      #050813 38%,
+      #02040a 72%,
+      #000106 100%
+    );
+
+  color: #f4f6ff;
+
+  user-select: none;
+  -webkit-user-select: none;
+
+  touch-action: none;
+}
+
+/* =========================================================
+   CINEMATIC VIGNETTE
+   ========================================================= */
+
+.chapter-age::before {
+  content: "";
+
+  position: absolute;
+  inset: -2%;
+
+  z-index: 40;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 32%,
+      rgba(0, 0, 0, 0.12) 58%,
+      rgba(0, 0, 0, 0.58) 82%,
+      rgba(0, 0, 0, 0.92) 100%
+    );
+
+  opacity: 0;
+
+  transition:
+    opacity 2.8s cubic-bezier(.16,1,.3,1);
+}
+
+/* =========================================================
+   VERY SUBTLE FILM GRAIN
+   ========================================================= */
+
+.chapter-age::after {
+  content: "";
+
+  position: absolute;
+  inset: -50%;
+
+  z-index: 41;
+
+  pointer-events: none;
+
+  background-image:
+    radial-gradient(
+      rgba(255,255,255,0.055) 0.65px,
+      transparent 0.75px
+    );
+
+  background-size: 4px 4px;
+
+  mix-blend-mode: soft-light;
+
+  opacity: 0;
+
+  animation:
+    chapterSpaceGrain
+    0.24s
+    steps(2)
+    infinite;
+
+  transition:
+    opacity 2s ease;
+}
+
+.chapter-age.chapter-visible::before {
+  opacity: 1;
+}
+
+.chapter-age.chapter-visible::after {
+  opacity: 0.075;
+}
+
+@keyframes chapterSpaceGrain {
+
+  0% {
+    transform:
+      translate3d(0,0,0);
+  }
+
+  25% {
+    transform:
+      translate3d(-1%,-0.5%,0);
+  }
+
+  50% {
+    transform:
+      translate3d(0.5%,1%,0);
+  }
+
+  75% {
+    transform:
+      translate3d(1%,-1%,0);
+  }
+
+  100% {
+    transform:
+      translate3d(-0.5%,0.5%,0);
+  }
+}
+
+/* =========================================================
+   CANVAS STACK
+   ========================================================= */
+
+.chapter-space,
+.chapter-fx-canvas,
+.chapter-number-canvas {
+
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  pointer-events: none;
+
+  will-change: transform;
+}
+
+.chapter-space {
+  z-index: 1;
+}
+
+.chapter-fx-canvas {
+  z-index: 8;
+
+  mix-blend-mode: screen;
+}
+
+.chapter-number-canvas {
+  z-index: 14;
+
+  mix-blend-mode: screen;
+}
+
+/* =========================================================
+   TOP CINEMATIC LABEL
+   ========================================================= */
+
+.chapter-label {
+
+  position: absolute;
+
+  top: 9.5%;
+  left: 50%;
+
+  z-index: 30;
+
+  transform:
+    translate3d(-50%, -18px, 0);
+
+  font-family:
+    Inter,
+    system-ui,
+    sans-serif;
+
+  font-size: 8px;
+
+  font-weight: 500;
+
+  letter-spacing: 0.52em;
+
+  text-transform: uppercase;
+
+  color:
+    rgba(222, 229, 250, 0.48);
+
+  white-space: nowrap;
+
+  opacity: 0;
+
+  filter:
+    blur(8px);
+
+  transition:
+    opacity 1.8s ease,
+    transform 1.8s cubic-bezier(.16,1,.3,1),
+    filter 1.8s ease;
+}
+
+.chapter-visible .chapter-label {
+
+  opacity: 1;
+
+  transform:
+    translate3d(-50%, 0, 0);
+
+  filter:
+    blur(0);
+}
+
+/* =========================================================
+   NUMBER SUPPORTING TEXT
+   ========================================================= */
+
+.chapter-words {
+
+  position: absolute;
+
+  left: 50%;
+  top: 69.5%;
+
+  z-index: 25;
+
+  transform:
+    translate3d(-50%, 18px, 0);
+
+  font-family:
+    Inter,
+    system-ui,
+    sans-serif;
+
+  font-size: 10px;
+
+  font-weight: 500;
+
+  letter-spacing: 0.56em;
+
+  color:
+    rgba(224,229,247,0.64);
+
+  white-space: nowrap;
+
+  opacity: 0;
+
+  filter:
+    blur(8px);
+
+  transition:
+    opacity 1.5s ease,
+    transform 1.5s cubic-bezier(.16,1,.3,1),
+    filter 1.5s ease;
+}
+
+.chapter-detail-visible {
+
+  opacity: 1;
+
+  transform:
+    translate3d(-50%, 0, 0);
+
+  filter:
+    blur(0);
+}
+
+/* =========================================================
+   CINEMATIC DIVIDER
+   ========================================================= */
+
+.chapter-line {
+
+  position: absolute;
+
+  left: 50%;
+  top: 74%;
+
+  width: 0;
+  height: 1px;
+
+  z-index: 25;
+
+  transform:
+    translateX(-50%)
+    scaleX(0);
+
+  transform-origin: center;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(215,224,255,0.55),
+      transparent
+    );
+
+  box-shadow:
+    0 0 18px
+    rgba(160,185,255,0.18);
+
+  transition:
+    width 1.6s cubic-bezier(.16,1,.3,1),
+    transform 1.6s cubic-bezier(.16,1,.3,1);
+}
+
+.chapter-line::after {
+
+  content: "";
+
+  position: absolute;
+
+  top: -2px;
+  left: -20%;
+
+  width: 20%;
+  height: 5px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,0.9),
+      transparent
+    );
+
+  filter:
+    blur(2px);
+
+  animation:
+    chapterSpaceSweep
+    3.8s
+    ease-in-out
+    infinite;
+}
+
+.chapter-line-visible {
+
+  width: 110px;
+
+  transform:
+    translateX(-50%)
+    scaleX(1);
+}
+
+@keyframes chapterSpaceSweep {
+
+  0% {
+    left: -25%;
+  }
+
+  45% {
+    left: 105%;
+  }
+
+  100% {
+    left: 105%;
+  }
+}
+
+/* =========================================================
+   SUBTITLE
+   ========================================================= */
+
+.chapter-sub {
+
+  position: absolute;
+
+  left: 50%;
+  top: 77%;
+
+  z-index: 25;
+
+  transform:
+    translate3d(-50%, 15px, 0);
+
+  font-family:
+    Inter,
+    system-ui,
+    sans-serif;
+
+  font-size: 7px;
+
+  font-weight: 500;
+
+  letter-spacing: 0.42em;
+
+  color:
+    rgba(208,216,238,0.32);
+
+  white-space: nowrap;
+
+  opacity: 0;
+
+  filter:
+    blur(7px);
+
+  transition:
+    opacity 1.5s ease,
+    transform 1.5s cubic-bezier(.16,1,.3,1),
+    filter 1.5s ease;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.chapter-footer {
+
+  position: absolute;
+
+  left: 50%;
+  bottom: 8%;
+
+  z-index: 25;
+
+  transform:
+    translate3d(-50%, 8px, 0);
+
+  font-family:
+    Inter,
+    system-ui,
+    sans-serif;
+
+  font-size: 7px;
+
+  font-weight: 500;
+
+  letter-spacing: 0.48em;
+
+  color:
+    rgba(200,210,236,0.24);
+
+  white-space: nowrap;
+
+  opacity: 0;
+
+  transition:
+    opacity 2s ease 2.5s,
+    transform 2s cubic-bezier(.16,1,.3,1) 2.5s;
+}
+
+.chapter-visible .chapter-footer {
+
+  opacity: 1;
+
+  transform:
+    translate3d(-50%, 0, 0);
+}
+
+/* =========================================================
+   NEXT BUTTON
+   ========================================================= */
+
+.chapter-next {
+
+  position: absolute;
+
+  right: 30px;
+  bottom: 28px;
+
+  z-index: 60;
+
+  min-width: 122px;
+  min-height: 50px;
+
+  padding:
+    13px 23px;
+
+  border-radius: 14px;
+
+  border:
+    1px solid
+    rgba(210,220,245,0.17);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(20,27,48,0.68),
+      rgba(3,6,13,0.88)
+    );
+
+  backdrop-filter:
+    blur(20px)
+    saturate(120%);
+
+  -webkit-backdrop-filter:
+    blur(20px)
+    saturate(120%);
+
+  color:
+    rgba(239,243,255,0.9);
+
+  font-family:
+    Inter,
+    system-ui,
+    sans-serif;
+
+  font-size: 9px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.26em;
+
+  cursor: pointer;
+
+  opacity: 0;
+
+  pointer-events: auto;
+
+  transform:
+    translate3d(0, 18px, 0)
+    scale(0.96);
+
+  box-shadow:
+    0 18px 55px
+    rgba(0,0,0,0.52),
+
+    inset 0 1px 0
+    rgba(255,255,255,0.07);
+
+  transition:
+    border-color .5s ease,
+    background .5s ease,
+    box-shadow .6s ease,
+    transform .6s cubic-bezier(.16,1,.3,1);
+}
+
+.chapter-next-visible {
+
+  animation:
+    chapterNextSpaceArrival
+    1.5s
+    cubic-bezier(.16,1,.3,1)
+    forwards;
+}
+
+@keyframes chapterNextSpaceArrival {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translate3d(0, 24px, 0)
+      scale(0.94);
+
+    filter:
+      blur(8px);
+  }
+
+  65% {
+    opacity: 1;
+
+    transform:
+      translate3d(0,-2px,0)
+      scale(1.015);
+
+    filter:
+      blur(0);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform:
+      translate3d(0,0,0)
+      scale(1);
+
+    filter:
+      blur(0);
+  }
+}
+
+.chapter-next:hover {
+
+  border-color:
+    rgba(215,225,255,0.42);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(31,42,70,0.78),
+      rgba(4,7,15,0.94)
+    );
+
+  box-shadow:
+    0 24px 65px
+    rgba(0,0,0,0.62),
+
+    0 0 32px
+    rgba(130,160,230,0.10),
+
+    inset 0 1px 0
+    rgba(255,255,255,0.11);
+
+  transform:
+    translate3d(0,-4px,0);
+}
+
+.chapter-next:active {
+
+  transform:
+    translate3d(0,0,0)
+    scale(0.97);
+}
+
+/* =========================================================
+   EXIT — CAMERA FLIGHT
+   ========================================================= */
+
+.chapter-leaving {
+
+  animation:
+    chapterSpaceExit
+    1.05s
+    cubic-bezier(.76,0,.24,1)
+    forwards;
+}
+
+@keyframes chapterSpaceExit {
+
+  0% {
+
+    opacity: 1;
+
+    transform:
+      scale(1);
+
+    filter:
+      blur(0);
+  }
+
+  42% {
+
+    opacity: 1;
+
+    transform:
+      scale(1.015);
+
+    filter:
+      blur(0.5px);
+  }
+
+  100% {
+
+    opacity: 0;
+
+    transform:
+      scale(1.09);
+
+    filter:
+      blur(13px);
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .chapter-age {
+
+    min-height:
+      100svh;
+  }
+
+  .chapter-label {
+
+    top: 10%;
+
+    font-size: 7px;
+
+    letter-spacing:
+      0.38em;
+  }
+
+  .chapter-words {
+
+    top: 68%;
+
+    font-size: 8px;
+
+    letter-spacing:
+      0.42em;
+  }
+
+  .chapter-line {
+
+    top: 72.5%;
+  }
+
+  .chapter-sub {
+
+    top: 75.5%;
+
+    font-size: 6.5px;
+
+    letter-spacing:
+      0.31em;
+  }
+
+  .chapter-footer {
+
+    bottom: 8%;
+  }
+
+  .chapter-next {
+
+    right: 16px;
+    bottom: 16px;
+
+    min-width: 112px;
+    min-height: 48px;
+
+    padding:
+      12px 19px;
+  }
+}
+
+/* =========================================================
+   SHORT SCREENS
+   ========================================================= */
+
+@media (max-height: 700px) {
+
+  .chapter-label {
+    top: 6.5%;
+  }
+
+  .chapter-words {
+    top: 69%;
+  }
+
+  .chapter-line {
+    top: 73%;
+  }
+
+  .chapter-sub {
+    top: 76%;
+  }
+
+  .chapter-footer {
+    bottom: 4%;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .chapter-age::after,
+  .chapter-line::after,
+  .chapter-next-visible,
+  .chapter-leaving {
+
+    animation: none !important;
+  }
+
+  .chapter-age::before {
+
+    opacity: 1;
+  }
+
+  .chapter-age::after {
+
+    opacity: 0;
+  }
+}
 /* =========================================================
    ENCHANTED GALA
    ========================================================= */
@@ -14937,4 +16512,1433 @@ body:has(.scene-bulb.lights-on){
     min-height:48px;
   }
 
+}
+
+/* ============================================================
+   BIRTHDAY MUSIC SCENE
+   CINEMATIC "LET THE MUSIC PLAY"
+   ============================================================ */
+
+
+/* ============================================================
+   MAIN SCENE
+   ============================================================ */
+
+.scene-music {
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            ellipse 55% 48% at 50% 48%,
+            rgba(120, 72, 92, 0.16),
+            transparent 68%
+        ),
+        radial-gradient(
+            ellipse 40% 30% at 50% 45%,
+            rgba(255,255,255,0.025),
+            transparent 70%
+        ),
+        #050507;
+
+    color: #fff;
+}
+
+
+/* ============================================================
+   MUSIC STAGE
+   ============================================================ */
+
+.scene-music .music-stage {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding:
+        70px
+        30px
+        90px;
+
+    overflow: hidden;
+
+    isolation: isolate;
+}
+
+
+/* ============================================================
+   CINEMATIC CENTER GLOW
+   ============================================================ */
+
+.scene-music .music-stage::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 47%;
+
+    width: 620px;
+    height: 620px;
+
+    transform:
+        translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(150, 92, 118, 0.13) 0%,
+            rgba(150, 92, 118, 0.055) 28%,
+            transparent 68%
+        );
+
+    filter: blur(35px);
+
+    pointer-events: none;
+
+    z-index: -3;
+
+    animation:
+        musicCenterGlow
+        8s
+        ease-in-out
+        infinite
+        alternate;
+}
+
+
+/* ============================================================
+   VERY SUBTLE DUST
+   ============================================================ */
+
+.scene-music .music-stage::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: -2;
+
+    opacity: .25;
+
+    background-image:
+
+        radial-gradient(
+            circle at 11% 19%,
+            rgba(255,255,255,.45) 0 1px,
+            transparent 1.6px
+        ),
+
+        radial-gradient(
+            circle at 26% 74%,
+            rgba(255,255,255,.35) 0 1px,
+            transparent 1.5px
+        ),
+
+        radial-gradient(
+            circle at 43% 26%,
+            rgba(255,255,255,.30) 0 1px,
+            transparent 1.5px
+        ),
+
+        radial-gradient(
+            circle at 63% 14%,
+            rgba(255,255,255,.35) 0 1px,
+            transparent 1.5px
+        ),
+
+        radial-gradient(
+            circle at 77% 68%,
+            rgba(255,255,255,.30) 0 1px,
+            transparent 1.5px
+        ),
+
+        radial-gradient(
+            circle at 91% 34%,
+            rgba(255,255,255,.35) 0 1px,
+            transparent 1.5px
+        );
+
+    animation:
+        musicDustMove
+        22s
+        ease-in-out
+        infinite
+        alternate;
+}
+
+
+/* ============================================================
+   CONTENT
+   ============================================================ */
+
+.scene-music .music-content {
+
+    position: relative;
+
+    width: 100%;
+    max-width: 1100px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    z-index: 10;
+
+    animation:
+        musicContentEnter
+        1.4s
+        cubic-bezier(.16,1,.3,1)
+        both;
+}
+
+
+/* ============================================================
+   EYEBROW
+   ============================================================ */
+
+.scene-music .music-eyebrow {
+
+    margin: 0 0 24px;
+
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    line-height: 1;
+
+    letter-spacing: .42em;
+
+    text-transform: uppercase;
+
+    color:
+        rgba(255,255,255,.46);
+
+    opacity: 0;
+
+    transform:
+        translateY(14px);
+
+    animation:
+        musicEyebrowEnter
+        1s
+        cubic-bezier(.22,1,.36,1)
+        .15s
+        forwards;
+}
+
+
+/* little dot */
+
+.scene-music .music-eyebrow::before {
+
+    content: "";
+
+    display: inline-block;
+
+    width: 3px;
+    height: 3px;
+
+    margin:
+        0
+        11px
+        2px
+        0;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,.62);
+
+    box-shadow:
+        0 0 12px rgba(255,255,255,.35);
+}
+
+
+/* ============================================================
+   HUGE TITLE
+   ============================================================ */
+
+.scene-music .music-title {
+
+    width: min(1100px, 94vw);
+
+    margin: 0;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    /*
+       Large but controlled.
+       This creates the cinematic typography.
+    */
+
+    font-size:
+        clamp(65px, 8vw, 122px);
+
+    font-weight: 400;
+
+    line-height: .80;
+
+    letter-spacing:
+        -.045em;
+
+    color:
+        rgba(255,255,255,.95);
+
+    text-align: center;
+
+    opacity: 0;
+
+    transform:
+        translateY(35px)
+        scale(.985);
+
+    animation:
+        musicTitleEnter
+        1.5s
+        cubic-bezier(.16,1,.3,1)
+        .28s
+        forwards;
+}
+
+
+/*
+   If the title is naturally one line,
+   force the cinematic visual width.
+*/
+
+.scene-music .music-title {
+    text-wrap: balance;
+}
+
+
+/* ============================================================
+   SUBTITLE
+   ============================================================ */
+
+.scene-music .music-subtitle {
+
+    width:
+        min(560px, 88vw);
+
+    margin:
+        30px
+        0
+        0;
+
+    font-family:
+        Inter,
+        system-ui,
+        sans-serif;
+
+    font-size:
+        clamp(11px, 1.05vw, 13px);
+
+    font-weight: 400;
+
+    line-height: 1.7;
+
+    letter-spacing: .08em;
+
+    color:
+        rgba(255,255,255,.43);
+
+    opacity: 0;
+
+    transform:
+        translateY(15px);
+
+    animation:
+        musicSubtitleEnter
+        1s
+        cubic-bezier(.22,1,.36,1)
+        .75s
+        forwards;
+}
+
+
+/* ============================================================
+   MUSIC PLAYER
+   ============================================================ */
+
+/*
+   IMPORTANT:
+
+   We completely remove the old horizontal player/card.
+
+   The existing JS can remain unchanged.
+*/
+
+.scene-music .music-player {
+
+    position: relative;
+
+    width: 360px;
+
+    height: 285px;
+
+    margin:
+        32px
+        0
+        0;
+
+    padding: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    background: transparent;
+
+    border: 0;
+
+    box-shadow: none;
+
+    backdrop-filter: none;
+
+    -webkit-backdrop-filter: none;
+
+    opacity: 0;
+
+    transform:
+        translateY(25px);
+
+    animation:
+        musicPlayerEnter
+        1.2s
+        cubic-bezier(.16,1,.3,1)
+        1s
+        forwards;
+}
+
+
+/* ============================================================
+   REMOVE VINYL
+   ============================================================ */
+
+.scene-music .music-vinyl {
+
+    display: none !important;
+}
+
+
+/* ============================================================
+   PLAY BUTTON
+   ============================================================ */
+
+.scene-music .music-play {
+
+    position: absolute;
+
+    left: 50%;
+    top: 46px;
+
+    width: 84px;
+    height: 84px;
+
+    margin: 0;
+    padding: 0;
+
+    transform:
+        translateX(-50%);
+
+    display: grid;
+
+    place-items: center;
+
+    box-sizing: border-box;
+
+    border:
+        1px solid rgba(255,255,255,.52);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle at 35% 28%,
+            rgba(255,255,255,.13),
+            rgba(255,255,255,.035) 55%,
+            rgba(255,255,255,.015) 100%
+        );
+
+    color: #fff;
+
+    cursor: pointer;
+
+    z-index: 20;
+
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,.03),
+        0 12px 35px rgba(0,0,0,.38),
+        inset 0 1px 0 rgba(255,255,255,.15);
+
+    transition:
+        transform .5s cubic-bezier(.22,1,.36,1),
+        border-color .5s ease,
+        background .5s ease,
+        box-shadow .5s ease;
+}
+
+
+/* ============================================================
+   RING 1
+   ============================================================ */
+
+.scene-music .music-play::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -12px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid rgba(255,255,255,.16);
+
+    border-top-color:
+        rgba(255,255,255,.58);
+
+    border-right-color:
+        rgba(255,255,255,.045);
+
+    animation:
+        musicRingRotate
+        7s
+        linear
+        infinite;
+
+    animation-play-state: paused;
+}
+
+
+/* ============================================================
+   RING 2
+   ============================================================ */
+
+.scene-music .music-play::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -25px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid rgba(255,255,255,.07);
+
+    box-shadow:
+        0 0 30px rgba(170,105,130,.10);
+
+    animation:
+        musicOuterRing
+        10s
+        ease-in-out
+        infinite
+        alternate;
+
+    pointer-events: none;
+}
+
+
+/* playing */
+
+.scene-music .music-play.playing::before {
+
+    animation-play-state:
+        running;
+}
+
+
+/* ============================================================
+   PLAY ICON
+   ============================================================ */
+
+.scene-music .music-play-icon {
+
+    position: relative;
+
+    z-index: 30;
+
+    font-family:
+        Inter,
+        system-ui,
+        sans-serif;
+
+    font-size: 22px;
+
+    font-weight: 400;
+
+    line-height: 1;
+
+    transform:
+        translateX(1px);
+
+    color:
+        rgba(255,255,255,.92);
+
+    text-shadow:
+        0 0 20px rgba(255,255,255,.18);
+}
+
+
+/* ============================================================
+   PLAY LABEL
+   ============================================================ */
+
+.scene-music .music-play-label {
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: -46px;
+
+    transform:
+        translateX(-50%);
+
+    white-space: nowrap;
+
+    font-family:
+        Inter,
+        system-ui,
+        sans-serif;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    letter-spacing: .34em;
+
+    color:
+        rgba(255,255,255,.30);
+
+    z-index: 30;
+}
+
+
+/* ============================================================
+   TRACK INFO
+   ============================================================ */
+
+.scene-music .music-track-info {
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    top: 195px;
+
+    margin: 0;
+
+    padding: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 6px;
+
+    text-align: center;
+
+    z-index: 15;
+}
+
+
+.scene-music .music-track-name {
+
+    margin: 0;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 28px;
+
+    font-weight: 400;
+
+    line-height: 1;
+
+    letter-spacing:
+        -.015em;
+
+    color:
+        rgba(255,255,255,.84);
+}
+
+
+.scene-music .music-track-artist {
+
+    margin: 0;
+
+    font-family:
+        Inter,
+        system-ui,
+        sans-serif;
+
+    font-size: 7px;
+
+    font-weight: 600;
+
+    letter-spacing: .30em;
+
+    text-transform: uppercase;
+
+    color:
+        rgba(255,255,255,.25);
+}
+
+
+/* ============================================================
+   VISUALIZER
+   ============================================================ */
+
+.scene-music .music-visualizer {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 250px;
+
+    width: 58px;
+
+    height: 28px;
+
+    margin: 0;
+
+    padding: 0;
+
+    transform:
+        translateX(-50%);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 3px;
+
+    overflow: hidden;
+
+    z-index: 15;
+}
+
+
+/* central line */
+
+.scene-music .music-visualizer::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    top: 50%;
+
+    height: 1px;
+
+    transform:
+        translateY(-50%);
+
+    background:
+        rgba(255,255,255,.07);
+}
+
+
+.scene-music .music-bar {
+
+    position: relative;
+
+    width: 2px;
+
+    height: 10px;
+
+    flex:
+        0 0 2px;
+
+    border-radius: 99px;
+
+    background:
+        rgba(255,255,255,.65);
+
+    opacity: .35;
+
+    transform:
+        scaleY(.35);
+
+    transform-origin: center;
+
+    animation:
+        musicVisualizerBars
+        1.1s
+        ease-in-out
+        infinite;
+
+    animation-delay:
+        calc(var(--bar-index) * -.06s);
+
+    animation-play-state:
+        paused;
+}
+
+
+.scene-music .birthday-music-playing .music-bar {
+
+    animation-play-state:
+        running;
+
+    opacity: .72;
+}
+
+
+/* ============================================================
+   MUTE BUTTON
+   ============================================================ */
+
+.scene-music .music-mute {
+
+    position: fixed;
+
+    top: 28px;
+    right: 30px;
+
+    width: 44px;
+    height: 44px;
+
+    margin: 0;
+    padding: 0;
+
+    display: grid;
+
+    place-items: center;
+
+    box-sizing: border-box;
+
+    border:
+        1px solid rgba(255,255,255,.12);
+
+    border-radius: 14px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    color:
+        rgba(255,255,255,.68);
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    z-index: 99999;
+
+    backdrop-filter:
+        blur(14px);
+
+    -webkit-backdrop-filter:
+        blur(14px);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.07);
+
+    transition:
+        transform .4s cubic-bezier(.22,1,.36,1),
+        border-color .4s ease,
+        background .4s ease,
+        color .4s ease;
+}
+
+
+@media (hover:hover) and (pointer:fine) {
+
+    .scene-music .music-mute:hover {
+
+        transform:
+            translateY(-2px);
+
+        border-color:
+            rgba(255,255,255,.24);
+
+        background:
+            rgba(255,255,255,.07);
+
+        color:
+            rgba(255,255,255,.95);
+    }
+
+
+    .scene-music .music-play:hover {
+
+        transform:
+            translateX(-50%)
+            scale(1.05);
+
+        border-color:
+            rgba(255,255,255,.72);
+
+        background:
+            rgba(255,255,255,.07);
+
+        box-shadow:
+            0 16px 40px rgba(0,0,0,.45),
+            0 0 35px rgba(255,255,255,.055),
+            inset 0 1px 0 rgba(255,255,255,.20);
+    }
+}
+
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+
+.scene-music .scene-navigation {
+
+    position: absolute;
+
+    inset: auto 30px 30px 30px;
+
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    z-index: 100;
+
+    pointer-events: none;
+}
+
+
+.scene-music .scene-back,
+.scene-music .scene-next {
+
+    pointer-events: auto;
+
+    margin: 0;
+
+    padding:
+        11px
+        17px;
+
+    border:
+        1px solid rgba(255,255,255,.09);
+
+    border-radius: 14px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    color:
+        rgba(255,255,255,.48);
+
+    font-family:
+        Inter,
+        system-ui,
+        sans-serif;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    letter-spacing: .22em;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    backdrop-filter:
+        blur(12px);
+
+    -webkit-backdrop-filter:
+        blur(12px);
+
+    transition:
+        transform .4s cubic-bezier(.22,1,.36,1),
+        color .4s ease,
+        border-color .4s ease,
+        background .4s ease,
+        opacity .4s ease;
+}
+
+
+.scene-music .scene-next {
+
+    color:
+        rgba(255,255,255,.78);
+
+    border-color:
+        rgba(190,130,155,.28);
+
+    background:
+        rgba(110,55,78,.20);
+}
+
+
+@media (hover:hover) and (pointer:fine) {
+
+    .scene-music .scene-back:hover,
+    .scene-music .scene-next:hover {
+
+        transform:
+            translateY(-3px);
+
+        color:
+            rgba(255,255,255,.95);
+
+        border-color:
+            rgba(255,255,255,.28);
+
+        background:
+            rgba(255,255,255,.055);
+    }
+}
+
+
+.scene-music .scene-next.hidden {
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes musicCenterGlow {
+
+    0% {
+        opacity: .55;
+
+        transform:
+            translate(-50%, -50%)
+            scale(.90);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1.08);
+    }
+}
+
+
+@keyframes musicDustMove {
+
+    0% {
+        transform:
+            translate3d(0,0,0);
+    }
+
+    100% {
+        transform:
+            translate3d(-1%,1%,0);
+    }
+}
+
+
+@keyframes musicContentEnter {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+@keyframes musicEyebrowEnter {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+@keyframes musicTitleEnter {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(35px)
+            scale(.985);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+@keyframes musicSubtitleEnter {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+@keyframes musicPlayerEnter {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(25px)
+            scale(.98);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+@keyframes musicRingRotate {
+
+    from {
+        transform:
+            rotate(0deg);
+    }
+
+    to {
+        transform:
+            rotate(360deg);
+    }
+}
+
+
+@keyframes musicOuterRing {
+
+    0% {
+        transform:
+            scale(.96)
+            rotate(0deg);
+
+        opacity: .45;
+    }
+
+    100% {
+        transform:
+            scale(1.04)
+            rotate(18deg);
+
+        opacity: .85;
+    }
+}
+
+
+@keyframes musicVisualizerBars {
+
+    0%,
+    100% {
+        transform:
+            scaleY(.25);
+    }
+
+    25% {
+        transform:
+            scaleY(1.1);
+    }
+
+    50% {
+        transform:
+            scaleY(.45);
+    }
+
+    75% {
+        transform:
+            scaleY(1.35);
+    }
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+    .scene-music .music-stage {
+
+        padding:
+            65px
+            20px
+            85px;
+    }
+
+
+    .scene-music .music-title {
+
+        width:
+            94vw;
+
+        font-size:
+            clamp(55px, 12vw, 82px);
+    }
+
+
+    .scene-music .music-subtitle {
+
+        margin-top: 25px;
+    }
+
+
+    .scene-music .music-player {
+
+        margin-top: 30px;
+    }
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 520px) {
+
+    .scene-music .music-stage {
+
+        padding:
+            62px
+            16px
+            80px;
+    }
+
+
+    .scene-music .music-eyebrow {
+
+        margin-bottom: 18px;
+
+        font-size: 7px;
+
+        letter-spacing: .34em;
+    }
+
+
+    .scene-music .music-title {
+
+        width:
+            94vw;
+
+        font-size:
+            clamp(47px, 14vw, 68px);
+
+        line-height:
+            .84;
+    }
+
+
+    .scene-music .music-subtitle {
+
+        width:
+            88vw;
+
+        margin-top: 22px;
+
+        font-size: 9px;
+
+        line-height: 1.75;
+
+        letter-spacing: .05em;
+    }
+
+
+    .scene-music .music-player {
+
+        width: 280px;
+
+        height: 250px;
+
+        margin-top: 25px;
+    }
+
+
+    .scene-music .music-play {
+
+        top: 38px;
+
+        width: 70px;
+        height: 70px;
+    }
+
+
+    .scene-music .music-track-info {
+
+        top: 172px;
+    }
+
+
+    .scene-music .music-track-name {
+
+        font-size: 24px;
+    }
+
+
+    .scene-music .music-visualizer {
+
+        top: 218px;
+    }
+
+
+    .scene-music .music-mute {
+
+        top: 18px;
+        right: 18px;
+
+        width: 40px;
+        height: 40px;
+
+        border-radius: 13px;
+    }
+
+
+    .scene-music .scene-navigation {
+
+        left: 16px;
+        right: 16px;
+
+        bottom: 16px;
+    }
+
+
+    .scene-music .scene-back,
+    .scene-music .scene-next {
+
+        padding:
+            9px
+            13px;
+
+        font-size: 7px;
+    }
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .scene-music *,
+    .scene-music *::before,
+    .scene-music *::after {
+
+        animation-duration:
+            .01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            .01ms !important;
+    }
+
+    .scene-music .music-bar {
+
+        animation: none !important;
+
+        transform:
+            scaleY(.65);
+    }
 }
