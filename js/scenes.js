@@ -2155,6 +2155,248 @@ audio.volume = 1;
     }
 
     /* =====================================
+   PREMIUM BACK BUTTON
+===================================== */
+
+.birthday-music-back {
+
+  position: fixed;
+
+  left: 30px;
+  bottom: 28px;
+
+  z-index: 99999;
+
+  min-width: 118px;
+  height: 52px;
+
+  padding: 0 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  border: 1px solid
+    rgba(235,200,218,.32);
+
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(75,42,58,.75),
+      rgba(24,11,18,.94)
+    );
+
+  color: #f7eaf0;
+
+  font-family:
+    Inter,
+    system-ui,
+    sans-serif;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: .25em;
+
+  cursor: pointer;
+
+  user-select: none;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 10px 35px
+    rgba(0,0,0,.38),
+
+    inset 0 1px 0
+    rgba(255,255,255,.10);
+
+  transition:
+    transform .35s ease,
+    box-shadow .35s ease,
+    border-color .35s ease,
+    background .35s ease,
+    opacity .6s ease;
+}
+
+
+/* =====================================
+   BACK ARROW
+===================================== */
+
+.birthday-back-arrow {
+
+  font-size: 20px;
+
+  font-weight: 300;
+
+  line-height: 1;
+
+  transition:
+    transform .35s
+    cubic-bezier(.22,.61,.36,1);
+}
+
+
+/* =====================================
+   BACK TEXT
+===================================== */
+
+.birthday-back-text {
+
+  line-height: 1;
+
+  transform:
+    translateY(1px);
+}
+
+
+/* =====================================
+   PREMIUM LIGHT SWEEP
+===================================== */
+
+.birthday-music-back::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+
+  left: -120%;
+
+  width: 75%;
+
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.13),
+      transparent
+    );
+
+  transform:
+    skewX(-20deg);
+
+  transition:
+    left .7s ease;
+
+  pointer-events: none;
+}
+
+
+/* =====================================
+   HOVER
+===================================== */
+
+.birthday-music-back:hover {
+
+  transform:
+    translateY(-3px);
+
+  border-color:
+    rgba(235,200,218,.55);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(95,55,73,.85),
+      rgba(30,14,22,.96)
+    );
+
+  box-shadow:
+
+    0 20px 55px
+    rgba(0,0,0,.55),
+
+    0 0 30px
+    rgba(220,140,175,.14),
+
+    inset 0 1px 0
+    rgba(255,255,255,.15);
+}
+
+
+.birthday-music-back:hover::before {
+
+  left: 140%;
+}
+
+
+.birthday-music-back:hover
+.birthday-back-arrow {
+
+  transform:
+    translateX(-5px);
+}
+
+
+/* =====================================
+   CLICK
+===================================== */
+
+.birthday-music-back:active {
+
+  transform:
+    translateY(-1px)
+    scale(.97);
+}
+
+
+/* =====================================
+   HIDDEN AFTER PLAY
+===================================== */
+
+.birthday-music-back.hidden {
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transform:
+    translateY(18px);
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width:700px) {
+
+  .birthday-music-back {
+
+    left: 18px;
+
+    bottom: 18px;
+
+    min-width: 108px;
+
+    height: 48px;
+
+    padding: 0 18px;
+
+    border-radius: 16px;
+
+    font-size: 10px;
+
+    letter-spacing: .24em;
+  }
+
+  .birthday-back-arrow {
+
+    font-size: 18px;
+  }
+}
+
+    /* =====================================
        ANIMATIONS
     ===================================== */
 
@@ -2406,6 +2648,32 @@ playButton.style.cursor = "pointer";
 
   this.root.appendChild(nextButton);
 
+  
+
+  /* =========================================
+   PREMIUM BACK BUTTON
+========================================= */
+
+const backButton =
+  document.createElement("button");
+
+backButton.type = "button";
+
+backButton.className =
+  "birthday-music-back";
+
+backButton.innerHTML = `
+  <span class="birthday-back-arrow">←</span>
+  <span class="birthday-back-text">BACK</span>
+`;
+
+backButton.setAttribute(
+  "aria-label",
+  "Go back"
+);
+
+this.root.appendChild(backButton);
+
     /* =========================================
    PERSISTENT PREMIUM MUSIC CONTROL
 ========================================= */
@@ -2516,11 +2784,13 @@ this.muteButton.style.display = "flex";
 
     await audio.play();
 
-    console.log("BIRTHDAY MUSIC STARTED");
+console.log("BIRTHDAY MUSIC STARTED");
 
-    stage.classList.add("birthday-music-playing");
+/* Hide BACK after music starts */
+backButton.classList.add("hidden");
 
-    playButton.classList.add("playing");
+stage.classList.add("birthday-music-playing");
+playButton.classList.add("playing");
 
     icon.textContent = "Ⅱ";
     label.textContent = "PLAYING";
@@ -2536,6 +2806,18 @@ this.muteButton.style.display = "flex";
     label.textContent = "TRY AGAIN";
 
   }
+
+});
+
+/* =========================================
+   BACK
+========================================= */
+
+this.on(backButton, "click", async () => {
+
+  await this.go(
+    SCENES.CURTAINS
+  );
 
 });
 
