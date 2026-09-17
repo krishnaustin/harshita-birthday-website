@@ -14916,3 +14916,25 @@ body:has(.scene-bulb.lights-on){
     );
 }
 
+/* =========================================================
+   BULB MOBILE — BUTTON ALIGNMENT
+   ========================================================= */
+
+@media (max-width:700px){
+
+  .light-toggle-btn{
+    width:205px;
+    min-width:205px;
+    max-width:calc(100vw - 40px);
+    left:50%;
+    bottom:18px;
+  }
+
+  .bulb-next-btn{
+    right:18px;
+    bottom:18px;
+    min-width:105px;
+    min-height:48px;
+  }
+
+}
