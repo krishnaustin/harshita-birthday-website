@@ -7102,61 +7102,92 @@ this.on(s, "pointermove", (event) => {
 
   let noClicks = 0;
 
-  this.on(no, "click", () => {
-    noClicks++;
+const noSizes = [
+  1.00, // before click
+  0.80, // 1st click
+  0.60, // 2nd click
+  0.40, // 3rd click
+  0.20, // 4th click
+  0.00  // 5th click
+];
 
-    const p = Math.min(
-      noClicks / C.noClickLimit,
-      1
+const yesSizes = [
+  1.00, // before click
+  1.10, // 1st click
+  1.20, // 2nd click
+  1.30, // 3rd click
+  1.40, // 4th click
+  1.50  // 5th click
+];
+
+this.on(no, "click", () => {
+  noClicks++;
+
+  const noScale = noSizes[Math.min(noClicks, 5)];
+  const yesScale = yesSizes[Math.min(noClicks, 5)];
+
+  // NOT YET gets smaller
+  no.style.setProperty(
+    "--no-click-scale",
+    noScale
+  );
+
+  // OPEN THE LETTER gets bigger
+  yes.style.setProperty(
+    "--yes-click-scale",
+    yesScale
+  );
+
+  env.classList.remove("envelope-tease");
+  void env.offsetWidth;
+  env.classList.add("envelope-tease");
+
+  seal.classList.remove("seal-pulse");
+  void seal.offsetWidth;
+  seal.classList.add("seal-pulse");
+
+  if (noClicks >= 5) {
+    no.classList.add("gone");
+    no.disabled = true;
+  }
+});
+
+  /* =========================================================
+   OPEN LETTER → SECRET ACCESS
+   ========================================================= */
+
+this.on(yes, "click", () => {
+
+  yes.disabled = true;
+  no.disabled = true;
+
+  /* Hide the original question/buttons */
+  question.classList.add("letter-auth-transition");
+  actions.classList.add("letter-auth-transition");
+
+  /*
+     Give the envelope a small cinematic reaction
+     before the authentication screen appears.
+  */
+  env.classList.remove("envelope-auth-breath");
+  void env.offsetWidth;
+  env.classList.add("envelope-auth-breath");
+
+  /*
+     Open the secret-access interface.
+  */
+  setTimeout(() => {
+
+    this.showLetterAuthentication(
+      s,
+      env,
+      seal,
+      question,
+      actions
     );
 
-    yes.style.transform =
-      `scale(${1 + p * 0.3})`;
-
-    no.style.transform =
-      `scale(${1 - p * 0.5})`;
-
-    env.classList.remove("envelope-tease");
-
-    void env.offsetWidth;
-
-    env.classList.add("envelope-tease");
-
-    /* make the seal react */
-
-    seal.classList.remove("seal-pulse");
-
-    void seal.offsetWidth;
-
-    seal.classList.add("seal-pulse");
-
-    if (noClicks >= C.noClickLimit) {
-      no.classList.add("gone");
-      no.disabled = true;
-    }
-  });
-
-  /* =========================
-     OPEN LETTER
-     ========================= */
-
-  this.on(yes, "click", () => {
-
-    yes.disabled = true;
-    no.disabled = true;
-
-    env.classList.add("cinematic-envelope-opening");
-
-    seal.classList.add("seal-opening");
-
-    setTimeout(() => {
-      this.openLetter(
-        env,
-        s,
-        actions
-      );
-    }, 950);
-  });
+  }, 850);
+});
 
   /* =========================
      MOUSE PARALLAX
@@ -7206,6 +7237,673 @@ this.on(s, "pointermove", (event) => {
   });
 }
 
+
+/* =========================================================
+   SECRET LETTER AUTHENTICATION
+   ========================================================= */
+
+showLetterAuthentication(
+  s,
+  env,
+  seal,
+  question,
+  actions
+) {
+
+  const LETTER_SECRET = "18NCBS1015";
+
+  /* ---------------------------------------------------------
+     AUTHENTICATION OVERLAY
+     --------------------------------------------------------- */
+
+  const auth = document.createElement("div");
+
+  auth.className =
+    "letter-secret-auth";
+
+  auth.innerHTML = `
+
+    <div class="letter-auth-stars"></div>
+
+    <div class="letter-auth-orbit orbit-one"></div>
+    <div class="letter-auth-orbit orbit-two"></div>
+
+    <div class="letter-auth-card">
+
+      <div class="letter-auth-topline">
+        <span></span>
+        PRIVATE CORRESPONDENCE
+        <span></span>
+      </div>
+
+      <div class="letter-auth-symbol">
+
+        <div class="auth-symbol-ring"></div>
+
+        <div class="auth-symbol-core">
+          ♡
+        </div>
+
+      </div>
+
+      <div class="letter-auth-kicker">
+        SEALED MESSAGE
+      </div>
+
+      <h2 class="letter-auth-title">
+        A message written<br>
+        for one person.
+      </h2>
+
+      <p class="letter-auth-description">
+        Some letters aren't meant to be opened by everyone.
+        <br>
+        This one is waiting for its intended reader.
+      </p>
+
+      <div class="letter-auth-divider">
+        <span></span>
+        <i>✦</i>
+        <span></span>
+      </div>
+
+      <div class="letter-auth-prompt">
+        ENTER THE SECRET CODE
+      </div>
+
+      <div class="letter-auth-field">
+
+        <span class="auth-lock">
+          ◈
+        </span>
+
+        <div class="letter-password-wrap">
+
+  <input
+    class="letter-secret-input"
+    type="password"
+    autocomplete="off"
+    spellcheck="false"
+    maxlength="64"
+    placeholder="Enter secret phrase"
+  >
+
+  <button
+    class="letter-password-toggle"
+    type="button"
+    aria-label="Show password"
+    title="Show password"
+  >
+    <span class="password-eye">◉</span>
+  </button>
+
+</div>
+
+        <span class="auth-field-status"></span>
+
+      </div>
+
+            <button
+        class="letter-auth-submit"
+        type="button"
+      >
+        <span class="auth-submit-text">
+          VERIFY ACCESS
+        </span>
+
+        <span class="auth-submit-arrow">
+          →
+        </span>
+      </button>
+
+      <button
+        class="letter-auth-next"
+        type="button"
+      >
+        <span>
+          NEXT
+        </span>
+
+        <span>
+          →
+        </span>
+      </button>
+
+      <div class="letter-auth-message"></div>
+
+      <div class="letter-auth-footer">
+        THIS MESSAGE KNOWS WHO IT'S WAITING FOR
+      </div>
+
+    </div>
+
+    <div class="letter-auth-cinematic-line line-one"></div>
+    <div class="letter-auth-cinematic-line line-two"></div>
+
+  `;
+
+  s.appendChild(auth);
+
+  /* ---------------------------------------------------------
+     ELEMENTS
+     --------------------------------------------------------- */
+
+  const input =
+    auth.querySelector(
+      ".letter-secret-input"
+    );
+
+  const submit =
+    auth.querySelector(
+      ".letter-auth-submit"
+    );
+
+    const passwordToggle =
+    auth.querySelector(
+      ".letter-password-toggle"
+    );
+
+const passwordEye =
+    auth.querySelector(
+      ".password-eye"
+    );
+
+    const authNext =
+  auth.querySelector(
+    ".letter-auth-next"
+  );
+
+  const message =
+    auth.querySelector(
+      ".letter-auth-message"
+    );
+
+  const status =
+    auth.querySelector(
+      ".auth-field-status"
+    );
+
+  const submitText =
+    auth.querySelector(
+      ".auth-submit-text"
+    );
+
+    /* ---------------------------------------------------------
+   SHOW / HIDE PASSWORD
+   --------------------------------------------------------- */
+
+this.on(
+  passwordToggle,
+  "click",
+  () => {
+
+    const isHidden =
+      input.type === "password";
+
+    input.type =
+      isHidden
+        ? "text"
+        : "password";
+
+    passwordToggle.setAttribute(
+      "aria-label",
+      isHidden
+        ? "Hide password"
+        : "Show password"
+    );
+
+    passwordToggle.setAttribute(
+      "title",
+      isHidden
+        ? "Hide password"
+        : "Show password"
+    );
+
+    passwordEye.textContent =
+      isHidden
+        ? "○"
+        : "◉";
+
+    input.focus();
+  }
+);
+
+  /* ---------------------------------------------------------
+     FOCUS
+     --------------------------------------------------------- */
+
+  setTimeout(() => {
+
+    input.focus();
+
+  }, 1000);
+
+
+  /* ---------------------------------------------------------
+     VERIFY FUNCTION
+     --------------------------------------------------------- */
+
+  const verify = async () => {
+
+    if (
+      submit.disabled
+    ) {
+      return;
+    }
+
+    const entered =
+      input.value;
+
+    /* Empty */
+    if (!entered) {
+
+      message.textContent =
+        "The seal is still waiting for a secret.";
+
+      auth.classList.remove(
+        "auth-error"
+      );
+
+      void auth.offsetWidth;
+
+      auth.classList.add(
+        "auth-error"
+      );
+
+      input.focus();
+
+      return;
+    }
+
+    /* -------------------------------------------------------
+       VERIFYING STATE
+       ------------------------------------------------------- */
+
+    submit.disabled = true;
+
+    input.disabled = true;
+
+    auth.classList.remove(
+      "auth-error",
+      "auth-success"
+    );
+
+    auth.classList.add(
+      "auth-verifying"
+    );
+
+    submitText.textContent =
+      "VERIFYING...";
+
+    message.textContent =
+      "Checking the seal...";
+
+    status.classList.add(
+      "checking"
+    );
+
+    /* cinematic verification delay */
+
+    await wait(1200);
+
+
+    /* =======================================================
+       WRONG PASSWORD
+       ======================================================= */
+
+    if (
+      entered !== LETTER_SECRET
+    ) {
+
+      auth.classList.remove(
+        "auth-verifying"
+      );
+
+      auth.classList.add(
+        "auth-error"
+      );
+
+      submit.disabled = false;
+
+      input.disabled = false;
+
+      status.classList.remove(
+        "checking"
+      );
+
+      status.classList.add(
+        "denied"
+      );
+
+      submitText.textContent =
+        "TRY AGAIN";
+
+      message.innerHTML = `
+        <strong>ACCESS DENIED</strong>
+        <span>
+          Nice try. You are not Harshita.
+        </span>
+      `;
+
+      input.value = "";
+
+      input.focus();
+
+      return;
+    }
+
+
+    /* =======================================================
+       CORRECT PASSWORD
+       ======================================================= */
+
+    auth.classList.remove(
+      "auth-verifying"
+    );
+
+    auth.classList.add(
+      "auth-success"
+    );
+
+    status.classList.remove(
+      "checking",
+      "denied"
+    );
+
+    status.classList.add(
+      "granted"
+    );
+
+    submitText.textContent =
+      "ACCESS GRANTED";
+
+    message.innerHTML = `
+      <strong>IDENTITY CONFIRMED</strong>
+      <span>
+        The letter is yours.
+      </span>
+    `;
+
+    await wait(1500);
+
+    /* -------------------------------------------------------
+       DESTROY AUTH SCREEN CINEMATICALLY
+       ------------------------------------------------------- */
+
+    auth.classList.add(
+      "auth-departure"
+    );
+
+    await wait(1250);
+
+    auth.remove();
+
+    /* -------------------------------------------------------
+       BEGIN THE REAL LETTER OPENING
+       ------------------------------------------------------- */
+
+    this.cinematicOpenLetter(
+      env,
+      s,
+      actions,
+      seal
+    );
+
+  };
+
+
+  this.on(
+  submit,
+  "click",
+  verify
+);
+
+
+/* ---------------------------------------------------------
+   NEXT — SKIP LETTER
+   --------------------------------------------------------- */
+
+this.on(
+  authNext,
+  "click",
+  async () => {
+
+    if (
+      auth.classList.contains(
+        "auth-departure"
+      )
+    ) {
+      return;
+    }
+
+    authNext.disabled = true;
+
+    auth.classList.add(
+      "auth-skip-departure"
+    );
+
+    await wait(850);
+
+    auth.remove();
+
+    this.go(
+      SCENES.FINAL
+    );
+
+  }
+);
+
+
+/* ---------------------------------------------------------
+   ENTER KEY
+   --------------------------------------------------------- */
+
+this.on(
+  input,
+  "keydown",
+  (event) => {
+
+    if (
+      event.key === "Enter"
+    ) {
+
+      event.preventDefault();
+
+      verify();
+
+    }
+
+  }
+);
+
+}
+
+
+
+/* =========================================================
+   CINEMATIC LETTER OPENING
+   ========================================================= */
+
+async cinematicOpenLetter(
+  env,
+  s,
+  actions,
+  seal
+) {
+
+  /* =========================================================
+     MINIMAL CINEMATIC LETTER OPENING
+     ========================================================= */
+
+  /* ---------------------------------------------------------
+     CREATE SOFT LIGHT
+     --------------------------------------------------------- */
+
+  const light =
+    document.createElement("div");
+
+  light.className =
+    "letter-opening-light";
+
+  s.appendChild(light);
+
+
+  /* ---------------------------------------------------------
+     CREATE PHYSICAL PAPER EMERGENCE
+     --------------------------------------------------------- */
+
+  const emergence =
+    document.createElement("div");
+
+  emergence.className =
+    "letter-emergence-sheet";
+
+  emergence.innerHTML = `
+    <div class="letter-emergence-paper"></div>
+  `;
+
+  s.appendChild(emergence);
+
+
+  /* ---------------------------------------------------------
+     RESET OLD OPENING STATES
+     --------------------------------------------------------- */
+
+  env.classList.remove(
+    "cinematic-envelope-opening",
+    "seal-opening",
+    "letter-opening-stage-one",
+    "letter-opening-stage-two",
+    "letter-opening-stage-three",
+    "letter-opening-stage-four",
+    "letter-opening-stage-five",
+    "letter-final-transition"
+  );
+
+  seal.classList.remove(
+    "cinematic-seal-break",
+    "seal-opening"
+  );
+
+  void env.offsetWidth;
+
+
+  /* ---------------------------------------------------------
+     STAGE 1
+     VERY GENTLE ENVELOPE MOVEMENT
+     --------------------------------------------------------- */
+
+  env.classList.add(
+    "letter-opening-stage-one"
+  );
+
+  await wait(500);
+
+
+  /* ---------------------------------------------------------
+     STAGE 2
+     SOFT SEAL RELEASE
+     --------------------------------------------------------- */
+
+  seal.classList.add(
+    "cinematic-seal-break"
+  );
+
+  light.classList.add(
+    "opening-light-awaken"
+  );
+
+  await wait(650);
+
+
+  /* ---------------------------------------------------------
+     STAGE 3
+     TOP FLAP OPENS SLOWLY
+     --------------------------------------------------------- */
+
+  env.classList.add(
+    "letter-opening-stage-two"
+  );
+
+  await wait(900);
+
+
+  /* ---------------------------------------------------------
+     STAGE 4
+     PAPER BECOMES VISIBLE
+     --------------------------------------------------------- */
+
+  env.classList.add(
+    "letter-opening-stage-three"
+  );
+
+  await wait(500);
+
+
+  /* ---------------------------------------------------------
+     STAGE 5
+     PHYSICAL LETTER RISE
+     --------------------------------------------------------- */
+
+  emergence.classList.add(
+    "letter-emergence-active"
+  );
+
+  await wait(1250);
+
+
+  /* ---------------------------------------------------------
+     STAGE 6
+     LETTER TAKES CENTER STAGE
+     --------------------------------------------------------- */
+
+  emergence.classList.add(
+    "letter-emergence-settle"
+  );
+
+  env.classList.add(
+    "letter-opening-stage-five"
+  );
+
+  await wait(650);
+
+
+  /* ---------------------------------------------------------
+     FADE THE ENVELOPE AWAY
+     --------------------------------------------------------- */
+
+  env.classList.add(
+    "letter-final-transition"
+  );
+
+  light.classList.add(
+    "opening-light-fade"
+  );
+
+  await wait(700);
+
+
+  /* ---------------------------------------------------------
+     REMOVE TEMPORARY CINEMATIC ELEMENTS
+     --------------------------------------------------------- */
+
+  emergence.remove();
+
+  light.remove();
+
+
+  /* ---------------------------------------------------------
+     REVEAL THE REAL LETTER
+     --------------------------------------------------------- */
+
+  this.openLetter(
+    env,
+    s,
+    actions
+  );
+
+}
+
   async openLetter(env, s, actions) {
 
   /* =====================================================
@@ -7214,9 +7912,9 @@ this.on(s, "pointermove", (event) => {
 
   actions.classList.add("fade");
 
-  env.classList.add("open");
+env.classList.add("letter-final-transition");
 
-  await wait(1000);
+await wait(850);
 
   /* =====================================================
      REMOVE THE OLD QUESTION
@@ -7274,11 +7972,19 @@ this.on(s, "pointermove", (event) => {
      ===================================================== */
 
   const signature = document.createElement("div");
-  signature.className = "letter-signature";
+signature.className = "letter-signature";
 
-  signature.textContent = "— with love";
+const sigScript = document.createElement("span");
+sigScript.className = "letter-signature-with";
+sigScript.textContent = "With love,";
 
-  paper.appendChild(signature);
+const sigName = document.createElement("strong");
+sigName.className = "letter-signature-name";
+sigName.textContent = "YOUR ANNA";
+
+signature.append(sigScript, sigName);
+
+paper.appendChild(signature);
 
   s.appendChild(paper);
 
@@ -7444,7 +8150,7 @@ this.on(s, "pointermove", (event) => {
     const eyebrow = el("div", "final-premium-eyebrow");
     const eyebrowLabel = document.createElement("b");
     eyebrowLabel.style.fontWeight = "600";
-    eyebrowLabel.textContent = "FOR YOU, HARSHITA";
+    eyebrowLabel.textContent = "ONCE AGAIN HAPPY BIRTHDAY";
     eyebrow.append(el("span"), eyebrowLabel, el("span"));
     content.appendChild(eyebrow);
 
@@ -7598,3 +8304,81 @@ this.on(s, "pointermove", (event) => {
     });
   }
 }
+
+
+/* =========================================================
+   FIX LETTER BORDER — WRAP FULL LETTER CONTENT
+   ========================================================= */
+
+const letterBorderFix = new MutationObserver(() => {
+
+  const paper = document.querySelector(".letter-paper-premium");
+
+  if (!paper) return;
+
+  if (paper.querySelector(".letter-content-frame")) {
+    letterBorderFix.disconnect();
+    return;
+  }
+
+  const header = paper.querySelector(".letter-paper-header");
+  const text = paper.querySelector(".letter-text-premium");
+  const signature = paper.querySelector(".letter-signature");
+
+  if (!header || !text || !signature) return;
+
+  const frame = document.createElement("div");
+  frame.className = "letter-content-frame";
+
+  paper.insertBefore(frame, header);
+
+  frame.appendChild(header);
+  frame.appendChild(text);
+  frame.appendChild(signature);
+
+  letterBorderFix.disconnect();
+
+});
+
+letterBorderFix.observe(document.body, {
+  childList: true,
+  subtree: true
+});
+
+/* =========================================================
+   LETTER CONTENT FRAME
+   ========================================================= */
+
+const letterFrameObserver = new MutationObserver(() => {
+
+  const paper = document.querySelector(".letter-paper-premium");
+
+  if (!paper) return;
+
+  if (paper.querySelector(".letter-content-frame")) return;
+
+  const header = paper.querySelector(".letter-paper-header");
+  const text = paper.querySelector(".letter-text-premium");
+  const signature = paper.querySelector(".letter-signature");
+
+  if (!header || !text || !signature) return;
+
+  const frame = document.createElement("div");
+
+  frame.className = "letter-content-frame";
+
+  paper.insertBefore(frame, header);
+
+  frame.appendChild(header);
+  frame.appendChild(text);
+  frame.appendChild(signature);
+
+});
+
+letterFrameObserver.observe(
+  document.getElementById("scene-root"),
+  {
+    childList: true,
+    subtree: true
+  }
+);

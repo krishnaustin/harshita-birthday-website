@@ -37,10 +37,35 @@ for Harshita.
 
 
   letterText: `
-[PERSONAL LETTER]
+Happy birthday to you, happy birthday to you, Happy Birthday to you mudddddddddddduuuuuuu Tangiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii Happy Birthday to you ❤️❤️❤️❤️🎉🎉🎉🎊🎊🥳🥳🥳
 
-Replace this text with your complete
-personal letter for Harshita.
+Aiiieeee Gottalla 26 years aayta ashtu bega!!!!!!! 😭😭😭
+
+Age ge takkante ninna thoughts mature aagta ide. You’ve changed a lot which is actually a good thing.
+
+I mean, the way you think has changed amele I feel like you’ve started thinking before you talk and I’m really happy about that
+
+But sometimes you react too quickly and spontaneously and you’ll regret it later amele  Koppa idu 2 nu swalpa kammi maadko innu 🫠🫠🫠
+
+Amele I’m really happy that you’re taking care of yourself your health, and your diet. I’m really proud of you. It’s not a small or easy thing to sacrifice the things you like, but you’re doing it. And the consistency… Abba!!! I never thought you would be this consistent. I’m really proud of you. You’re doing great, so keep it up. Don’t ever get demotivated. If you ever feel demotivated we’re always here to push you and motivate you. Don’t worry❤️
+
+Amele ninna mental health bagge jaasti focus maadu tumba tension maadkolodu, stress maadkolodu maadbeda, work pressure   ella jasti haakobeda
+
+Past bagge jaasti think maadbeda. As I always say to you “Everything happens for a reason.” So worry maadbeda  just chill and move on. I know it’s hard to move on but nobody can change the past except you. We can support you to some extent, and we can create an environment that helps you change, but ultimately, 80–90% depends on you. So please look into it.
+
+Last but not least, aramagi iru Tangiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii, kush kushiyagi iru ninge enen ankoltiya ella sigli
+
+Aa devru ninna chennagi ittirlI. ❤️ We’ll be there through thick and thin, so don’t worry. We’ve always got your back. ❤️
+
+I read this quote: “In your highs? Maybe. In your lows? Always.” ❤️ 🫂
+
+Once again, happy birthday, mudddddddddddduuuuuuu Tangiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii! Have a great year ahead. ❤️🎉🥳
+
+Ishtu heli nanna maatu mugistini. 😂😂😂
+
+Jai Hind, Jai Karnataka 
+
+Enjoy your day! 🥳🎂❤️
 `,
 
 
